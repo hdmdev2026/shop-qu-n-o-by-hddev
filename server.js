@@ -8,53 +8,62 @@ const app = express();
 const PORT = 3000;
 const DB_PATH = path.join(__dirname, 'db.json');
 
-// ─── Middleware ───────────────────────────────────────────────────────────────
 app.use(cors());
 app.use(express.json());
-app.use(express.static(__dirname)); // Phục vụ file tĩnh (HTML, CSS, ảnh)
+app.use(express.static(__dirname)); // Phục vụ file tĩnh
 
-// ─── Helper đọc/ghi DB ───────────────────────────────────────────────────────
+// --- Helper Đọc/Ghi DB ---
 function readDB() {
     try {
         if (!fs.existsSync(DB_PATH)) {
-            const defaultData = { products: [], settings: { hero_sliders: [] }, coupons: [], contacts: [], newsletter: [], users: [], orders: [] };
+            // Tạo dữ liệu mẫu ban đầu nếu chưa có file db.json
+            const defaultData = { 
+                products: [], 
+                settings: { hero_sliders: [] }, 
+                users: [
+                    {id: 1, name: "Nguyễn Văn A", email: "vana@gmail.com", phone: "0987654321"},
+                    {id: 2, name: "Trần Thị B", email: "thib@gmail.com", phone: "0123456789"}
+                ], 
+                orders: [
+                    {id: "ORD001", customer: "Nguyễn Văn A", total: 450000, status: "Hoàn thành", date: "2026-05-10"},
+                    {id: "ORD002", customer: "Trần Thị B", total: 1200000, status: "Đang giao", date: "2026-05-11"},
+                    {id: "ORD003", customer: "Khách vãng lai", total: 250000, status: "Chờ xử lý", date: "2026-05-11"}
+                ] 
+            };
             fs.writeFileSync(DB_PATH, JSON.stringify(defaultData, null, 2), 'utf-8');
             return defaultData;
         }
-        return JSON.parse(fs.readFileSync(DB_PATH, 'utf-8'));
+        const data = JSON.parse(fs.readFileSync(DB_PATH, 'utf-8'));
+        if (!data.users) data.users = [];
+        if (!data.orders) data.orders = [];
+        return data;
     } catch (err) {
-        return { products: [], settings: { hero_sliders: [] }, coupons: [], contacts: [], newsletter: [], users: [], orders: [] };
+        return { products: [], settings: {}, users: [], orders: [] };
     }
 }
 
-function writeDB(data) {
-    fs.writeFileSync(DB_PATH, JSON.stringify(data, null, 2), 'utf-8');
+function writeDB(data) { 
+    fs.writeFileSync(DB_PATH, JSON.stringify(data, null, 2), 'utf-8'); 
 }
 
-// ─── Cấu hình Upload ảnh (Multer) ─────────────────────────────────────────────
+// --- Cấu hình Upload Ảnh ---
 const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
+    destination: (req, file, cb) => {
         const dir = './images';
         if (!fs.existsSync(dir)) fs.mkdirSync(dir);
         cb(null, dir);
     },
-    filename: function (req, file, cb) {
-        cb(null, 'upload_' + Date.now() + path.extname(file.originalname)); 
-    }
+    filename: (req, file, cb) => cb(null, 'upload_' + Date.now() + path.extname(file.originalname))
 });
 const upload = multer({ storage: storage });
 
-// ─── Trạm kiểm soát Admin ─────────────────────────────────────────────────────
+// --- Middleware Xác Thực Admin ---
 const verifyAdmin = (req, res, next) => {
-    const authHeader = req.headers.authorization;
-    if (authHeader === 'Bearer my-secret-token-123') {
-        next();
-    } else {
-        res.status(403).json({ success: false, message: 'Không có quyền truy cập!' });
-    }
+    if (req.headers.authorization === 'Bearer my-secret-token-123') next();
+    else res.status(403).json({ success: false, message: 'Không có quyền truy cập!' });
 };
 
-// ─── API ĐĂNG NHẬP ADMIN ──────────────────────────────────────────────────────
+// --- API ĐĂNG NHẬP ---
 app.post('/api/admin/login', (req, res) => {
     const { username, password } = req.body;
     if (username === 'spmxhhdm' && password === '22122007') {
@@ -64,166 +73,64 @@ app.post('/api/admin/login', (req, res) => {
     }
 });
 
-// ─── CÁC API ADMIN (CẦN XÁC THỰC) ─────────────────────────────────────────────
+// --- API BANNER ---
 app.post('/api/admin/upload-banner', verifyAdmin, upload.single('image'), (req, res) => {
-    if (!req.file) return res.status(400).json({ success: false, message: "Không có file ảnh" });
-    
+    if (!req.file) return res.status(400).json({ success: false });
     const type = req.body.type;
     const imageUrl = `/images/${req.file.filename}`; 
     let dbData = readDB();
-    
-    if (!dbData.settings) dbData.settings = { hero_sliders: [] };
     if (!dbData.settings.hero_sliders) dbData.settings.hero_sliders = [];
 
     if (type === 'hero_slider') {
-        dbData.settings.hero_sliders.push(imageUrl);
+        dbData.settings.hero_sliders.push({ image: imageUrl, link: '#' });
     } else {
         dbData.settings[type] = imageUrl;
     }
-    
     writeDB(dbData);
-    res.json({ success: true, url: imageUrl });
+    res.json({ success: true });
 });
 
+// --- API SẢN PHẨM ---
 app.post('/api/admin/add-product', verifyAdmin, upload.single('image'), (req, res) => {
-    if (!req.file) return res.status(400).json({ success: false, message: "Không có file ảnh" });
-    
-    const { name, price } = req.body;
-    const imageUrl = `/images/${req.file.filename}`;
+    const { name, price, category, stock } = req.body; 
     let dbData = readDB();
-    
-    if (!dbData.products) dbData.products = [];
-    dbData.products.push({ id: Date.now(), name: name, price: Number(price), image: imageUrl });
-    
+    dbData.products.push({ 
+        id: Date.now(), name, price: Number(price), 
+        category: category || 'khac', stock: Number(stock) || 0,
+        image: `/images/${req.file.filename}` 
+    });
     writeDB(dbData);
     res.json({ success: true });
 });
 
 app.delete('/api/admin/delete-product/:id', verifyAdmin, (req, res) => {
-    const productId = Number(req.params.id);
     let dbData = readDB();
-    
-    if (!dbData.products) dbData.products = [];
-    
-    const initialLength = dbData.products.length;
-    dbData.products = dbData.products.filter(p => p.id !== productId);
-    
-    if (dbData.products.length === initialLength) {
-        return res.status(404).json({ success: false, message: "Không tìm thấy sản phẩm" });
-    }
-    
+    dbData.products = dbData.products.filter(p => p.id !== Number(req.params.id));
     writeDB(dbData);
     res.json({ success: true });
 });
 
-// ─── API CHO TRANG CHỦ (PUBLIC) ───────────────────────────────────────────────
-app.get('/api/settings', (req, res) => {
+// --- API KHO ---
+app.post('/api/admin/update-stock/:id', verifyAdmin, (req, res) => {
+    const id = Number(req.params.id);
     let dbData = readDB();
-    res.json(dbData.settings || {});
-});
-
-app.get('/api/products', (req, res) => {
-    const db = readDB();
-    const { category } = req.query;
-    let products = db.products || [];
-    if (category) {
-        products = products.filter(p => p.category === category);
+    const product = dbData.products.find(p => p.id === id);
+    if (product) {
+        product.stock = Number(req.body.stock);
+        writeDB(dbData);
+        res.json({ success: true });
+    } else {
+        res.status(404).json({ success: false });
     }
-    // Trả về mảng trực tiếp để index.html và admin.html dễ đọc
-    res.json(products); 
 });
 
-app.get('/api/products/:id', (req, res) => {
-    const db = readDB();
-    const product = db.products.find(p => p.id === parseInt(req.params.id));
-    if (!product) {
-        return res.status(404).json({ success: false, message: 'Không tìm thấy sản phẩm' });
-    }
-    res.json({ success: true, data: product });
-});
+// --- API LẤY DỮ LIỆU ---
+app.get('/api/settings', (req, res) => res.json(readDB().settings || {}));
+app.get('/api/products', (req, res) => res.json(readDB().products || []));
+app.get('/api/admin/users', verifyAdmin, (req, res) => res.json(readDB().users));
+app.get('/api/admin/orders', verifyAdmin, (req, res) => res.json(readDB().orders));
 
-// ─── CÁC API KHÁC (GIỮ LẠI TỪ FILE CŨ CỦA BẠN) ────────────────────────────────
-app.post('/api/coupon/check', (req, res) => {
-    const { code } = req.body;
-    if (!code) return res.status(400).json({ success: false, message: 'Vui lòng nhập mã giảm giá' });
-    const db = readDB();
-    const coupon = db.coupons.find(c => c.code.toUpperCase() === code.toUpperCase());
-    if (!coupon) return res.status(404).json({ success: false, message: 'Mã giảm giá không hợp lệ hoặc đã hết hạn' });
-    res.json({ success: true, message: `✅ Áp dụng thành công: ${coupon.desc}`, data: coupon });
-});
-
-app.post('/api/contact', (req, res) => {
-    const { name, email, subject, message } = req.body;
-    if (!name || !email || !subject || !message) return res.status(400).json({ success: false, message: 'Vui lòng điền đầy đủ thông tin' });
-    const db = readDB();
-    const newContact = { id: Date.now(), name: name.trim(), email: email.trim().toLowerCase(), subject: subject.trim(), message: message.trim(), createdAt: new Date().toISOString() };
-    if (!db.contacts) db.contacts = [];
-    db.contacts.push(newContact);
-    writeDB(db);
-    res.json({ success: true, message: '✅ Tin nhắn của bạn đã được gửi thành công!' });
-});
-
-app.get('/api/messages', (req, res) => {
-    const db = readDB();
-    res.json({ success: true, count: (db.contacts || []).length, data: db.contacts || [] });
-});
-
-app.post('/api/newsletter', (req, res) => {
-    const { email } = req.body;
-    if (!email) return res.status(400).json({ success: false, message: 'Vui lòng nhập email' });
-    const db = readDB();
-    if (!db.newsletter) db.newsletter = [];
-    const exists = db.newsletter.find(n => n.email.toLowerCase() === email.toLowerCase());
-    if (exists) return res.status(409).json({ success: false, message: 'Email này đã được đăng ký trước đó' });
-    db.newsletter.push({ email: email.toLowerCase(), subscribedAt: new Date().toISOString() });
-    writeDB(db);
-    res.json({ success: true, message: '✅ Đăng ký nhận bản tin thành công!' });
-});
-
-app.get('/api/subscribers', (req, res) => {
-    const db = readDB();
-    res.json({ success: true, count: (db.newsletter || []).length, data: db.newsletter || [] });
-});
-
-app.post('/api/auth/register', (req, res) => {
-    const { name, email, phone, password } = req.body;
-    if (!name || !email || !password) return res.status(400).json({ success: false, message: 'Vui lòng điền đầy đủ thông tin!' });
-    const db = readDB();
-    if (!db.users) db.users = [];
-    const exists = db.users.find(u => u.email.toLowerCase() === email.toLowerCase());
-    if (exists) return res.status(409).json({ success: false, message: 'Email này đã được đăng ký!' });
-    db.users.push({ id: Date.now(), name, email: email.toLowerCase(), phone, password, createdAt: new Date().toISOString() });
-    writeDB(db);
-    res.json({ success: true, message: 'Đăng ký thành công!' });
-});
-
-app.post('/api/auth/login', (req, res) => {
-    const { email, password } = req.body;
-    if (!email || !password) return res.status(400).json({ success: false, message: 'Vui lòng nhập email và mật khẩu!' });
-    const db = readDB();
-    if (!db.users) db.users = [];
-    const user = db.users.find(u => u.email.toLowerCase() === email.toLowerCase() && u.password === password);
-    if (!user) return res.status(401).json({ success: false, message: 'Sai email hoặc mật khẩu!' });
-    const { password: _, ...userData } = user;
-    res.json({ success: true, message: 'Đăng nhập thành công!', data: userData });
-});
-
-app.post('/api/orders', (req, res) => {
-    const { userEmail, items, total, discount } = req.body;
-    if (!items || items.length === 0) return res.status(400).json({ success: false, message: 'Giỏ hàng đang trống!' });
-    const db = readDB();
-    if (!db.orders) db.orders = [];
-    const newOrder = { id: 'ORD' + Date.now(), userEmail: userEmail || 'guest', items, total, discount: discount || 0, createdAt: new Date().toISOString(), status: 'pending' };
-    db.orders.push(newOrder);
-    writeDB(db);
-    res.json({ success: true, message: 'Đặt hàng thành công!', data: { orderId: newOrder.id } });
-});
-
-app.use('/api/*', (req, res) => {
-    res.status(404).json({ success: false, message: 'API không tồn tại' });
-});
-
-// ─── Khởi động server ─────────────────────────────────────────────────────────
+// --- KHỞI ĐỘNG ---
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`🚀 Server đang chạy tại: http://localhost:${PORT}`);
 });
