@@ -1,0 +1,27 @@
+{
+  "products": [
+    { "id": 1, "name": "Carton Astrount T-shirt", "brand": "Adidas", "price": 78, "img": "img/products/f1.jpg", "stars": 5, "category": "featured" },
+    { "id": 2, "name": "Carton Astrount T-shirt", "brand": "Adidas", "price": 78, "img": "img/products/f2.jpg", "stars": 5, "category": "featured" },
+    { "id": 3, "name": "Carton Astrount T-shirt", "brand": "Adidas", "price": 78, "img": "img/products/f3.jpg", "stars": 5, "category": "featured" },
+    { "id": 4, "name": "Carton Astrount T-shirt", "brand": "Adidas", "price": 78, "img": "img/products/f4.jpg", "stars": 5, "category": "featured" },
+    { "id": 5, "name": "Carton Astrount T-shirt", "brand": "Adidas", "price": 78, "img": "img/products/f5.jpg", "stars": 5, "category": "featured" },
+    { "id": 6, "name": "Carton Astrount T-shirt", "brand": "Adidas", "price": 78, "img": "img/products/f6.jpg", "stars": 5, "category": "featured" },
+    { "id": 7, "name": "Carton Astrount T-shirt", "brand": "Adidas", "price": 78, "img": "img/products/f7.jpg", "stars": 5, "category": "featured" },
+    { "id": 8, "name": "Carton Astrount T-shirt", "brand": "Adidas", "price": 78, "img": "img/products/f8.jpg", "stars": 5, "category": "featured" },
+    { "id": 9,  "name": "New Summer T-shirt", "brand": "Adidas", "price": 65, "img": "img/products/n1.jpg", "stars": 5, "category": "new" },
+    { "id": 10, "name": "New Summer T-shirt", "brand": "Adidas", "price": 65, "img": "img/products/n2.jpg", "stars": 5, "category": "new" },
+    { "id": 11, "name": "New Summer T-shirt", "brand": "Adidas", "price": 65, "img": "img/products/n3.jpg", "stars": 5, "category": "new" },
+    { "id": 12, "name": "New Summer T-shirt", "brand": "Adidas", "price": 65, "img": "img/products/n4.jpg", "stars": 5, "category": "new" },
+    { "id": 13, "name": "New Summer T-shirt", "brand": "Adidas", "price": 65, "img": "img/products/n5.jpg", "stars": 5, "category": "new" },
+    { "id": 14, "name": "New Summer T-shirt", "brand": "Adidas", "price": 65, "img": "img/products/n6.jpg", "stars": 5, "category": "new" },
+    { "id": 15, "name": "New Summer T-shirt", "brand": "Adidas", "price": 65, "img": "img/products/n7.jpg", "stars": 5, "category": "new" },
+    { "id": 16, "name": "New Summer T-shirt", "brand": "Adidas", "price": 65, "img": "img/products/n8.jpg", "stars": 5, "category": "new" }
+  ],
+  "coupons": [
+    { "code": "SALE10", "discount": 10, "type": "percent", "desc": "Giảm 10%" },
+    { "code": "LINH20", "discount": 20, "type": "percent", "desc": "Giảm 20%" },
+    { "code": "FREE50", "discount": 50, "type": "fixed",   "desc": "Giảm $50" }
+  ],
+  "contacts": [],
+  "newsletter": []
+}

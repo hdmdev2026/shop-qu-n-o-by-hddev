@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Thương Mại Điện Tử</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <section id="header">
+        <a href="index.html" class="logo-link"><span class="logo-text"><i class="fas fa-leaf"></i> LinhTran</span></a>
+
+        <div>
+            <ul id="navbar">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a class="active" href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li id="lg-bag"><a href="cart.html"><i class="fa-solid fa-cart-shopping"></i></a></li>
+                <a href="#" id="close"><i class="fa-solid fa-xmark"></i></a>
+            </ul>
+        </div>
+
+        <div id="mobile">
+            <a href="cart.html"><i class="fa-solid fa-cart-shopping"></i></a>
+            <i id="bar" class="fas fa-outdent">
+
+            </i>
+        </div>
+    </section>
+
+    <!-- Home page -->
+    <section id="page-header" class="about-header">
+        <h2>#Về_chúng_tôi</h2>
+        <p>LinhTran Store</p>
+    </section>
+
+    <!-- About header -->
+    <section id="about-head" class="section-p1">
+        <img src="img/about/a6.jpg" alt="">
+        <div>
+            <h2>Chúng tôi là ai?</h2>
+            <p>LinhTran Store chúng tôi những thứ khách hàng cần</p>
+
+            <abbr title="">Tạo ra những hình ảnh tuyệt đẹp với mức độ kiểm soát nhiều hay ít tuỳ thích nhờ lựa chọn chế
+                độ Cơ bản và chế độ tạo Tạo ra những hình ảnh tuyệt đẹp với mức độ kiểm soát nhiều hay ít tuỳ thích nhờ
+                lựa chọn chế độ Cơ bản và Chế độ tạo </abbr>
+
+            <br><br>
+            <!-- Thẻ tạo văn bản trôi  -->
+            <!-- <marquee bgcolor="#ccc" loop="-1" scrollamount="5" width="100%">Tạo ra những hình ảnh tuyệt đẹp với mức độ
+                kiểm soát nhiều hay ít tuỳ thích nhờ lựa chọn chế độ Cơ bản</marquee> -->
+
+            <div class="marquee">
+                <span>
+                    Tạo ra những hình ảnh tuyệt đẹp với mức độ kiểm soát nhiều hay ít tuỳ thích nhờ lựa chọn chế độ Cơ
+                    bản
+                </span>
+            </div>
+
+            <style>
+                .marquee {
+                    width: 100%;
+                    background: #ccc;
+                    overflow: hidden;
+                    white-space: nowrap;
+                }
+
+                .marquee span {
+                    display: inline-block;
+                    padding-left: 100%;
+                    animation: scroll 10s linear infinite;
+                }
+
+                @keyframes scroll {
+                    0% {
+                        transform: translateX(0%);
+                    }
+
+                    100% {
+                        transform: translateX(-100%);
+                    }
+                }
+            </style>
+        </div>
+
+
+    </section>
+
+    <!-- About App -->
+    <section id="about-app" class="section-p1">
+        <h1>Tải xuống <a href="#">Ứng dụng</a> của chúng tôi</h1>
+        <div class="video">
+            <video src="img/about/1.mp4"></video>
+        </div>
+    </section>
+
+    <!-- Feature (Tính năng)-->
+    <section id="feature" class="section-p1">
+        <div class="fe-box">
+            <img src="img/features/f1.png" alt="miễn phí vận chuyển">
+            <h6>Miễn phí vận chuyển</h6>
+        </div>
+        <div class="fe-box">
+            <img src="img/features/f2.png" alt="đặt hàng trực tuyến">
+            <h6>Đặt hàng trực tuyến</h6>
+        </div>
+        <div class="fe-box">
+            <img src="img/features/f3.png" alt="tiết kiệm tiền">
+            <h6>Tiết kiệm tiền</h6>
+        </div>
+        <div class="fe-box">
+            <img src="img/features/f4.png" alt="khuyến mãi">
+            <h6>Khuyến mãi</h6>
+        </div>
+        <div class="fe-box">
+            <img src="img/features/f5.png" alt="bán vui vẻ">
+            <h6>Bán vui vẻ</h6>
+        </div>
+        <div class="fe-box">
+            <img src="img/features/f6.png" alt="hỗ trợ 24/7">
+            <h6>Hỗ trợ 24/7</h6>
+        </div>
+    </section>
+
+
+
+    <!-- New letter -->
+    <section id="newsletter" class="section-p1 section-m1">
+        <div class="newstext">
+            <h4>Đăng Ký Nhận Bản Tin</h4>
+            <p>Nhận thông tin cập nhật qua Email về của hàng mới nhất của chúng tôi <span> các ưu đãi đặc biệt </span>
+            </p>
+        </div>
+        <div class="form">
+            <input type="text" placeholder="Your email address">
+            <button class="normal">Đăng nhập</button>
+        </div>
+
+    </section>
+
+
+    <!-- Footer  -->
+    <footer id="section-p1">
+        <div class="col">
+            <a href="index.html" class="logo-link footer-logo"><span class="logo-text"><i class="fas fa-leaf"></i> LinhTran</span></a>
+            <h4>Thông Tin Liên Hệ</h4>
+            <p><strong>Địa chỉ: </strong>VietNam, HCM city, Quan2</p>
+            <p><strong>Số điện thoại: </strong>+393300293039 / (+81)30 0393 3933</p>
+            <p><strong>Giờ: </strong>09:00 - 18:00.Mon - Sat</p>
+            <div class="follow">
+                <h4>Theo chúng tôi</h4>
+                <div class="icon">
+                    <i class="fab fa-facebook-f"></i>
+                    <i class="fab fa-twitter"></i>
+                    <i class="fab fa-instagram"></i>
+                    <i class="fab fa-pinterest-p"></i>
+                    <i class="fab fa-youtube"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <h4>Liên Hệ</h4>
+            <a href="#">Về chúng tôi</a>
+            <a href="#">Thông tin giao hàng</a>
+            <a href="#">Chính sách bảo mật</a>
+            <a href="#">Điều khoản & điều kiện</a>
+            <a href="#">Liên hệ chúng tôi</a>
+        </div>
+
+        <div class="col">
+            <h4>Tài khoản của chúng tôi</h4>
+            <a href="#">Đăng nhập</a>
+            <a href="#">Xem giỏ hàng</a>
+            <a href="#">Sản phẩm yêu thích</a>
+            <a href="#">Theo dõi đơn hàng của chúng tôi</a>
+            <a href="#">Hỗ trợ</a>
+        </div>
+
+        <div class="col install">
+            <h4>Tải ứng dụng</h4>
+            <b>Từ App Store hoặc Google Play</b>
+            <div class="row">
+                <img src="img/pay/app.jpg" alt="">
+                <img src="img/pay/play.jpg" alt="">
+            </div>
+            <p>Cổng thanh toán an toàn</p>
+            <img src="img/pay/pay.png" alt="">
+        </div>
+
+
+        <div class="copyright">
+            <p>© 2026, LinhTran</p>
+        </div>
+    </footer>
+
+
+    <!-- Responsive trên mobile -->
+
+
+    <script src="script.js"></script>
+</body>
+
+</html>
