@@ -1,140 +1,200 @@
-<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Đăng Ký - HDDEV2026</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng Ký - 5CowFashion</title>
     <style>
-        body { background: #f4f6f9; font-family: Arial, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        .login-box { background: #fff; padding: 40px; border-radius: 10px; width: 350px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-top: 5px solid #ff6200; }
-        .login-box h2 { margin-bottom: 20px; color: #333; }
-        .login-box input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; }
-        .login-box button { width: 100%; padding: 12px; background: #ff6200; color: white; border: none; border-radius: 5px; font-size: 16px; cursor: pointer; font-weight: bold; margin-top: 10px;}
-        .login-box button:hover { background: #e05600; }
-        .links { display: flex; justify-content: space-between; margin-top: 15px; font-size: 14px; }
-        .links a { color: #ff6200; text-decoration: none; }
+        @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap');
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Quicksand', sans-serif; }
+        
+        body {
+            background-color: #030510;
+            background-image: radial-gradient(circle at 50% 50%, #111a3a 0%, #030510 100%);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            cursor: crosshair;
+            padding: 20px;
+        }
+
+        /* Hành tinh phát sáng */
+        .nebula { position: fixed; border-radius: 50%; z-index: -2; filter: blur(60px); opacity: 0.6; animation: float 20s infinite ease-in-out alternate; }
+        .nebula-1 { width: 400px; height: 400px; background: #7e22ce; top: -100px; left: -100px; }
+        .nebula-2 { width: 350px; height: 350px; background: #00e5ff; bottom: -100px; right: -100px; animation-duration: 25s; }
+        .nebula-3 { width: 250px; height: 250px; background: #ec4899; top: 40%; left: 20%; opacity: 0.4; animation-duration: 15s; }
+        .nebula-4 { width: 200px; height: 200px; background: #0055ff; bottom: 20%; right: 30%; opacity: 0.4; animation-duration: 18s; }
+        @keyframes float { 0% { transform: translateY(0px) scale(1); } 100% { transform: translateY(-40px) scale(1.1); } }
+
+        /* Canvas chòm sao */
+        #star-network-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: -1; }
+
+        /* Layout 2 cột */
+        .main-container { display: flex; flex-direction: row; gap: 30px; max-width: 1200px; width: 100%; z-index: 10; }
+        
+        /* Khung kính mờ chung */
+        .glass-box {
+            background: rgba(10, 15, 30, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(0, 229, 255, 0.3);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 0 30px rgba(0, 229, 255, 0.15);
+        }
+
+        /* Cột trái: Giới thiệu & Quảng cáo */
+        .intro-box { flex: 1.2; display: flex; flex-direction: column; justify-content: center; }
+        .intro-box h1 { color: #00e5ff; font-size: 32px; margin-bottom: 20px; text-shadow: 0 0 15px rgba(0, 229, 255, 0.6); text-transform: uppercase; }
+        .intro-box p { color: #e2e8f0; font-size: 16px; line-height: 1.8; margin-bottom: 25px; text-align: justify; }
+        
+        .ad-box { background: rgba(236, 72, 153, 0.1); border: 1px solid #ec4899; border-radius: 12px; padding: 20px; margin-top: 10px; }
+        .ad-box h3 { color: #ec4899; font-size: 18px; margin-bottom: 10px; text-transform: uppercase; text-shadow: 0 0 10px rgba(236, 72, 153, 0.5); }
+        .ad-box p { font-size: 14px; color: #cbd5e1; line-height: 1.6; margin: 0; }
+
+        /* Cột phải: Form */
+        .form-box { flex: 1; max-width: 450px; }
+        .form-box h2 { text-align: center; color: #00e5ff; margin-bottom: 30px; font-size: 28px; text-transform: uppercase; letter-spacing: 2px; text-shadow: 0 0 10px rgba(0, 229, 255, 0.5); }
+
+        .input-group { margin-bottom: 15px; }
+        .input-group label { display: block; margin-bottom: 5px; color: #cbd5e1; font-size: 14px; font-weight: 600; }
+        .input-group input {
+            width: 100%; padding: 12px; background: rgba(0, 0, 0, 0.4); border: 1px solid #334155;
+            border-radius: 8px; color: #fff; font-size: 15px; transition: 0.3s;
+        }
+        .input-group input:focus { outline: none; border-color: #00e5ff; box-shadow: 0 0 15px rgba(0, 229, 255, 0.4); }
+
+        .btn-submit {
+            width: 100%; padding: 14px; background: linear-gradient(90deg, #0055ff, #00e5ff);
+            border: none; border-radius: 8px; color: #fff; font-weight: bold; font-size: 16px;
+            cursor: pointer; margin-top: 10px; transition: 0.3s; text-transform: uppercase; box-shadow: 0 4px 15px rgba(0, 229, 255, 0.4);
+        }
+        .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0, 229, 255, 0.7); }
+
+        .form-footer { text-align: center; margin-top: 20px; font-size: 14px; color: #94a3b8; }
+        .form-footer a { color: #00e5ff; text-decoration: none; font-weight: bold; transition: 0.3s; }
+        .form-footer a:hover { text-shadow: 0 0 10px #00e5ff; }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .main-container { flex-direction: column; align-items: center; }
+            .intro-box, .form-box { width: 100%; max-width: 100%; }
+            .form-box { order: -1; /* Đưa form lên trên ở mobile */ }
+        }
     </style>
 </head>
 <body>
-    <div class="login-box">
-        <h2>ĐĂNG KÝ TÀI KHOẢN</h2>
-        <form id="registerForm">
-            <input type="text" id="regName" placeholder="Họ và tên" required>
-            <input type="tel" id="regPhone" placeholder="Số điện thoại" required>
-            <input type="email" id="regEmail" placeholder="Email" required>
-            <input type="password" id="regPass" placeholder="Mật khẩu" required>
-            <button type="button" onclick="registerUser()">Đăng Ký</button>
-        </form>
-        <div class="links">
-            <a href="dang-nhap.html">Đã có tài khoản? Đăng nhập</a>
-            <a href="index.html">Về trang chủ</a>
+    <!-- Nền vũ trụ -->
+    <div class="nebula nebula-1"></div>
+    <div class="nebula nebula-2"></div>
+    <div class="nebula nebula-3"></div>
+    <div class="nebula nebula-4"></div>
+    <canvas id="star-network-canvas"></canvas>
+
+    <div class="main-container">
+        <!-- Cột Trái: Giới thiệu -->
+        <div class="glass-box intro-box">
+            <h1>Chào mừng bạn đã đến với 5CowFashion</h1>
+            <p>Ở đây các bạn sẽ được tận hưởng và tham khảo những mẫu thời trang thiết kế tinh xảo, độc đáo đến từ các nhà thiết kế thời trang nổi tiếng. Chúng tôi hy vọng các bạn sẽ yêu thích dịch vụ của chúng tôi! <strong>Hân Hạnh!</strong></p>
+            
+            <div class="ad-box">
+                <h3>Dịch vụ quảng cáo ngoài lề</h3>
+                <p>Admin web nhận build web, bot tele giá rẻ nhất thị trường, nhận make all tool theo yêu cầu (không vppl), nhận unlock tài khoản mạng facebook siêu tốc, tăng tương tác nền tảng mạng xã hội, nâng cấp locket gold, capcut pro, chat gpt plus,...</p>
+            </div>
+        </div>
+
+        <!-- Cột Phải: Form Đăng Ký -->
+        <div class="glass-box form-box">
+            <h2>Tạo Tài Khoản</h2>
+            <form id="registerForm">
+                <div class="input-group">
+                    <label>Số điện thoại</label>
+                    <input type="tel" id="phone" placeholder="Nhập số điện thoại" required>
+                </div>
+                <div class="input-group">
+                    <label>Email</label>
+                    <input type="email" id="email" placeholder="Nhập email" required>
+                </div>
+                <div class="input-group">
+                    <label>Mật khẩu</label>
+                    <input type="password" id="password" placeholder="Tạo mật khẩu (ít nhất 6 ký tự)" required>
+                </div>
+                <div class="input-group">
+                    <label>Nhập lại mật khẩu</label>
+                    <input type="password" id="confirmPassword" placeholder="Nhập lại mật khẩu" required>
+                </div>
+                <div class="input-group">
+                    <label>Địa chỉ (Sau sáp nhập)</label>
+                    <input type="text" id="address" placeholder="Nhập địa chỉ của bạn" required>
+                </div>
+                <button type="submit" class="btn-submit">Đăng Ký</button>
+            </form>
+            <div class="form-footer">
+                Đã có tài khoản? <a href="dang-nhap.html">Đăng nhập ngay</a> <br><br>
+                <a href="index.html" style="color: #94a3b8;">← Về trang chủ</a>
+            </div>
         </div>
     </div>
 
     <script>
-        function registerUser() {
-            var name = document.getElementById("regName").value;
-            var phone = document.getElementById("regPhone").value;
-            var email = document.getElementById("regEmail").value;
-            var pass = document.getElementById("regPass").value;
+        // HIỆU ỨNG CHÒM SAO MẠNG LƯỚI
+        const canvas = document.getElementById('star-network-canvas');
+        const ctx = canvas.getContext('2d');
+        let width, height, stars = [];
+        let mouse = { x: null, y: null };
 
-            if(!name || !phone || !email || !pass) {
-                alert("Vui lòng điền đầy đủ thông tin!");
-                return;
-            }
+        function resizeCanvas() { width = canvas.width = window.innerWidth; height = canvas.height = window.innerHeight; initStars(); }
+        window.addEventListener('resize', resizeCanvas);
+        window.addEventListener('mousemove', (e) => { mouse.x = e.clientX; mouse.y = e.clientY; });
+        window.addEventListener('mouseout', () => { mouse.x = null; mouse.y = null; });
 
-            // Gửi dữ liệu lên Server
-            fetch('/api/auth/register', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ 
-                    name: name, 
-                    phone: phone, 
-                    email: email, 
-                    password: pass 
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert("Đăng ký thành công! Vui lòng đăng nhập.");
-                    window.location.href = "dang-nhap.html";
-                } else {
-                    alert("Lỗi: " + data.message);
-                }
-            })
-            .catch(error => alert("Không kết nối được với Server!"));
+        class Star {
+            constructor() { this.x = Math.random() * width; this.y = Math.random() * height; this.vx = (Math.random() - 0.5) * 0.5; this.vy = (Math.random() - 0.5) * 0.5; this.radius = Math.random() * 1.5 + 0.5; }
+            update() { this.x += this.vx; this.y += this.vy; if (this.x < 0 || this.x > width) this.vx *= -1; if (this.y < 0 || this.y > height) this.vy *= -1; }
+            draw() { ctx.beginPath(); ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2); ctx.fillStyle = 'rgba(255, 255, 255, 0.8)'; ctx.fill(); }
         }
+
+        function initStars() { stars = []; for (let i = 0; i < 100; i++) stars.push(new Star()); }
+
+        function connectStars() {
+            for (let i = 0; i < stars.length; i++) {
+                for (let j = i + 1; j < stars.length; j++) {
+                    const dx = stars[i].x - stars[j].x; const dy = stars[i].y - stars[j].y; const dist = Math.sqrt(dx*dx + dy*dy);
+                    if (dist < 150) { ctx.beginPath(); ctx.moveTo(stars[i].x, stars[i].y); ctx.lineTo(stars[j].x, stars[j].y); ctx.strokeStyle = `rgba(0, 229, 255, ${(1 - dist/150) * 0.5})`; ctx.lineWidth = 0.5; ctx.stroke(); }
+                }
+                if (mouse.x != null) {
+                    const dxM = stars[i].x - mouse.x; const dyM = stars[i].y - mouse.y; const distM = Math.sqrt(dxM*dxM + dyM*dyM);
+                    if (distM < 200) { ctx.beginPath(); ctx.moveTo(stars[i].x, stars[i].y); ctx.lineTo(mouse.x, mouse.y); ctx.strokeStyle = `rgba(0, 229, 255, ${1 - distM/200})`; ctx.lineWidth = 1; ctx.stroke(); }
+                }
+            }
+        }
+
+        function animateStars() { ctx.clearRect(0, 0, width, height); stars.forEach(s => { s.update(); s.draw(); }); connectStars(); requestAnimationFrame(animateStars); }
+        resizeCanvas(); animateStars();
+
+        // XỬ LÝ ĐĂNG KÝ
+        document.getElementById("registerForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+            var phone = document.getElementById("phone").value.trim();
+            var email = document.getElementById("email").value.trim();
+            var password = document.getElementById("password").value;
+            var confirmPassword = document.getElementById("confirmPassword").value;
+            var address = document.getElementById("address").value.trim();
+
+            if (password.length < 6) { alert("Mật khẩu phải có ít nhất 6 ký tự!"); return; }
+            if (password !== confirmPassword) { alert("Mật khẩu nhập lại không khớp! Vui lòng kiểm tra lại."); return; }
+
+            var newUser = {
+                phone: phone, email: email, password: password, address: address,
+                createdAt: new Date().toLocaleDateString('vi-VN')
+            };
+            localStorage.setItem("hddev_user", JSON.stringify(newUser));
+            alert("Đăng ký tài khoản thành công! Vui lòng đăng nhập.");
+            window.location.href = "dang-nhap.html";
+        });
     </script>
 </body>
-=======
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <title>Đăng Ký - HDDEV2026</title>
-    <style>
-        body { background: #f4f6f9; font-family: Arial, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        .login-box { background: #fff; padding: 40px; border-radius: 10px; width: 350px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-top: 5px solid #ff6200; }
-        .login-box h2 { margin-bottom: 20px; color: #333; }
-        .login-box input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; }
-        .login-box button { width: 100%; padding: 12px; background: #ff6200; color: white; border: none; border-radius: 5px; font-size: 16px; cursor: pointer; font-weight: bold; margin-top: 10px;}
-        .login-box button:hover { background: #e05600; }
-        .links { display: flex; justify-content: space-between; margin-top: 15px; font-size: 14px; }
-        .links a { color: #ff6200; text-decoration: none; }
-    </style>
-</head>
-<body>
-    <div class="login-box">
-        <h2>ĐĂNG KÝ TÀI KHOẢN</h2>
-        <form id="registerForm">
-            <input type="text" id="regName" placeholder="Họ và tên" required>
-            <input type="tel" id="regPhone" placeholder="Số điện thoại" required>
-            <input type="email" id="regEmail" placeholder="Email" required>
-            <input type="password" id="regPass" placeholder="Mật khẩu" required>
-            <button type="button" onclick="registerUser()">Đăng Ký</button>
-        </form>
-        <div class="links">
-            <a href="dang-nhap.html">Đã có tài khoản? Đăng nhập</a>
-            <a href="index.html">Về trang chủ</a>
-        </div>
-    </div>
-
-    <script>
-        function registerUser() {
-            var name = document.getElementById("regName").value;
-            var phone = document.getElementById("regPhone").value;
-            var email = document.getElementById("regEmail").value;
-            var pass = document.getElementById("regPass").value;
-
-            if(!name || !phone || !email || !pass) {
-                alert("Vui lòng điền đầy đủ thông tin!");
-                return;
-            }
-
-            // Gửi dữ liệu lên Server
-            fetch('/api/auth/register', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ 
-                    name: name, 
-                    phone: phone, 
-                    email: email, 
-                    password: pass 
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert("Đăng ký thành công! Vui lòng đăng nhập.");
-                    window.location.href = "dang-nhap.html";
-                } else {
-                    alert("Lỗi: " + data.message);
-                }
-            })
-            .catch(error => alert("Không kết nối được với Server!"));
-        }
-    </script>
-</body>
->>>>>>> e108fa1da8be84642403f58d7f0bdd84a6dd4fdd
 </html>

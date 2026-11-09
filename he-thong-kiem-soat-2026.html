@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hệ Thống Quản Trị</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f0f2f5; margin: 0; padding: 20px; }
+        .container { max-width: 1000px; margin: auto; }
+        
+        /* CSS LOGIN */
+        #loginBox { max-width: 400px; margin: 100px auto; background: white; padding: 40px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; }
+        #loginBox h2 { color: #333; margin-bottom: 20px; }
+        #loginBox input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
+        #loginBox button { width: 100%; background: #00e5ff; color: #000; border: none; padding: 12px; font-weight: bold; border-radius: 8px; cursor: pointer; font-size: 16px; margin-top: 10px; transition: 0.3s; }
+        #loginBox button:hover { background: #00b3cc; }
+
+        /* CSS ADMIN */
+        #adminContent { display: none; }
+        .header { display: flex; justify-content: space-between; align-items: center; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); margin-bottom: 20px; }
+        .header h2 { margin: 0; color: #333; }
+        .logout-btn { background: #ff4d4d; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: bold; }
+        
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        @media (max-width: 768px) { .grid { grid-template-columns: 1fr; } }
+        
+        .card { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .card h3 { margin-top: 0; color: #00b3cc; border-bottom: 2px solid #f0f2f5; padding-bottom: 10px; }
+        
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-weight: 600; margin-bottom: 8px; color: #555; }
+        .form-group input[type="text"], 
+        .form-group input[type="number"], 
+        .form-group input[type="file"], 
+        .form-group select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
+        
+        .btn { background: #00e5ff; color: #000; border: none; padding: 10px 20px; font-weight: bold; border-radius: 8px; cursor: pointer; width: 100%; margin-top: 10px; transition: 0.3s; }
+        .btn:hover { background: #00b3cc; }
+
+        /* BẢNG SẢN PHẨM */
+        .table-container { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); margin-top: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; }
+        th { background: #f8f9fa; color: #555; font-weight: 600; }
+        td img { width: 60px; height: 60px; object-fit: cover; border-radius: 8px; }
+        .btn-delete { background: #ff4d4d; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; }
+
+        #message { position: fixed; top: 20px; right: 20px; padding: 15px 25px; border-radius: 8px; color: white; font-weight: bold; display: none; z-index: 1000; }
+        .msg-success { background: #10b981; }
+        .msg-error { background: #ef4444; }
+    </style>
+</head>
+<body>
+
+    <div id="message"></div>
+
+    <!-- 1. FORM ĐĂNG NHẬP -->
+    <div id="loginBox">
+        <h2>🔐 Đăng Nhập Quản Trị</h2>
+        <input type="text" id="username" placeholder="Tài khoản">
+        <input type="password" id="password" placeholder="Mật khẩu">
+        <button onclick="login()">Đăng Nhập</button>
+    </div>
+
+    <!-- 2. GIAO DIỆN ADMIN CHÍNH -->
+    <div id="adminContent" class="container">
+        <div class="header">
+            <h2>Bảng Điều Khiển</h2>
+            <button class="logout-btn" onclick="logout()">Đăng Xuất</button>
+        </div>
+        
+        <div class="grid">
+            <!-- FORM UPLOAD BANNER -->
+            <div class="card">
+                <h3>🖼️ Thay Đổi Ảnh Banner</h3>
+                <div class="form-group">
+                    <label>Chọn vị trí ảnh:</label>
+                    <select id="bannerType">
+                        <option value="topbar_img">Ảnh Topbar (Trên cùng)</option>
+                        <option value="friday_banner">Ảnh Banner Trái Orange Friday</option>
+                        <option value="hero_slider">Ảnh Slider Chính (Thêm mới)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Chọn file ảnh mới:</label>
+                    <input type="file" id="bannerFile" accept="image/*">
+                </div>
+                <button class="btn" onclick="uploadBanner()">Upload Ảnh</button>
+            </div>
+
+            <!-- FORM THÊM SẢN PHẨM -->
+            <div class="card">
+                <h3>➕ Thêm Sản Phẩm Mới</h3>
+                <div class="form-group">
+                    <label>Tên sản phẩm:</label>
+                    <input type="text" id="productName" placeholder="VD: Áo thun bé gái">
+                </div>
+                <div class="form-group">
+                    <label>Giá tiền (VNĐ):</label>
+                    <input type="number" id="productPrice" placeholder="VD: 150000">
+                </div>
+                <div class="form-group">
+                    <label>Ảnh sản phẩm:</label>
+                    <input type="file" id="productImage" accept="image/*">
+                </div>
+                <button class="btn" onclick="addProduct()">Thêm Sản Phẩm</button>
+            </div>
+        </div>
+
+        <!-- DANH SÁCH SẢN PHẨM HIỆN CÓ -->
+        <div class="table-container">
+            <h3>📦 Danh Sách Sản Phẩm Hiện Có</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Ảnh</th>
+                        <th>Tên sản phẩm</th>
+                        <th>Giá</th>
+                        <th>Hành động</th>
+                    </tr>
+                </thead>
+                <tbody id="productTableBody">
+                    <!-- Dữ liệu sẽ được đổ vào đây bằng JS -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // ĐIỀN IP VPS CỦA BẠN VÀO ĐÂY
+        const API_BASE_URL = 'http://180.93.194.227:3000'; 
+        const SECRET_TOKEN = 'my-secret-token-123'; // Phải khớp với server.js
+
+        // --- 1. HIỂN THỊ THÔNG BÁO ---
+        function showMessage(text, isError = false) {
+            const msg = document.getElementById('message');
+            msg.innerText = text;
+            msg.className = isError ? 'msg-error' : 'msg-success';
+            msg.style.display = 'block';
+            setTimeout(() => { msg.style.display = 'none'; }, 3000);
+        }
+
+        // --- 2. KIỂM TRA ĐĂNG NHẬP ---
+        window.onload = function() {
+            if (localStorage.getItem('admin_token') === SECRET_TOKEN) {
+                showAdmin();
+            }
+        };
+
+        async function login() {
+            const u = document.getElementById('username').value;
+            const p = document.getElementById('password').value;
+
+            try {
+                const res = await fetch(`${API_BASE_URL}/api/admin/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username: u, password: p })
+                });
+                const data = await res.json();
+                
+                if (data.success) {
+                    localStorage.setItem('admin_token', data.token);
+                    showAdmin();
+                } else {
+                    showMessage("Sai tài khoản hoặc mật khẩu!", true);
+                }
+            } catch (error) {
+                showMessage("Lỗi kết nối đến Server VPS!", true);
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('admin_token');
+            window.location.reload();
+        }
+
+        function showAdmin() {
+            document.getElementById('loginBox').style.display = 'none';
+            document.getElementById('adminContent').style.display = 'block';
+            loadProductTable(); // Tải danh sách sản phẩm
+        }
+
+        // --- 3. UPLOAD BANNER ---
+        async function uploadBanner() {
+            const type = document.getElementById('bannerType').value;
+            const file = document.getElementById('bannerFile').files[0];
+            if(!file) return showMessage("Vui lòng chọn ảnh!", true);
+
+            const formData = new FormData();
+            formData.append('image', file);
+            formData.append('type', type);
+
+            try {
+                const res = await fetch(`${API_BASE_URL}/api/admin/upload-banner`, {
+                    method: 'POST',
+                    headers: { 'Authorization': `Bearer ${SECRET_TOKEN}` },
+                    body: formData
+                });
+                const data = await res.json();
+                if(data.success) {
+                    showMessage("Cập nhật ảnh thành công!");
+                    document.getElementById('bannerFile').value = ''; // Reset input
+                } else {
+                    showMessage("Lỗi: " + data.message, true);
+                }
+            } catch (error) {
+                showMessage("Lỗi kết nối Server!", true);
+            }
+        }
+
+        // --- 4. THÊM SẢN PHẨM ---
+        async function addProduct() {
+            const name = document.getElementById('productName').value;
+            const price = document.getElementById('productPrice').value;
+            const file = document.getElementById('productImage').files[0];
+            if(!name || !price || !file) return showMessage("Vui lòng nhập đủ thông tin!", true);
+
+            const formData = new FormData();
+            formData.append('name', name);
+            formData.append('price', price);
+            formData.append('image', file);
+
+            try {
+                const res = await fetch(`${API_BASE_URL}/api/admin/add-product`, {
+                    method: 'POST',
+                    headers: { 'Authorization': `Bearer ${SECRET_TOKEN}` },
+                    body: formData
+                });
+                const data = await res.json();
+                if(data.success) {
+                    showMessage("Thêm sản phẩm thành công!");
+                    document.getElementById('productName').value = '';
+                    document.getElementById('productPrice').value = '';
+                    document.getElementById('productImage').value = '';
+                    loadProductTable(); // Tải lại bảng
+                }
+            } catch (error) {
+                showMessage("Lỗi kết nối Server!", true);
+            }
+        }
+
+        // --- 5. TẢI DANH SÁCH SẢN PHẨM ---
+        async function loadProductTable() {
+            try {
+                const res = await fetch(`${API_BASE_URL}/api/products`);
+                const products = await res.json();
+                const tbody = document.getElementById('productTableBody');
+                tbody.innerHTML = '';
+
+                products.forEach(p => {
+                    tbody.innerHTML += `
+                        <tr>
+                            <td>#${p.id}</td>
+                            <td><img src="${p.image}" alt="${p.name}"></td>
+                            <td><strong>${p.name}</strong></td>
+                            <td style="color: #ef4444; font-weight: bold;">${p.price.toLocaleString('vi-VN')}đ</td>
+                            <td>
+                                <button class="btn-delete" onclick="deleteProduct(${p.id})">Xóa</button>
+                            </td>
+                        </tr>
+                    `;
+                });
+            } catch (error) {
+                console.log("Lỗi tải danh sách", error);
+            }
+        }
+
+        // --- 6. XÓA SẢN PHẨM ---
+        async function deleteProduct(id) {
+            if(!confirm("Bạn có chắc muốn xóa sản phẩm này?")) return;
+            
+            try {
+                const res = await fetch(`${API_BASE_URL}/api/admin/delete-product/${id}`, {
+                    method: 'DELETE',
+                    headers: { 'Authorization': `Bearer ${SECRET_TOKEN}` }
+                });
+                const data = await res.json();
+                if(data.success) {
+                    showMessage("Đã xóa sản phẩm!");
+                    loadProductTable();
+                }
+            } catch (error) {
+                showMessage("Lỗi khi xóa!", true);
+            }
+        }
+    </script>
+</body>
+</html>

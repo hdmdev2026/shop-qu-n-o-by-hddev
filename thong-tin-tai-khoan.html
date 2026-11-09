@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Thông tin tài khoản - HD&ConBoStore</title>
+    <style>
+        body { background-color: #050814; color: #fff; font-family: Arial, sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .account-box { background: #111a3a; padding: 30px; border-radius: 10px; border: 1px solid #a855f7; width: 400px; box-shadow: 0 0 20px rgba(168, 85, 247, 0.3); }
+        h2 { text-align: center; color: #a855f7; }
+        .info-group { margin-bottom: 15px; border-bottom: 1px solid #333; padding-bottom: 10px; }
+        .info-group label { font-weight: bold; color: #ccc; display: block; margin-bottom: 5px; }
+        .info-group span { color: #fff; font-size: 16px; }
+        input { width: 100%; padding: 10px; margin: 5px 0 15px 0; background: #050814; border: 1px solid #a855f7; color: #fff; border-radius: 5px; box-sizing: border-box; }
+        button { width: 100%; padding: 10px; background: #a855f7; border: none; color: #fff; font-weight: bold; cursor: pointer; border-radius: 5px; }
+        button:hover { background: #9333ea; }
+        .back-link { display: block; text-align: center; margin-top: 20px; color: #a855f7; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <div class="account-box" id="accountBox">
+        <h2>Thông Tin Tài Khoản</h2>
+        <div id="userInfo">
+            <!-- Thông tin sẽ được điền bằng JS -->
+        </div>
+
+        <h3 style="color: #a855f7; margin-top: 20px;">Đổi Mật Khẩu</h3>
+        <div id="changePassForm">
+            <input type="password" id="oldPass" placeholder="Nhập mật khẩu cũ">
+            <input type="password" id="newPass" placeholder="Nhập mật khẩu mới">
+            <button onclick="changePassword()">Xác nhận đổi</button>
+        </div>
+        <a href="index.html" class="back-link">← Về trang chủ</a>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const isLoggedIn = localStorage.getItem("isLoggedIn");
+            if (isLoggedIn !== "true") {
+                alert("Bạn chưa đăng nhập! Vui lòng đăng nhập.");
+                window.location.href = "dang-nhap.html";
+                return;
+            }
+
+            const user = JSON.parse(localStorage.getItem("hddev_user"));
+            if (user) {
+                document.getElementById("userInfo").innerHTML = `
+                    <div class="info-group">
+                        <label>Số điện thoại:</label>
+                        <span>${user.phone || 'Chưa cập nhật'}</span>
+                    </div>
+                    <div class="info-group">
+                        <label>Email:</label>
+                        <span>${user.email || 'Chưa cập nhật'}</span>
+                    </div>
+                    <div class="info-group">
+                        <label>Ngày tạo tài khoản:</label>
+                        <span>${user.createdAt || 'Chưa rõ'}</span>
+                    </div>
+                    <div class="info-group">
+                        <label>Địa chỉ (Sau sáp nhập):</label>
+                        <span>${user.address || 'Chưa cập nhật'}</span>
+                    </div>
+                `;
+            }
+        });
+
+        function changePassword() {
+            const oldPassInput = document.getElementById("oldPass").value;
+            const newPassInput = document.getElementById("newPass").value;
+            let user = JSON.parse(localStorage.getItem("hddev_user"));
+
+            if (!user) return;
+
+            // Kiểm tra mật khẩu cũ có khớp không
+            if (user.password !== oldPassInput) {
+                alert("Mật khẩu cũ không chính xác! Vui lòng thử lại.");
+                return;
+            }
+
+            if (newPassInput.length < 6) {
+                alert("Mật khẩu mới phải có ít nhất 6 ký tự.");
+                return;
+            }
+
+            // Cập nhật mật khẩu mới
+            user.password = newPassInput;
+            localStorage.setItem("hddev_user", JSON.stringify(user));
+            alert("Đổi mật khẩu thành công!");
+            document.getElementById("oldPass").value = '';
+            document.getElementById("newPass").value = '';
+        }
+    </script>
+</body>
+</html>

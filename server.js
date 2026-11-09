@@ -1,3 +1,107 @@
+// API Xóa sản phẩm (Yêu cầu xác thực)
+app.delete('/api/admin/delete-product/:id', verifyAdmin, (req, res) => {
+    const productId = Number(req.params.id);
+    let dbData = JSON.parse(fs.readFileSync('./db.json', 'utf8'));
+    
+    if (!dbData.products) dbData.products = [];
+    
+    // Lọc bỏ sản phẩm có ID trùng với ID cần xóa
+    const initialLength = dbData.products.length;
+    dbData.products = dbData.products.filter(p => p.id !== productId);
+    
+    if (dbData.products.length === initialLength) {
+        return res.status(404).json({ success: false, message: "Không tìm thấy sản phẩm" });
+    }
+    
+    fs.writeFileSync('./db.json', JSON.stringify(dbData, null, 2));
+    res.json({ success: true });
+});
+// --- THÊM VÀO ĐẦU FILE SERVER.JS ---
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
+const cors = require('cors');
+
+app.use(cors());
+app.use(express.json()); // Đảm bảo có dòng này để đọc data JSON gửi lên
+
+// Cấu hình lưu ảnh
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        const dir = './images';
+        if (!fs.existsSync(dir)) fs.mkdirSync(dir);
+        cb(null, dir);
+    },
+    filename: function (req, file, cb) {
+        cb(null, 'upload_' + Date.now() + path.extname(file.originalname)); 
+    }
+});
+const upload = multer({ storage: storage });
+
+// --- API ĐĂNG NHẬP (TRẢ VỀ CHÌA KHÓA) ---
+app.post('/api/admin/login', (req, res) => {
+    const { username, password } = req.body;
+    
+    // Tài khoản và mật khẩu bạn yêu cầu
+    if (username === 'spmxhhdm' && password === '22122007') {
+        res.json({ success: true, token: 'my-secret-token-123' });
+    } else {
+        res.status(401).json({ success: false, message: 'Sai tài khoản hoặc mật khẩu' });
+    }
+});
+
+// --- TRẠM KIỂM SOÁT (MIDDLEWARE) ---
+// Hàm này kiểm tra xem Request có gửi kèm chìa khóa "my-secret-token-123" không
+const verifyAdmin = (req, res, next) => {
+    const authHeader = req.headers.authorization;
+    if (authHeader === 'Bearer my-secret-token-123') {
+        next(); // Cho phép đi tiếp
+    } else {
+        res.status(403).json({ success: false, message: 'Không có quyền truy cập!' });
+    }
+};
+
+// --- CÁC API ADMIN (BẮT BUỘC PHẢI QUA TRẠM KIỂM SOÁT) ---
+app.post('/api/admin/upload-banner', verifyAdmin, upload.single('image'), (req, res) => {
+    const type = req.body.type;
+    const imageUrl = `/images/${req.file.filename}`; 
+    let dbData = JSON.parse(fs.readFileSync('./db.json', 'utf8'));
+    
+    if (!dbData.settings) dbData.settings = { hero_sliders: [] };
+
+    if (type === 'hero_slider') {
+        dbData.settings.hero_sliders.push(imageUrl);
+    } else {
+        dbData.settings[type] = imageUrl;
+    }
+    
+    fs.writeFileSync('./db.json', JSON.stringify(dbData, null, 2));
+    res.json({ success: true, url: imageUrl });
+});
+
+app.post('/api/admin/add-product', verifyAdmin, upload.single('image'), (req, res) => {
+    const { name, price } = req.body;
+    const imageUrl = `/images/${req.file.filename}`;
+    let dbData = JSON.parse(fs.readFileSync('./db.json', 'utf8'));
+    
+    if (!dbData.products) dbData.products = [];
+    dbData.products.push({ id: Date.now(), name: name, price: Number(price), image: imageUrl });
+    
+    fs.writeFileSync('./db.json', JSON.stringify(dbData, null, 2));
+    res.json({ success: true });
+});
+
+// API cho trang chủ lấy data (Không cần bảo mật)
+app.get('/api/settings', (req, res) => {
+    let dbData = JSON.parse(fs.readFileSync('./db.json', 'utf8'));
+    res.json(dbData.settings || {});
+});
+app.get('/api/products', (req, res) => {
+    let dbData = JSON.parse(fs.readFileSync('./db.json', 'utf8'));
+    res.json(dbData.products || []);
+});
+
+// Các app.listen(3000...) cũ của bạn giữ nguyên bên dưới
 const express = require('express');
 const cors = require('cors');
 const fs = require('fs');
