@@ -51,6 +51,9 @@
     --text-collection-banner-page: #f68620;
   }
 
+  /* =======================================================
+     1. THEME VŨ TRỤ (NEBULA + CONSTELLATION)
+     ======================================================= */
   @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap');
 
   body {
@@ -73,20 +76,12 @@
       pointer-events: none; z-index: 0; 
   }
 
-  /* SỬA TOPBAR CHO RỘNG TRÀN MÀN HÌNH VÀ CAO RÕ NÉT */
-  #topbar { 
-      background: #fff !important; 
-      position: relative; 
-      z-index: 2; 
-      padding: 0;
-      width: 100%; 
-      overflow: hidden;
-  }
+  /* THU NHỎ TOPBAR */
+  #topbar { background: #fff !important; position: relative; z-index: 2; padding: 5px 0; }
   #topbar * { color: #000 !important; }
-  #topbar .container { max-width: 100% !important; padding: 0 !important; }
-  #topbar img { width: 100%; height: auto; max-height: 120px; object-fit: cover; display: block; margin: 0 auto; }
+  #topbar img { width: 100%; height: 45px; object-fit: cover; display: block; margin: 0 auto; }
 
-  #header-main, #main-footer, .wrapper-section-content, #list-icon-home .item-icon, .model-3d-container {
+  #header-main, #main-footer, .wrapper-section-content, #list-icon-home .item-icon {
       background: rgba(10, 15, 30, 0.75) !important;
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
@@ -96,90 +91,151 @@
       z-index: 2;
   }
 
+  /* =======================================================
+     HIỆU ỨNG PHÁT SÁNG NHẤP NHÁY CHO CHỮ MENU
+     ======================================================= */
   @keyframes neonGlow {
-      0%, 100% { color: #ffffff !important; text-shadow: 0 0 5px #ffffff, 0 0 10px #00e5ff, 0 0 20px #00e5ff; }
-      50% { color: #00e5ff !important; text-shadow: 0 0 10px #00e5ff, 0 0 20px #00e5ff, 0 0 30px #00e5ff, 0 0 40px #00e5ff; }
+      0%, 100% {
+          color: #ffffff !important;
+          text-shadow: 0 0 5px #ffffff, 0 0 10px #00e5ff, 0 0 20px #00e5ff;
+      }
+      50% {
+          color: #00e5ff !important;
+          text-shadow: 0 0 10px #00e5ff, 0 0 20px #00e5ff, 0 0 30px #00e5ff, 0 0 40px #00e5ff;
+      }
   }
 
-  #menu-main a, .h4-head-product-tab span, #accountText {
+  #menu-main a, .h4-head-product-tab span {
       animation: neonGlow 1.5s infinite alternate !important;
       text-decoration: none;
   }
 
-  #menu-main a:hover { color: #ffffff !important; text-shadow: 0 0 20px #ffffff, 0 0 30px #00e5ff, 0 0 40px #00e5ff !important; }
-  .box-info a, .title-footer, .column-footer a { color: #ffffff !important; text-decoration: none; }
+  #menu-main a:hover {
+      color: #ffffff !important;
+      text-shadow: 0 0 20px #ffffff, 0 0 30px #00e5ff, 0 0 40px #00e5ff !important;
+  }
+
+  .box-info a, .title-footer, .column-footer a {
+      color: #ffffff !important;
+      text-decoration: none;
+  }
   .title-footer { font-weight: 700; color: #00e5ff !important; text-shadow: 0 0 10px #00e5ff; }
 
+  /* HEADER */
   .right-header { display: flex !important; align-items: center !important; justify-content: flex-end !important; gap: 20px; }
+  
   .account-header { position: relative; display: flex; flex-direction: column; align-items: center; cursor: pointer; }
   .account-header svg { width: 32px; height: 32px; fill: #00e5ff; transition: 0.3s; filter: drop-shadow(0 0 5px #00e5ff); }
   .account-header:hover svg { fill: #ffffff; filter: drop-shadow(0 0 10px #ffffff); }
+  #accountText { font-size: 12px; color: #00e5ff; font-weight: 700; margin-top: 5px; white-space: nowrap; animation: neonGlow 1.5s infinite alternate; }
   
+  /* FIX LỖI DROPDOWN BỊ LỆCH VÀ CHE KHUẤT */
   .account-dropdown {
-      display: none; position: absolute; top: 100%; right: 0; min-width: 220px; width: max-content; white-space: nowrap;
-      background: rgba(5, 10, 25, 0.98); border: 1px solid #00e5ff; border-radius: 10px; padding: 10px 0; z-index: 99999;
-      box-shadow: 0 0 20px rgba(0, 229, 255, 0.4); flex-direction: column; margin-top: 5px;
+      display: none; position: absolute; top: 100%; right: 0;
+      min-width: 220px; width: max-content;
+      white-space: nowrap;
+      background: rgba(5, 10, 25, 0.98); border: 1px solid #00e5ff;
+      border-radius: 10px; padding: 10px 0; z-index: 99999;
+      box-shadow: 0 0 20px rgba(0, 229, 255, 0.4); flex-direction: column;
+      margin-top: 5px;
   }
   .account-dropdown::before { content: ''; position: absolute; top: -15px; left: 0; width: 100%; height: 15px; }
   .account-header:hover .account-dropdown { display: flex; }
   .account-dropdown a {
       padding: 12px 20px; color: #e2e8f0 !important; font-size: 14px; text-decoration: none;
-      transition: 0.2s; border-bottom: 1px solid rgba(255,255,255,0.1); animation: none !important;
+      transition: 0.2s; border-bottom: 1px solid rgba(255,255,255,0.1);
+      animation: none !important; /* Không nhấp nháy trong menu xổ xuống */
   }
   .account-dropdown a:last-child { border-bottom: none; }
   .account-dropdown a:hover { background: rgba(0, 229, 255, 0.15); color: #00e5ff !important; padding-left: 25px; }
 
+  /* GIỎ HÀNG */
   .cart-header { position: relative; display: flex; flex-direction: column; align-items: center; cursor: pointer; }
   .cart-header svg { width: 32px; height: 32px; fill: #00e5ff; transition: 0.3s; filter: drop-shadow(0 0 5px #00e5ff); }
   .cart-header:hover svg { fill: #ffffff; filter: drop-shadow(0 0 10px #ffffff); }
   .cart-count-badge { position: absolute; top: -5px; right: -10px; background: #ff007f; color: white; border-radius: 50%; padding: 2px 6px; font-size: 11px; font-weight: bold; display: none; box-shadow: 0 0 10px #ff007f; }
   
   .cart-preview {
-      display: none; position: absolute; top: 100%; right: 0; width: 320px; background: rgba(5, 10, 25, 0.98); border: 1px solid #00e5ff;
-      border-radius: 10px; padding: 15px; z-index: 99999; box-shadow: 0 0 20px rgba(0, 229, 255, 0.4); white-space: normal; margin-top: 5px;
+      display: none; position: absolute; top: 100%; right: 0;
+      width: 320px; background: rgba(5, 10, 25, 0.98); border: 1px solid #00e5ff;
+      border-radius: 10px; padding: 15px; z-index: 99999; box-shadow: 0 0 20px rgba(0, 229, 255, 0.4);
+      white-space: normal; margin-top: 5px;
   }
   .cart-preview::before { content: ''; position: absolute; top: -15px; left: 0; width: 100%; height: 15px; }
   .cart-header:hover .cart-preview { display: block !important; }
 
-  .wrapper-section-content { display: flex !important; flex-wrap: nowrap !important; align-items: stretch; padding: 30px; border-radius: 15px; max-width: 1200px; margin: 0 auto; gap: 20px; }
-  .box-img-tab { width: 40% !important; flex-shrink: 0; display: flex; flex-direction: column; gap: 20px; }
+  /* SẢN PHẨM */
+  .wrapper-section-content { display: flex !important; flex-wrap: nowrap !important; align-items: stretch; padding: 30px; border-radius: 15px; max-width: 1200px; margin: 0 auto; }
+  .box-img-tab { width: 40% !important; flex-shrink: 0; }
   .box-img-tab img { width: 100%; height: auto; border-radius: 10px; }
-  .box-content-tab { width: 60% !important; display: flex; flex-direction: column; justify-content: flex-start; }
-  .h4-head-product-tab { display: flex; justify-content: space-between; align-items: center; font-weight: bold; text-transform: uppercase; border-bottom: 2px solid #00e5ff; padding-bottom: 10px; margin-bottom: 20px; }
+  .box-content-tab { width: 60% !important; padding-left: 40px; display: flex; flex-direction: column; justify-content: center; }
+  .h4-head-product-tab { display: flex; justify-content: space-between; align-items: center; font-weight: bold; text-transform: uppercase; border-bottom: 2px solid #00e5ff; padding-bottom: 10px; }
   .h4-head-product-tab a { color: #00e5ff !important; text-decoration: underline; font-size: 14px; animation: none; }
   
   .collection-list-1 .swiper-wrapper { display: flex !important; gap: 20px; }
-  .collection-list-1 .swiper-slide { flex: 1; background: rgba(255,255,255,0.05) !important; border-radius: 12px; padding: 20px; text-align: center; border: 1px solid rgba(0, 229, 255, 0.3); cursor: pointer; transition: 0.3s; }
-  .collection-list-1 .swiper-slide:hover { transform: translateY(-5px); border-color: #00e5ff; box-shadow: 0 0 15px rgba(0,229,255,0.4); }
+  .collection-list-1 .swiper-slide { flex: 1; background: rgba(255,255,255,0.05) !important; border-radius: 12px; padding: 20px; text-align: center; border: 1px solid rgba(0, 229, 255, 0.3); }
 
   .addtocart-loop {
       background: linear-gradient(135deg, #0055ff, #00e5ff) !important; color: #fff !important; border: none !important; border-radius: 20px !important; padding: 8px 20px !important; font-weight: bold !important; cursor: pointer !important; margin-top: 15px !important; transition: 0.3s; box-shadow: 0 4px 15px rgba(0, 229, 255, 0.4);
   }
   .addtocart-loop:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0, 229, 255, 0.6); }
+  .addtocart-loop::before, .addtocart-loop::after { display: none !important; content: none !important; }
 
-  /* KHUNG 3D */
-  .model-3d-container {
-      width: 100%; height: 350px; border-radius: 15px; border: 1px solid #00e5ff;
-      position: relative; cursor: grab; overflow: hidden; display: flex; justify-content: center; align-items: center;
-      perspective: 1000px; margin-top: 10px;
+  /* MODAL DONATE */
+  .modal { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(5px); z-index: 100000; justify-content: center; align-items: center; }
+  .modal-content { background: rgba(10, 15, 30, 0.95); border: 2px solid #00e5ff; border-radius: 15px; padding: 30px; text-align: center; max-width: 400px; width: 90%; box-shadow: 0 0 30px rgba(0, 229, 255, 0.5); position: relative; animation: zoomIn 0.3s ease; }
+  @keyframes zoomIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  .modal-content img { width: 100%; border-radius: 10px; border: 1px solid #00e5ff; margin-bottom: 15px; }
+  .modal-content p { color: #fff; font-weight: bold; margin: 0; font-size: 15px; }
+  .close-btn { position: absolute; top: 10px; right: 15px; font-size: 28px; color: #ff007f; cursor: pointer; transition: 0.2s; }
+  .close-btn:hover { color: #fff; transform: scale(1.2); }
+
+  /* =======================================================
+     5. WELCOME NOTIFICATION POPUP
+     ======================================================= */
+  #welcomeModal {
+      display: none;
+      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(5px);
+      z-index: 100005; justify-content: center; align-items: center;
   }
-  .model-3d-container:active { cursor: grabbing; }
-  #model-3d-box {
-      width: 250px; height: 300px; position: relative; transform-style: preserve-3d; transition: transform 0.1s;
+  .welcome-box {
+      background: rgba(10, 15, 30, 0.95); border: 2px solid #ec4899;
+      border-radius: 15px; padding: 30px 25px; max-width: 600px; width: 90%;
+      box-shadow: 0 0 40px rgba(236, 72, 153, 0.4);
+      position: relative; animation: zoomIn 0.4s ease; text-align: center;
+      font-family: 'Quicksand', sans-serif;
   }
-  #model-3d-img {
-      width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 0 20px rgba(0,229,255,0.6));
-      transition: opacity 0.3s;
+  .welcome-close-x {
+      position: absolute; top: 10px; right: 15px; font-size: 28px;
+      color: #ec4899; cursor: pointer; transition: 0.3s; font-weight: bold;
   }
-  .model-hint {
-      position: absolute; bottom: 15px; width: 100%; text-align: center; 
-      color: #00e5ff; font-size: 12px; font-weight: bold; pointer-events: none; 
-      text-shadow: 0 0 5px #00e5ff;
+  .welcome-close-x:hover { color: #fff; transform: rotate(90deg); }
+  .welcome-box h2 {
+      color: #00e5ff; font-size: 22px; margin-bottom: 15px;
+      text-transform: uppercase; text-shadow: 0 0 10px rgba(0, 229, 255, 0.5);
   }
+  .welcome-box p { color: #e2e8f0; font-size: 15px; line-height: 1.6; margin-bottom: 15px; text-align: justify; }
+  .welcome-ad {
+      background: rgba(236, 72, 153, 0.1); border: 1px dashed #ec4899;
+      border-radius: 10px; padding: 15px; margin-bottom: 15px; text-align: left;
+  }
+  .welcome-ad strong { color: #ec4899; display: block; margin-bottom: 5px; font-size: 16px; }
+  .welcome-copyright { font-size: 12px; color: #64748b; margin-bottom: 20px; font-style: italic; }
+  .welcome-btns { display: flex; justify-content: center; gap: 15px; }
+  .btn-welcome {
+      padding: 10px 25px; border: none; border-radius: 8px; font-weight: bold;
+      cursor: pointer; transition: 0.3s; font-size: 14px;
+  }
+  .btn-close { background: transparent; border: 1px solid #cbd5e1; color: #cbd5e1; }
+  .btn-close:hover { background: #cbd5e1; color: #000; }
+  .btn-mute { background: linear-gradient(90deg, #ec4899, #a855f7); color: #fff; }
+  .btn-mute:hover { box-shadow: 0 0 15px #ec4899; transform: scale(1.05); }
 
   @media (max-width: 991px) {
       .wrapper-section-content { flex-direction: column; }
-      .box-img-tab, .box-content-tab { width: 100% !important; }
+      .box-img-tab, .box-content-tab { width: 100% !important; padding-left: 0; }
+      .box-img-tab { margin-bottom: 20px; }
   }
 </style>
 <script>
@@ -202,7 +258,16 @@
   	id: 1000290074,
   	template: "index",
   	moneyFormat: "{{amount}}đ",
-  	account: { id: '', email: '', logged: false, birthday: '', gender: 'Không xác định', tags: '', phone: '', marketing: '' }
+  	account: {
+  		id: '',
+  		email: '',
+  		logged: false,
+  		birthday: '',
+  		gender: 'Không xác định',
+  		tags: '',
+  		phone: '',
+  		marketing: '',
+  	}
   }
 </script>
 <script>
@@ -225,14 +290,18 @@
       if (navigator[_0x4ad6[2]][_0x4ad6[1]](_0x4ad6[0]) != -1) { for (let i = 0; i < navigator[_0x4ad6[5]][_0x4ad6[4]][_0x4ad6[3]]; i++) { let vl = navigator[_0x4ad6[5]][_0x4ad6[4]][i][_0x4ad6[6]]; if (vl[_0x4ad6[8]](_0x4ad6[7])) { checklh = true; break; } } }
     </script>
     <script type="text/javascript">
+//<![CDATA[
 if ((typeof Haravan) === 'undefined') { Haravan = {}; }
 Haravan.culture = 'vi-VN';
 Haravan.shop = '4conbovahddev-fashion.infy.click';
 Haravan.theme = {"name":"theme - 1001491034","id":1001491034,"role":"main"};
 Haravan.domain = '4conbovahddev-fashion.infy.click';
+//]]>
 </script>
 <script>
+//<![CDATA[
 (function() { function asyncLoad() { var urls = ["//hstatic.net/074/1000290074/20/2019/7-28/noname_64f6efa31d2b4d01bb0ae1a118fb27b7.js","https://c.o-s.io/70000/tracker.js","https://onapp.haravan.com/promotionbar/embed/asset/frontend/promotionbar.js?shop=4conbovahddev-fashion.infy.click&ver=1671699033228","https://buyxgety-omni.haravan.com/js/script_tag_production.js?v=1576487994026","https://cdn.ezca.asia/js/sdk.js?id=63621e23d417a33775987e02","https://hstatic.net/074/1000290074/20/2025/8-12/noname_6f07c532ebd54baea82a05272c1b8125.js","https://app.hstatic.net/customerreviews/script_tag_1000290074.js?v=1759387189625","https://app.hstatic.net/socialloginplus/1000290074/script-tag.js?v=1759387689163"];for (var i = 0; i < urls.length; i++) {var s = document.createElement('script');s.type = 'text/javascript';s.async = true;s.src = urls[i];var x = document.getElementsByTagName('script')[0];x.parentNode.insertBefore(s, x);}}window.attachEvent ? window.attachEvent('onload', asyncLoad) : window.addEventListener('load', asyncLoad, false);})();
+//]]>
 </script>
 <script defer="" src="js/beacon.min.js" hrv-beacon-t="1000290074"></script><style>.grecaptcha-badge{visibility:hidden;}</style>
 <script type="text/javascript">
@@ -246,6 +315,7 @@ for (var attr in meta) {
 window.HaravanAnalytics.AutoTrack = true;
 </script>
 <script>
+//<![CDATA[
 window.HaravanAnalytics.ga = "UA-135962472-1";
 window.HaravanAnalytics.enhancedEcommerce = true;
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -256,11 +326,13 @@ ga('create', window.HaravanAnalytics.ga, {cookieDomain: 'auto', siteSpeedSampleR
 ga('send', 'pageview'); ga('require', 'linker');ga('require', 'linker');try {
 setTimeout(function(){if( window.location.pathname.indexOf( 'checkouts') >= 0  ) {
 $.get('https://file.hstatic.net/1000290074/file/checkout_tagmanager_b0172c6177844b2a9a9224025188b853.js');
+
 }
 },100);
 } catch (e) {};
-</script>
-<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-XVGRBCDFPN"></script><script>
+                //]]>
+                </script>
+                <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-XVGRBCDFPN"></script><script>
 window.HaravanAnalytics.ga4 = "G-XVGRBCDFPN";
 window.HaravanAnalytics.enhancedEcommercev4 = true;
 window.dataLayer = window.dataLayer || [];
@@ -270,13 +342,16 @@ gtag('config', 'G-XVGRBCDFPN');
 </script><script>
 window.HaravanAnalytics.fb = "1433004650170843";
 window.HaravanAnalytics.metaAdvancedMatching = false;
+//<![CDATA[
 !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
 n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
 n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
 t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
 document,'script','//connect.facebook.net/en_US/fbevents.js');
+// Insert Your Facebook Pixel ID below. 
 fbq('init', "1433004650170843", {} , {'agent':'plharavan'});
 fbq('track', 'PageView');
+//]]>
 </script>
 <noscript><img height='1' width='1' style='display:none' src='https://www.facebook.com/tr?id=1433004650170843&ev=PageView&noscript=1'/></noscript>
 <script>
@@ -1065,543 +1140,746 @@ const PE = {
     <div class="overlay-bg"></div>
     <canvas id="star-network-canvas"></canvas>
 
-    <div id="topbar">
-      <div class="container container-full">
-        <a href="#" id="topbar-banner-link">
-          <img class="lazyload" id="topbar-banner-img" src="images/sticky_bar_bf_12600x400.jpg" alt="Banner top">
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe
+        src="https://www.googletagmanager.com/ns.html?id=GTM-P4LW928"
+        height="0"
+        width="0"
+        style="display:none;visibility:hidden"
+      ></iframe
+    ></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+<div id="topbar">
+  <div class="container container-full">
+    <!-- THÊM ID topbar-banner-img VÀO ĐÂY -->
+    <a href="#" id="topbar-banner-link">
+      <img class="lazyload" id="topbar-banner-img" src="images/sticky_bar_bf_12600x400.jpg" alt="Banner top">
+    </a>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header id="header-main" style="position: sticky; top: 0; margin: 10px; border-radius: 15px;">
+  <div class="container container-full">
+    <div class="wrap-header" style="display: flex; justify-content: space-between; align-items: center; padding: 10px;">
+      <div class="icon-menu-mb">
+        <a class="open-menu-mobile" href="#" onclick="return false;" aria-label="Open menu Mobile">
+          <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="512" height="512" x="0" y="0" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512" xml:space="preserve" class=""><g><path d="M128 102.4c0-14.138 11.462-25.6 25.6-25.6h332.8c14.138 0 25.6 11.462 25.6 25.6S500.538 128 486.4 128H153.6c-14.138 0-25.6-11.463-25.6-25.6zm358.4 128H25.6C11.462 230.4 0 241.863 0 256c0 14.138 11.462 25.6 25.6 25.6h460.8c14.138 0 25.6-11.462 25.6-25.6 0-14.137-11.462-25.6-25.6-25.6zm0 153.6H256c-14.137 0-25.6 11.462-25.6 25.6 0 14.137 11.463 25.6 25.6 25.6h230.4c14.138 0 25.6-11.463 25.6-25.6 0-14.138-11.462-25.6-25.6-25.6z" fill="#ffffff" opacity="1"></path></g></svg>  
         </a>
       </div>
-    </div>
+      <div class="logo-header" itemscope="" itemtype="http://schema.org/Organization">
+        <a href="/" class="logo-wrapper " itemprop="url" aria-label="Logo">	
+          <img class="lazyload" width="125" height="56" src="images/logo-hddev.png" alt="Logo HD&ConBoStore">
+        </a>
+      </div>
+      <div class="wrap-menu">
+<nav id="menu-main">
+  <ul class="ul-lv1" style="display: flex; gap: 20px;">
+    <li class="li-mega"><a href="shop.html?category=be-gai">BÉ GÁI</a></li>
+    <li class="li-mega"><a href="shop.html?category=be-trai">BÉ TRAI</a></li>
+    <li class="li-mega"><a href="shop.html?category=giay-dep">🌟 GIÀY DÉP</a></li>
+    <li class="li-mega"><a href="shop.html?category=bo-suu-tap-moi">BỘ SƯU TẬP MỚI</a></li>
+    <li class="li-mega"><a href="shop.html?category=sieu-sale">🔥 SIÊU SALE DIỆU KỲ</a></li>
+    <li class="li-mega"><a href="shop.html?category=tho-chia-se">THỎ CHIA SẺ</a></li>
+  </ul>
+</nav>      </div>
+      <div class="search-header">
+        <form id="form-search">
+          <input type="text" placeholder="Bạn cần tìm gì?" style="background: rgba(255,255,255,0.1); border: 1px solid #00e5ff; color: #fff; padding: 8px 15px; border-radius: 20px; outline: none;">
+          <button type="submit" style="background: transparent; border: none;"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" x="0" y="0" viewBox="0 0 48 48" style="enable-background:new 0 0 512 512" xml:space="preserve" class=""><g><path d="m40.285 37.46-6.486-6.486a14.738 14.738 0 0 0 3.044-8.988c0-3.97-1.546-7.701-4.353-10.508a14.763 14.763 0 0 0-10.508-4.353c-3.969 0-7.7 1.546-10.508 4.353-5.793 5.794-5.793 15.222 0 21.016a14.762 14.762 0 0 0 10.508 4.353c3.294 0 6.415-1.079 8.989-3.045l6.486 6.487c.39.39.902.586 1.414.586s1.024-.196 1.414-.586a2 2 0 0 0 0-2.829zm-25.982-7.794c-4.235-4.235-4.234-11.125 0-15.36a10.792 10.792 0 0 1 7.68-3.18 10.79 10.79 0 0 1 7.679 3.18 10.79 10.79 0 0 1 3.181 7.68c0 2.901-1.13 5.628-3.181 7.68s-4.778 3.18-7.68 3.18c-2.9 0-5.628-1.13-7.68-3.18z" fill="#00e5ff" opacity="1"></path></g></svg></button>
+        </form>
+      </div>
+      
+      <div class="right-header">
+        <!-- TÀI KHOẢN -->
+        <div class="account-header" id="accountWrapper">
+          <a href="javascript:void(0)" id="accountLink" onclick="handleAccountClick(event)" style="text-decoration: none; display: flex; flex-direction: column; align-items: center;">
+            <svg viewBox="0 0 24 24">
+                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+            </svg>
+            <span id="accountText">Đăng nhập / Đăng ký</span>
+          </a>
+          
+          <div class="account-dropdown" id="accountDropdown">
+              <a href="thong-tin-tai-khoan.html">Thông tin tài khoản</a>
+              <a href="javascript:void(0)" onclick="openDonateModal()">Donate Admin</a>
+              <a href="javascript:void(0)" onclick="logout()" style="color: #ff007f !important;">Đăng xuất</a>
+          </div>
+        </div>
 
-    <header id="header-main" style="position: sticky; top: 0; margin: 10px; border-radius: 15px;">
-      <div class="container container-full">
-        <div class="wrap-header" style="display: flex; justify-content: space-between; align-items: center; padding: 10px;">
-          <div class="icon-menu-mb">
-            <a class="open-menu-mobile" href="#" onclick="return false;" aria-label="Open menu Mobile">
-              <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="512" height="512" x="0" y="0" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512" xml:space="preserve" class=""><g><path d="M128 102.4c0-14.138 11.462-25.6 25.6-25.6h332.8c14.138 0 25.6 11.462 25.6 25.6S500.538 128 486.4 128H153.6c-14.138 0-25.6-11.463-25.6-25.6zm358.4 128H25.6C11.462 230.4 0 241.863 0 256c0 14.138 11.462 25.6 25.6 25.6h460.8c14.138 0 25.6-11.462 25.6-25.6 0-14.137-11.462-25.6-25.6-25.6zm0 153.6H256c-14.137 0-25.6 11.462-25.6 25.6 0 14.137 11.463 25.6 25.6 25.6h230.4c14.138 0 25.6-11.463 25.6-25.6 0-14.138-11.462-25.6-25.6-25.6z" fill="#ffffff" opacity="1"></path></g></svg>  
-            </a>
+        <!-- GIỎ HÀNG -->
+        <div class="cart-header" id="cartWrapper" style="display: none;">
+          <a href="cart.html" style="display: flex; flex-direction: column; align-items: center; text-decoration: none;">
+            <svg viewBox="0 0 24 24">
+                <path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/>
+            </svg>
+            <span id="cartCount" class="cart-count-badge">0</span>
+          </a>
+          
+          <div class="cart-preview">
+            <div style="border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 14px;">Tạm tính: <strong id="cartTotalPrice" style="color: #00e5ff;">0đ</strong></span>
+                <a href="cart.html" style="color: #00e5ff; font-weight: bold; font-size: 14px; text-decoration: underline;">Xem tất cả</a>
+            </div>
+            <div id="cartItemsList" style="max-height: 200px; overflow-y: auto;">
+                <p style="color: #888; font-size: 14px; text-align:center; margin: 0;">Chưa có sản phẩm nào.</p>
+            </div>
           </div>
-          <div class="logo-header" itemscope="" itemtype="http://schema.org/Organization">
-            <a href="/" class="logo-wrapper " itemprop="url" aria-label="Logo">	
-              <img class="lazyload" width="125" height="56" src="images/logo-hddev.png" alt="Logo HD&ConBoStore">
-            </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>    
+
+<main class="wrap-main">
+      <section id="slider-homepage" class="style-navigation-2">
+  <div class="wrap-slider">
+    <div class="swiper-homepage-slider swiper-container">
+      <!-- THÊM ID hero-slider-wrapper VÀO ĐÂY -->
+      <div class="swiper-wrapper" id="hero-slider-wrapper">
+        <div class="swiper-slide">
+          <a href="shop.html">
+            <picture>
+              <source media="(min-width:992px)" srcset="images/banner_bf_desktop__3200x1200.jpg">
+              <source media="(max-width:991px)" srcset="https://cdn.hstatic.net/files/1000290074/file/banner_bf_mobile__900x500.png">
+              <img class="lazyload" src="images/banner_bf_desktop__3200x1200.jpg" alt="BLACK FRIDAY">
+            </picture>
+          </a>
+        </div>
+        <div class="swiper-slide">
+          <a href="shop.html">
+            <picture>
+              <source media="(min-width:992px)" srcset="images/banner_bf_desktop__3200x1200_18666e00f0bb4479a8eef107e368f914.jpg">
+              <source media="(max-width:991px)" srcset="https://cdn.hstatic.net/files/1000290074/file/sub_banner_bf_mobile__900x500_f55791143151497294d3b49faeaa5f4b.png">
+              <img class="lazyload" src="images/banner_bf_desktop__3200x1200_18666e00f0bb4479a8eef107e368f914.jpg" alt="BF.MUA NHIỀU GIẢM SÂU">
+            </picture>
+          </a>
+        </div>
+        <div class="swiper-slide">
+          <a href="shop.html">
+            <picture>
+              <source media="(min-width:992px)" srcset="images/camp_dq_-_3200x1200__1_.png">
+              <source media="(max-width:991px)" srcset="https://cdn.hstatic.net/files/1000290074/file/camp_dq_-_900x500.png">
+              <img class="lazyload" src="images/camp_dq_-_3200x1200__1_.png" alt="Camp ĐQOL">
+            </picture>
+          </a>
+        </div>
+        <div class="swiper-slide">
+          <a href="shop.html">
+            <picture>
+              <source media="(min-width:992px)" srcset="images/fw_t10-3200x1200__1_.png">
+              <source media="(max-width:991px)" srcset="https://cdn.hstatic.net/files/1000290074/file/fw_t10_-_900_x_500.png">
+              <img class="lazyload" src="images/fw_t10-3200x1200__1_.png" alt="giày dép">
+            </picture>
+          </a>
+        </div>
+      </div>
+      <div class="btn-nav swiper-button-prev"></div>
+      <div class="btn-nav swiper-button-next"></div>
+    </div>
+  </div>
+</section>
+<section id="list-icon-home">
+  <div class="container">
+    <div class="wrap-list">
+      <div class="item-icon">
+        <div class="box-img">
+          <a href="shop.html?category=be-gai" aria-label="Đầm váy">
+            <img class="lazyload" src="images/1_6cbfbc2a3aee4569a77b40a6d3992c3f.png" alt="Đầm váy">
+          </a>
+        </div>
+        <div class="box-info">
+          <a href="shop.html?category=be-gai">Đầm váy</a>
+        </div>
+      </div>
+      <div class="item-icon">
+        <div class="box-img">
+          <a href="shop.html?category=be-trai" aria-label="Áo">
+            <img class="lazyload" src="images/mai__2_.png" alt="Áo">
+          </a>
+        </div>
+        <div class="box-info">
+          <a href="shop.html?category=be-trai">Áo</a>
+        </div>
+      </div>
+      <div class="item-icon">
+        <div class="box-img">
+          <a href="shop.html?category=bo-suu-tap-moi" aria-label="Đồ bộ">
+            <img class="lazyload" src="images/do_bo__1_.png" alt="Đồ bộ">
+          </a>
+        </div>
+        <div class="box-info">
+          <a href="shop.html?category=bo-suu-tap-moi">Đồ bộ</a>
+        </div>
+      </div>
+      <div class="item-icon">
+        <div class="box-img">
+          <a href="shop.html?category=be-gai" aria-label="Đồ lót">
+            <img class="lazyload" src="images/freepik__background__5578.png" alt="Đồ lót">
+          </a>
+        </div>
+        <div class="box-info">
+          <a href="shop.html?category=be-gai">Đồ lót</a>
+        </div>
+      </div>
+      <div class="item-icon">
+        <div class="box-img">
+          <a href="shop.html?category=be-trai" aria-label="Quần">
+            <img class="lazyload" src="images/mai.png" alt="Quần">
+          </a>
+        </div>
+        <div class="box-info">
+          <a href="shop.html?category=be-trai">Quần</a>
+        </div>
+      </div>
+      <div class="item-icon">
+        <div class="box-img">
+          <a href="shop.html?category=be-gai" aria-label="Chân váy">
+            <img class="lazyload" src="images/chan_vay.png" alt="Chân váy">
+          </a>
+        </div>
+        <div class="box-info">
+          <a href="shop.html?category=be-gai">Chân váy</a>
+        </div>
+      </div>
+      <div class="item-icon">
+        <div class="box-img">
+          <a href="shop.html?category=giay-dep" aria-label="Giày dép">
+            <img class="lazyload" src="images/giay_dep.png" alt="Giày dép">
+          </a>
+        </div>
+        <div class="box-info">
+          <a href="shop.html?category=giay-dep">Giày dép</a>
+        </div>
+      </div>
+      <div class="item-icon">
+        <div class="box-img">
+          <a href="shop.html?category=bo-suu-tap-moi" aria-label="Áo khoác">
+            <img class="lazyload" src="images/mai__1_.png" alt="Áo khoác">
+          </a>
+        </div>
+        <div class="box-info">
+          <a href="shop.html?category=bo-suu-tap-moi">Áo khoác</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="section-product-tab style-navigation-2">
+  <div class="container container-full">
+    <div class="section-content">	
+      <div class="wrapper-section-content" style="background: #FF5F15;">
+        <div class="box-img-tab">
+          <div class="inner-box-img-tab">
+            <picture>
+              <source media="(max-width:991px)" srcset="images/block_banner_bf_1920x2300.jpg">
+              <source media="(min-width:992px)" srcset="images/block_banner_bf_1920x2300.jpg">
+              <!-- THÊM ID friday-banner-img VÀO ĐÂY -->
+              <img class="lazyload" id="friday-banner-img" src="images/block_banner_bf_1920x2300.jpg" alt="ORANGE FRIDAY - SIÊU SALE DIỆU KỲ">
+            </picture>
           </div>
-          <div class="wrap-menu">
-            <nav id="menu-main">
-              <ul class="ul-lv1" style="display: flex; gap: 20px; list-style: none; margin: 0; padding: 0;">
-                <li class="li-mega"><a href="shop.html?category=be-gai">BÉ GÁI</a></li>
-                <li class="li-mega"><a href="shop.html?category=be-trai">BÉ TRAI</a></li>
-                <li class="li-mega"><a href="shop.html?category=giay-dep">🌟 GIÀY DÉP</a></li>
-                <li class="li-mega"><a href="shop.html?category=bo-suu-tap-moi">BỘ SƯU TẬP MỚI</a></li>
-                <li class="li-mega"><a href="shop.html?category=sieu-sale">🔥 SIÊU SALE DIỆU KỲ</a></li>
-                <li class="li-mega"><a href="shop.html?category=tho-chia-se">THỎ CHIA SẺ</a></li>
-              </ul>
-            </nav>      
+        </div>
+        <div class="box-content-tab">
+          <div class="head-product-tab">
+            <div class="h5-head-product-tab">
+              SỰ KIỆN MUA SẮM LỚN NHẤT NĂM
+            </div>
+            <div class="h4-head-product-tab">
+              <span>ORANGE FRIDAY - SIÊU SALE DIỆU KỲ</span>
+              <a href="shop.html">Xem tất cả</a>
+            </div>
           </div>
-          <div class="search-header">
-            <form id="form-search">
-              <input type="text" placeholder="Bạn cần tìm gì?" style="background: rgba(255,255,255,0.1); border: 1px solid #00e5ff; color: #fff; padding: 8px 15px; border-radius: 20px; outline: none;">
-              <button type="submit" style="background: transparent; border: none;"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" x="0" y="0" viewBox="0 0 48 48" style="enable-background:new 0 0 512 512" xml:space="preserve" class=""><g><path d="m40.285 37.46-6.486-6.486a14.738 14.738 0 0 0 3.044-8.988c0-3.97-1.546-7.701-4.353-10.508a14.763 14.763 0 0 0-10.508-4.353c-3.969 0-7.7 1.546-10.508 4.353-5.793 5.794-5.793 15.222 0 21.016a14.762 14.762 0 0 0 10.508 4.353c3.294 0 6.415-1.079 8.989-3.045l6.486 6.487c.39.39.902.586 1.414.586s1.024-.196 1.414-.586a2 2 0 0 0 0-2.829zm-25.982-7.794c-4.235-4.235-4.234-11.125 0-15.36a10.792 10.792 0 0 1 7.68-3.18 10.79 10.79 0 0 1 7.679 3.18 10.79 10.79 0 0 1 3.181 7.68c0 2.901-1.13 5.628-3.181 7.68s-4.778 3.18-7.68 3.18c-2.9 0-5.628-1.13-7.68-3.18z" fill="#00e5ff" opacity="1"></path></g></svg></button>
-            </form>
+          <div class="collection-list collection-list-1">
+            <div class="swiper-homepage-collection-1 swiper-container flex-loop" data-item="3.5" data-item-mb="2" data-handle="sale-he-ruc-ro" data-sort="manual">
+              <!-- THÊM ID friday-products-wrapper VÀO ĐÂY ĐỂ JS GHI ĐÈ SẢN PHẨM -->
+              <div class="swiper-wrapper" id="friday-products-wrapper">
+                <div class="swiper-slide">
+<div class="product-loop effect-loading">
+  <div class="box-image">
+    <a href="shop.html" title="Sản phẩm" aria-label="Sản phẩm"><img src="images/1_6cbfbc2a3aee4569a77b40a6d3992c3f.png" style="width:100%"></a>
+  </div>
+  <div class="box-info">
+    <h4><a href="shop.html" title="Sản phẩm" aria-label="Sản phẩm">Áo thun bé gái</a></h4>
+    <div class="custom-rating">
+      <div class="sole_quantity">Đã bán 10</div>
+    </div>
+    <div class="box-action">
+      <div class="box-price onsale"><span>150.000đ</span></div>
+      <div class="box-btn">
+          <button class="addtocart-loop" onclick="addToCart('Áo thun bé gái', 150000)">
+              Thêm
+          </button>
+  </div>
+    </div>
+    <div class="list-variant">
+      <div class="item-variant"></div>
+    </div>
+  </div>
+</div>                </div>
+                <div class="swiper-slide">
+<div class="product-loop effect-loading">
+  <div class="box-image">
+    <a href="shop.html" title="Sản phẩm" aria-label="Sản phẩm"><img src="images/mai.png" style="width:100%"></a>
+  </div>
+  <div class="box-info">
+    <h4><a href="shop.html" title="Sản phẩm" aria-label="Sản phẩm">Quần short bé trai</a></h4>
+    <div class="custom-rating">
+      <div class="sole_quantity">Đã bán 20</div>
+    </div>
+    <div class="box-action">
+      <div class="box-price onsale"><span>120.000đ</span></div>
+      <div class="box-btn">
+          <button class="addtocart-loop" onclick="addToCart('Quần short bé trai', 120000)">
+              Thêm
+          </button>
+  </div>
+    </div>
+    <div class="list-variant">
+      <div class="item-variant"></div>
+    </div>
+  </div>
+</div>                </div>
+              </div>
+              <div class="btn-nav swiper-button-prev"></div>
+              <div class="btn-nav swiper-button-next"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CÁC SECTION KHÁC GIỮ NGUYÊN NHƯ FILE GỐC CỦA MÀY -->
+
+</main>
+<footer id="main-footer">
+  <div class="container container-full">
+    <div class="wrap-footer">
+
+      <div class="column-footer column-newsletter">
+        <div class="title-footer">
+          ĐĂNG KÝ NHẬN TIN
+        </div>
+        <div class="sub-footer content-newsletter">
+          <p>
+            Đăng ký ngay và là người đầu tiên nắm được thông tin khuyến mãi mới, các sự kiện sắp diễn ra tại cửa hàng và nhiều thông tin hấp dẫn khác.
+          </p>
+          <form id="newsletter-footer">
+            <input required="" type="email" placeholder="Nhập địa chỉ email">
+            <button type="submit">Đăng ký</button>
+          </form>
+
+          <div class="success-form d-none">
+            <div>Cám ơn bạn đã đăng ký</div>
+            <div>Bạn sẽ sớm nhận được email xác nhận</div>
           </div>
           
-          <div class="right-header">
-            <div class="account-header" id="accountWrapper">
-              <a href="javascript:void(0)" id="accountLink" onclick="handleAccountClick(event)" style="text-decoration: none; display: flex; flex-direction: column; align-items: center;">
-                <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-                <span id="accountText">Đăng nhập</span>
-              </a>
-              <div class="account-dropdown" id="accountDropdown">
-                  <a href="thong-tin-tai-khoan.html">Thông tin tài khoản</a>
-                  <a href="javascript:void(0)" onclick="openDonateModal()">Donate Admin</a>
-                  <a href="javascript:void(0)" onclick="logout()" style="color: #ff007f !important;">Đăng xuất</a>
-              </div>
-            </div>
-
-            <div class="cart-header" id="cartWrapper" style="display: none;">
-              <a href="cart.html" style="display: flex; flex-direction: column; align-items: center; text-decoration: none;">
-                <svg viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
-                <span id="cartCount" class="cart-count-badge">0</span>
-              </a>
-              
-              <div class="cart-preview">
-                <div style="border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
-                    <span style="font-size: 14px;">Tạm tính: <strong id="cartTotalPrice" style="color: #00e5ff;">0đ</strong></span>
-                    <a href="cart.html" style="color: #00e5ff; font-weight: bold; font-size: 14px; text-decoration: underline;">Xem tất cả</a>
-                </div>
-                <div id="cartItemsList" style="max-height: 200px; overflow-y: auto;">
-                    <p style="color: #888; font-size: 14px; text-align:center; margin: 0;">Chưa có sản phẩm nào.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </header>    
-
-    <main class="wrap-main">
-      <section id="slider-homepage" class="style-navigation-2">
-        <div class="wrap-slider">
-          <div class="swiper-homepage-slider swiper-container">
-            <!-- ĐÃ XÓA ẢNH CỨNG, JS SẼ TỰ ĐỘNG ĐỔ ẢNH TỪ ADMIN VÀO -->
-            <div class="swiper-wrapper" id="hero-slider-wrapper"></div>
-            <div class="btn-nav swiper-button-prev"></div>
-            <div class="btn-nav swiper-button-next"></div>
-          </div>
-        </div>
-      </section>
-      
-      <section id="list-icon-home">
-        <div class="container">
-          <div class="wrap-list">
-            <div class="item-icon">
-              <div class="box-img"><a href="shop.html?category=be-gai" aria-label="Đầm váy"><img class="lazyload" src="images/1_6cbfbc2a3aee4569a77b40a6d3992c3f.png" alt="Đầm váy"></a></div>
-              <div class="box-info"><a href="shop.html?category=be-gai">Đầm váy</a></div>
-            </div>
-            <div class="item-icon">
-              <div class="box-img"><a href="shop.html?category=be-trai" aria-label="Áo"><img class="lazyload" src="images/mai__2_.png" alt="Áo"></a></div>
-              <div class="box-info"><a href="shop.html?category=be-trai">Áo</a></div>
-            </div>
-            <div class="item-icon">
-              <div class="box-img"><a href="shop.html?category=bo-suu-tap-moi" aria-label="Đồ bộ"><img class="lazyload" src="images/do_bo__1_.png" alt="Đồ bộ"></a></div>
-              <div class="box-info"><a href="shop.html?category=bo-suu-tap-moi">Đồ bộ</a></div>
-            </div>
-            <div class="item-icon">
-              <div class="box-img"><a href="shop.html?category=be-gai" aria-label="Đồ lót"><img class="lazyload" src="images/freepik__background__5578.png" alt="Đồ lót"></a></div>
-              <div class="box-info"><a href="shop.html?category=be-gai">Đồ lót</a></div>
-            </div>
-            <div class="item-icon">
-              <div class="box-img"><a href="shop.html?category=be-trai" aria-label="Quần"><img class="lazyload" src="images/mai.png" alt="Quần"></a></div>
-              <div class="box-info"><a href="shop.html?category=be-trai">Quần</a></div>
-            </div>
-            <div class="item-icon">
-              <div class="box-img"><a href="shop.html?category=be-gai" aria-label="Chân váy"><img class="lazyload" src="images/chan_vay.png" alt="Chân váy"></a></div>
-              <div class="box-info"><a href="shop.html?category=be-gai">Chân váy</a></div>
-            </div>
-            <div class="item-icon">
-              <div class="box-img"><a href="shop.html?category=giay-dep" aria-label="Giày dép"><img class="lazyload" src="images/giay_dep.png" alt="Giày dép"></a></div>
-              <div class="box-info"><a href="shop.html?category=giay-dep">Giày dép</a></div>
-            </div>
-            <div class="item-icon">
-              <div class="box-img"><a href="shop.html?category=bo-suu-tap-moi" aria-label="Áo khoác"><img class="lazyload" src="images/mai__1_.png" alt="Áo khoác"></a></div>
-              <div class="box-info"><a href="shop.html?category=bo-suu-tap-moi">Áo khoác</a></div>
-            </div>
-          </div>
-        </div>
-      </section>
-      
-      <section class="section-product-tab style-navigation-2">
-        <div class="container container-full">
-          <div class="section-content">	
-            <div class="wrapper-section-content" style="background: rgba(255, 95, 21, 0.1);">
-              
-              <!-- BÊN TRÁI: BANNER CAM + MODEL 3D -->
-              <div class="box-img-tab">
-                <div class="inner-box-img-tab">
-                  <picture>
-                    <source media="(max-width:991px)" srcset="images/block_banner_bf_1920x2300.jpg">
-                    <source media="(min-width:992px)" srcset="images/block_banner_bf_1920x2300.jpg">
-                    <img class="lazyload" id="friday-banner-img" src="images/block_banner_bf_1920x2300.jpg" alt="ORANGE FRIDAY">
-                  </picture>
-                </div>
-                
-                <!-- KHUNG NGƯỜI MẪU 3D -->
-                <div class="model-3d-container" id="model-container">
-                   <div id="model-3d-box">
-                       <img id="model-3d-img" src="images/1_6cbfbc2a3aee4569a77b40a6d3992c3f.png" alt="3D Model">
-                   </div>
-                   <span class="model-hint">🖱️ Kéo để xoay 360°</span>
-                </div>
-              </div>
-
-              <!-- BÊN PHẢI: SẢN PHẨM -->
-              <div class="box-content-tab">
-                <div class="head-product-tab">
-                  <div class="h5-head-product-tab">SỰ KIỆN MUA SẮM LỚN NHẤT NĂM</div>
-                  <div class="h4-head-product-tab">
-                    <span>ORANGE FRIDAY - SIÊU SALE DIỆU KỲ</span>
-                    <a href="shop.html">Xem tất cả</a>
-                  </div>
-                </div>
-                <div class="collection-list collection-list-1">
-                  <div class="swiper-homepage-collection-1 swiper-container flex-loop">
-                    <!-- ĐÃ XÓA SẢN PHẨM CỨNG, JS SẼ TỰ ĐỘNG ĐỔ SẢN PHẨM TỪ ADMIN VÀO -->
-                    <div class="swiper-wrapper" id="friday-products-wrapper"></div>
-                    <div class="btn-nav swiper-button-prev"></div>
-                    <div class="btn-nav swiper-button-next"></div>
-                  </div>
-                </div>
-              </div>
-
-            </div>
-          </div>
-        </div>
-      </section>
-    </main>
-
-    <footer id="main-footer">
-      <div class="container container-full">
-        <div class="wrap-footer" style="display: flex; justify-content: space-between; padding: 30px;">
-          <div class="column-footer column-newsletter" style="max-width: 300px;">
-            <div class="title-footer">ĐĂNG KÝ NHẬN TIN</div>
-            <div class="sub-footer content-newsletter">
-              <p style="font-size: 14px; color: #aaa;">Đăng ký ngay và là người đầu tiên nắm được thông tin khuyến mãi mới.</p>
-              <form id="newsletter-footer" style="display: flex; gap: 5px;">
-                <input required type="email" placeholder="Email" style="padding: 8px; border-radius: 5px; border: none;">
-                <button type="submit" style="padding: 8px; border-radius: 5px; background: #00e5ff; border: none; font-weight: bold; cursor: pointer;">Gửi</button>
-              </form>
-            </div>
-          </div>
-          <div class="column-footer">
-            <div class="title-footer">HỖ TRỢ KHÁCH HÀNG</div>
-            <ul class="sub-footer linklist-footer" style="list-style: none; padding: 0; font-size: 14px; line-height: 2;">
-              <li><a href="#">Chính sách đổi trả</a></li>
-              <li><a href="#">Hướng dẫn chọn size</a></li>
-              <li><a href="#">Tra cứu đơn hàng</a></li>
-            </ul>
-          </div>
-          <div class="column-footer">
-            <div class="title-footer">THÔNG TIN LIÊN HỆ</div>
-            <ul class="sub-footer address-footer" style="list-style: none; padding: 0; font-size: 14px; line-height: 2;">
-              <li>Địa chỉ: UNETI, DHTI19A1ND</li>
-              <li>Hotline: <a href="tel:0822092522">0822092522</a></li>
-              <li>Email: <a href="mailto:hdangmedia@gmail.com">hdangmedia@gmail.com</a></li>
+          <div class="list-social">
+            <ul>
+              <li><a href="https://www.facebook.com/share/1cySmMqGPM/?mibextid=wwXIfr"><img class="lazyload" src="images/icon-01.png" alt="icon"></a></li>
+              <li><a href="https://www.tiktok.com/@do.hai.dang.0"><img class="lazyload" src="images/icon-02.png" alt="icon"></a></li>
+              <li><a href="https://www.youtube.com/@hdang2207"><img class="lazyload" src="images/icon-03.png" alt="icon"></a></li>
             </ul>
           </div>
         </div>
       </div>
-    </footer>
 
-    <!-- MODAL DONATE -->
-    <div id="donateModal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn" onclick="closeDonateModal()">&times;</span>
-            <h3 style="color: #00e5ff; margin-top: 0;">Donate Ủng Hộ Admin</h3>
-            <img src="images/qr_donate.jpg" alt="QR Code Donate" onerror="this.src='https://via.placeholder.com/300x400?text=QR+Admin'">
-            <p>Donate ủng hộ admin bánh mỳ chống đói,<br>admin xin cảm ơn bạn!</p>
+      <div class="column-footer">
+        <div class="title-footer">
+          VỀ HD&CONBOSTORE
         </div>
-    </div>
-
-    <!-- WELCOME POPUP -->
-    <div id="welcomeModal">
-        <div class="welcome-box">
-            <span class="welcome-close-x" onclick="closeWelcome()">&times;</span>
-            <h2>🌟 Chào mừng đến với HD&ConBoStore 🌟</h2>
-            <p>Ở đây các bạn sẽ được tận hưởng những mẫu thời trang thiết kế tinh xảo, độc đáo. Chúng tôi hy vọng các bạn sẽ yêu thích dịch vụ của chúng tôi!</p>
-            <div class="welcome-copyright">© Bản quyền by HDDev2026</div>
-            <div class="welcome-btns">
-                <button class="btn-welcome btn-close" onclick="closeWelcome()">Đóng</button>
-                <button class="btn-welcome btn-mute" onclick="muteWelcome()">Tắt 1 giờ ⏰</button>
+        <ul class="sub-footer linklist-footer">
+          <li><a href="#">Câu chuyện về HDDev2026</a></li>
+          <li><a href="#">Tin tức</a></li>
+          <li><a href="#">Hệ thống cửa hàng</a></li>
+          <li><a href="#">Tuyển dụng</a></li>
+        </ul>
+      </div>
+      <div class="column-footer">
+        <div class="title-footer">
+          HỖ TRỢ KHÁCH HÀNG
+        </div>
+        <ul class="sub-footer linklist-footer">
+          <li><a href="#">Chính sách đổi trả hàng</a></li>
+          <li><a href="#">Hướng dẫn chọn size</a></li>
+          <li><a href="#">Hướng dẫn giặt quần áo</a></li>
+          <li><a href="#">Tra cứu đơn hàng</a></li>
+          <li><a href="#">Giao hàng &amp; phí giao hàng</a></li>
+          <li><a href="#">Chính sách Khách hàng thân thiết</a></li>
+          <li><a href="#">Chính sách bảo mật thông tin</a></li>
+        </ul>
+      </div>
+      <div class="column-footer">
+        <div class="title-footer">
+          THÔNG TIN LIÊN HỆ
+        </div>
+        <ul class="sub-footer address-footer">
+          <li>
+            <div class="icon">            <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="512" height="512" x="0" y="0" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512" xml:space="preserve" class=""><g><path d="M341.476 338.285c54.483-85.493 47.634-74.827 49.204-77.056C410.516 233.251 421 200.322 421 166 421 74.98 347.139 0 256 0 165.158 0 91 74.832 91 166c0 34.3 10.704 68.091 31.19 96.446l48.332 75.84C118.847 346.227 31 369.892 31 422c0 18.995 12.398 46.065 71.462 67.159C143.704 503.888 198.231 512 256 512c108.025 0 225-30.472 225-90 0-52.117-87.744-75.757-139.524-83.715zm-194.227-92.34a15.57 15.57 0 0 0-.517-.758C129.685 221.735 121 193.941 121 166c0-75.018 60.406-136 135-136 74.439 0 135 61.009 135 136 0 27.986-8.521 54.837-24.646 77.671-1.445 1.906 6.094-9.806-110.354 172.918L147.249 245.945zM256 482c-117.994 0-195-34.683-195-60 0-17.016 39.568-44.995 127.248-55.901l55.102 86.463a14.998 14.998 0 0 0 25.298 0l55.101-86.463C411.431 377.005 451 404.984 451 422c0 25.102-76.313 60-195 60z" fill="#ffffff" opacity="1"></path><path d="M256 91c-41.355 0-75 33.645-75 75s33.645 75 75 75 75-33.645 75-75-33.645-75-75-75zm0 120c-24.813 0-45-20.187-45-45s20.187-45 45-45 45 20.187 45 45-20.187 45-45 45z" fill="#ffffff" opacity="1"></path></g></svg>
+</div>
+            <div class="head-address">
+              <div class="label-address" style="color: #fff;">Địa chỉ:</div>
+              <div class="main-address" style="color: #aaa;">UNETI , DHTI19A1ND, 4 Con Bò Và HDDev</div>
             </div>
+          </li>
+          <li>
+            <div class="icon"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="512" height="512" x="0" y="0" viewBox="0 0 100 100" style="enable-background:new 0 0 512 512" xml:space="preserve" class=""><g><path d="M58.545 68.314c-1.58-.421-3.271-.028-4.538 1.006l-5.919 4.837c-1.7 1.39-4.113 1.574-5.967.395-6.795-4.318-12.355-9.878-16.673-16.672-1.178-1.854-.994-4.267.396-5.968l4.836-5.919c1.034-1.266 1.428-2.957 1.006-4.537-2.087-7.824-6.513-13.382-13.19-16.749-1.497-.755-3.276-.656-4.748.146a79.547 79.547 0 0 0-9.124 5.792c-1.58 1.162-2.392 3.118-2.044 5.048 2.455 13.64 9.884 27.926 21.843 39.885S50.667 94.966 64.307 97.42c1.93.347 3.886-.465 5.049-2.044a79.553 79.553 0 0 0 5.791-9.124c.802-1.473.901-3.251.146-4.748-3.367-6.678-8.925-11.103-16.748-13.19zM83.781 16.22C74.54 6.977 61.728 1.986 48.628 2.541a2.317 2.317 0 0 0-2.217 2.411c.053 1.28 1.18 2.25 2.411 2.219a42.277 42.277 0 0 1 31.683 12.323c8.326 8.329 12.819 19.876 12.324 31.683a2.317 2.317 0 0 0 4.63.194c.549-13.098-4.436-25.911-13.678-35.153z" fill="#ffffff" opacity="1"></path><path d="M48.59 14.872a2.316 2.316 0 0 0-2.177 2.448 2.306 2.306 0 0 0 2.449 2.177c8.537-.494 16.903 2.67 22.938 8.704a29.967 29.967 0 0 1 8.703 22.938 2.316 2.316 0 1 0 4.626.271 34.6 34.6 0 0 0-10.053-26.485A34.596 34.596 0 0 0 48.59 14.872z" fill="#ffffff" opacity="1"></path><path d="M70.286 53.581a2.317 2.317 0 0 0 2.522-2.092A22.255 22.255 0 0 0 66.37 33.63a22.255 22.255 0 0 0-17.86-6.438 2.317 2.317 0 1 0 .431 4.614 17.633 17.633 0 0 1 14.153 5.1 17.638 17.638 0 0 1 5.1 14.153 2.317 2.317 0 0 0 2.092 2.522z" fill="#ffffff" opacity="1"></path></g></svg></div>
+            <div class="head-normal" style="color: #fff;">
+              Số điện thoại: <a href="tel:0822092522" style="color: #00e5ff;">0822092522</a>
+            </div>
+          </li>
+          <li>
+            <div class="icon"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="512" height="512" x="0" y="0" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512" xml:space="preserve" class=""><g><path d="M512 203.06v-.045c0-.427-.024-.85-.059-1.271-.01-.115-.025-.229-.037-.344a15.13 15.13 0 0 0-.139-.981c-.021-.122-.042-.244-.066-.365a14.92 14.92 0 0 0-.282-1.172l-.031-.115a15.192 15.192 0 0 0-.401-1.163c-.056-.146-.118-.289-.179-.434a14.224 14.224 0 0 0-.35-.764c-.072-.146-.141-.293-.217-.437a15.366 15.366 0 0 0-.6-1.031c-.08-.125-.168-.245-.252-.368a14.775 14.775 0 0 0-.816-1.091 14.777 14.777 0 0 0-.825-.928l-.068-.07a14.93 14.93 0 0 0-.979-.9c-.042-.036-.078-.076-.121-.111L481 170.245v-65.229c0-19.299-15.701-35-35-35h-85.776l-69.1-57.345c-20.354-16.888-49.896-16.888-70.248 0l-69.1 57.344H66c-19.299 0-35 15.701-35 35v65.229L5.421 191.472c-.042.035-.079.075-.121.111a14.93 14.93 0 0 0-.979.9l-.068.07a15.1 15.1 0 0 0-.825.928c-.101.122-.198.247-.295.372-.181.235-.354.475-.521.719-.084.123-.172.243-.252.368-.214.335-.413.679-.6 1.031-.077.144-.146.291-.217.437-.124.251-.24.506-.35.764-.061.144-.123.288-.179.434-.148.382-.285.768-.401 1.163l-.031.115a14.92 14.92 0 0 0-.487 2.518c-.012.115-.027.229-.037.344-.034.419-.058.842-.058 1.269v253.98c0 15.718 6.638 29.906 17.246 39.939.301.301.603.599.925.87 9.757 8.814 22.676 14.19 36.829 14.19h402c14.154 0 27.074-5.377 36.832-14.193.319-.27.619-.565.918-.864 10.61-10.033 17.25-24.223 17.25-39.943V203.06zM66 100.015h380c2.757 0 5 2.243 5 5v116.682l-8.488 7.044-170.546 141.533c-9.251 7.677-22.681 7.676-31.932 0L69.488 228.742 61 221.697V105.015c0-2.757 2.243-5 5-5zm-36 356.98v-222.04l6.452 5.355.012.01 146.469 121.551L31.536 465.623A24.868 24.868 0 0 1 30 456.995zm176.937-75.204 13.939 11.568c20.352 16.89 49.896 16.889 70.248 0l13.939-11.568 146.22 100.204H60.716zm122.13-19.919L475.535 240.32l.012-.01 6.452-5.355v222.04c0 3.031-.543 5.938-1.536 8.628zM240.034 35.758c9.251-7.677 22.681-7.677 31.932 0l41.281 34.258H198.753z" fill="#ffffff" opacity="1"></path><path d="M131.5 164.995c0 8.284 6.716 15 15 15h142c8.284 0 15-6.716 15-15s-6.716-15-15-15h-142c-8.284 0-15 6.716-15 15zM146.5 239.995h219c6.988 0 12.843-4.786 14.509-11.254.309-1.2.491-2.45.491-3.746 0-8.284-6.716-15-15-15h-219c-8.284 0-15 6.716-15 15 0 1.296.182 2.547.491 3.746 1.666 6.469 7.521 11.254 14.509 11.254z" fill="#ffffff" opacity="1"></path></g></svg></div>
+            <div class="head-normal" style="color: #fff;">
+              Email: <a href="mailto:hdangmedia@gmail.com" style="color: #00e5ff;">hdangmedia@gmail.com</a>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom-footer">
+    <div class="container container">
+      <div class="wrap-footer-bottom">
+        <div class="copy-right" style="color: #aaa;">
+          © 2026 HD&CONBOSTORE <br>
+          Bản quyền thuộc về HDDev2026.
+        </div>
+        <div class="bct-payment">
+          <div class="logo-item">
+            <a rel="nofollow noopener" target="_blank" href="https://online.gov.vn/nen-tang/864e884c-54b1-4a42-94eb-0823fea0c550" title="Logo bộ công thương">
+              <img class="lazyload" src="images/logo_bct.png" alt="Logo bộ công thương">
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+</footer>
+
+<!-- MODAL DONATE -->
+<div id="donateModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeDonateModal()">&times;</span>
+        <h3 style="color: #00e5ff; margin-top: 0;">Donate Ủng Hộ Admin</h3>
+        <img src="images/qr_donate.jpg" alt="QR Code Donate" onerror="this.src='https://via.placeholder.com/300x400?text=Anh+QR+Admin'">
+        <p>Donate ủng hộ admin bánh mỳ chống đói,<br>admin xin cảm ơn bạn!</p>
+    </div>
+</div>
+
+<!-- WELCOME POPUP -->
+<div id="welcomeModal">
+    <div class="welcome-box">
+        <span class="welcome-close-x" onclick="closeWelcome()">&times;</span>
+        <h2>🌟 Chào mừng đến với 5CowFashion 🌟</h2>
+        <p>Ở đây các bạn sẽ được tận hưởng và tham khảo những mẫu thời trang thiết kế tinh xảo, độc đáo đến từ các nhà thiết kế thời trang nổi tiếng. Chúng tôi hy vọng các bạn sẽ yêu thích dịch vụ của chúng tôi! <strong>Hân Hạnh!</strong></p>
+        
+        <div class="welcome-ad">
+            <strong>🚀 Dịch vụ quảng cáo ngoài lề:</strong>
+            <span>Admin web nhận build web, bot tele giá rẻ nhất thị trường, nhận make all tool theo yêu cầu (không vppl), nhận unlock tài khoản mạng facebook siêu tốc, tăng tương tác nền tảng mạng xã hội, nâng cấp locket gold, capcut pro, chat gpt plus,...</span>
+        </div>
+        
+        <div class="welcome-copyright">© Bản quyền by HDDev2026</div>
+        
+        <div class="welcome-btns">
+            <button class="btn-welcome btn-close" onclick="closeWelcome()">Đóng</button>
+            <button class="btn-welcome btn-mute" onclick="muteWelcome()">Tắt thông báo 1 giờ ⏰</button>
         </div>
     </div>
+</div>
 
-    <!-- JAVASCRIPT GỐC -->
-    <script>
-        const canvas = document.getElementById('star-network-canvas');
-        const ctx = canvas.getContext('2d');
-        let width, height, stars = [];
-        let mouse = { x: null, y: null };
+<!-- ========================================== -->
+<!-- JAVASCRIPT GỐC CỦA BẠN (GIỮ NGUYÊN) -->
+<!-- ========================================== -->
+<script>
+    // 1. HIỆU ỨNG CHÒM SAO
+    const canvas = document.getElementById('star-network-canvas');
+    const ctx = canvas.getContext('2d');
+    let width, height, stars = [];
+    let mouse = { x: null, y: null };
 
-        function resizeCanvas() { width = canvas.width = window.innerWidth; height = canvas.height = window.innerHeight; initStars(); }
-        window.addEventListener('resize', resizeCanvas);
-        window.addEventListener('mousemove', (e) => { mouse.x = e.clientX; mouse.y = e.clientY; });
-        window.addEventListener('mouseout', () => { mouse.x = null; mouse.y = null; });
+    function resizeCanvas() { width = canvas.width = window.innerWidth; height = canvas.height = window.innerHeight; initStars(); }
+    window.addEventListener('resize', resizeCanvas);
+    window.addEventListener('mousemove', (e) => { mouse.x = e.clientX; mouse.y = e.clientY; });
+    window.addEventListener('mouseout', () => { mouse.x = null; mouse.y = null; });
 
-        class Star {
-            constructor() {
-                this.x = Math.random() * width; this.y = Math.random() * height;
-                this.vx = (Math.random() - 0.5) * 0.5; this.vy = (Math.random() - 0.5) * 0.5;
-                this.radius = Math.random() * 1.5 + 0.5;
-            }
-            update() {
-                this.x += this.vx; this.y += this.vy;
-                if (this.x < 0 || this.x > width) this.vx *= -1;
-                if (this.y < 0 || this.y > height) this.vy *= -1;
-            }
-            draw() {
-                ctx.beginPath(); ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-                ctx.fillStyle = 'rgba(255, 255, 255, 0.8)'; ctx.fill();
-            }
+    class Star {
+        constructor() {
+            this.x = Math.random() * width; this.y = Math.random() * height;
+            this.vx = (Math.random() - 0.5) * 0.5; this.vy = (Math.random() - 0.5) * 0.5;
+            this.radius = Math.random() * 1.5 + 0.5;
         }
+        update() {
+            this.x += this.vx; this.y += this.vy;
+            if (this.x < 0 || this.x > width) this.vx *= -1;
+            if (this.y < 0 || this.y > height) this.vy *= -1;
+        }
+        draw() {
+            ctx.beginPath(); ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.8)'; ctx.fill();
+        }
+    }
 
-        function initStars() { stars = []; for (let i = 0; i < 120; i++) stars.push(new Star()); }
+    function initStars() { stars = []; for (let i = 0; i < 120; i++) stars.push(new Star()); }
 
-        function connectStars() {
-            for (let i = 0; i < stars.length; i++) {
-                for (let j = i + 1; j < stars.length; j++) {
-                    const dx = stars[i].x - stars[j].x; const dy = stars[i].y - stars[j].y;
-                    const dist = Math.sqrt(dx*dx + dy*dy);
-                    if (dist < 150) {
-                        ctx.beginPath(); ctx.moveTo(stars[i].x, stars[i].y); ctx.lineTo(stars[j].x, stars[j].y);
-                        ctx.strokeStyle = `rgba(0, 229, 255, ${(1 - dist/150) * 0.5})`; ctx.lineWidth = 0.5; ctx.stroke();
-                    }
-                }
-                if (mouse.x != null) {
-                    const dxM = stars[i].x - mouse.x; const dyM = stars[i].y - mouse.y;
-                    const distM = Math.sqrt(dxM*dxM + dyM*dyM);
-                    if (distM < 200) {
-                        ctx.beginPath(); ctx.moveTo(stars[i].x, stars[i].y); ctx.lineTo(mouse.x, mouse.y);
-                        ctx.strokeStyle = `rgba(0, 229, 255, ${1 - distM/200})`; ctx.lineWidth = 1; ctx.stroke();
-                    }
+    function connectStars() {
+        for (let i = 0; i < stars.length; i++) {
+            for (let j = i + 1; j < stars.length; j++) {
+                const dx = stars[i].x - stars[j].x; const dy = stars[i].y - stars[j].y;
+                const dist = Math.sqrt(dx*dx + dy*dy);
+                if (dist < 150) {
+                    ctx.beginPath(); ctx.moveTo(stars[i].x, stars[i].y); ctx.lineTo(stars[j].x, stars[j].y);
+                    ctx.strokeStyle = `rgba(0, 229, 255, ${(1 - dist/150) * 0.5})`; ctx.lineWidth = 0.5; ctx.stroke();
                 }
             }
+            if (mouse.x != null) {
+                const dxM = stars[i].x - mouse.x; const dyM = stars[i].y - mouse.y;
+                const distM = Math.sqrt(dxM*dxM + dyM*dyM);
+                if (distM < 200) {
+                    ctx.beginPath(); ctx.moveTo(stars[i].x, stars[i].y); ctx.lineTo(mouse.x, mouse.y);
+                    ctx.strokeStyle = `rgba(0, 229, 255, ${1 - distM/200})`; ctx.lineWidth = 1; ctx.stroke();
+                }
+            }
         }
+    }
 
-        function animateStars() {
-            ctx.clearRect(0, 0, width, height);
-            stars.forEach(s => { s.update(); s.draw(); });
-            connectStars(); requestAnimationFrame(animateStars);
+    function animateStars() {
+        ctx.clearRect(0, 0, width, height);
+        stars.forEach(s => { s.update(); s.draw(); });
+        connectStars(); requestAnimationFrame(animateStars);
+    }
+    resizeCanvas(); animateStars();
+
+    // 2. XỬ LÝ TÀI KHOẢN & ẨN GIỎ HÀNG
+    function checkLoginState() {
+        const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+        const accountText = document.getElementById("accountText");
+        const accountDropdown = document.getElementById("accountDropdown");
+        const accountLink = document.getElementById("accountLink");
+        const cartWrapper = document.getElementById("cartWrapper"); 
+
+        if (isLoggedIn) {
+            accountText.innerText = "Tài khoản";
+            accountText.style.color = "#00e5ff";
+            accountLink.href = "javascript:void(0)";
+            if(cartWrapper) cartWrapper.style.display = "flex"; 
+        } else {
+            accountText.innerText = "Đăng nhập / Đăng ký";
+            accountText.style.color = "#00e5ff";
+            accountLink.href = "dang-nhap.html";
+            accountDropdown.style.display = "none";
+            if(cartWrapper) cartWrapper.style.display = "none"; 
         }
-        resizeCanvas(); animateStars();
+    }
 
-        function checkLoginState() {
-            const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
-            const accountText = document.getElementById("accountText");
-            const accountDropdown = document.getElementById("accountDropdown");
-            const accountLink = document.getElementById("accountLink");
-            const cartWrapper = document.getElementById("cartWrapper"); 
+    function handleAccountClick(e) {
+        if (localStorage.getItem("isLoggedIn") === "true") e.preventDefault();
+        else return true;
+    }
 
-            if (isLoggedIn) {
-                accountText.innerText = "Tài khoản";
-                accountText.style.color = "#00e5ff";
-                accountLink.href = "javascript:void(0)";
-                if(cartWrapper) cartWrapper.style.display = "flex"; 
+    function logout() {
+        localStorage.removeItem("isLoggedIn");
+        localStorage.removeItem("hddev_user");
+        alert("Bạn đã đăng xuất!");
+        window.location.reload();
+    }
+
+    // 3. MODAL DONATE
+    function openDonateModal() { document.getElementById("donateModal").style.display = "flex"; }
+    function closeDonateModal() { document.getElementById("donateModal").style.display = "none"; }
+    window.onclick = function(event) {
+        var modal = document.getElementById("donateModal");
+        if (event.target == modal) modal.style.display = "none";
+    }
+
+    // 4. GIỎ HÀNG
+    function renderCart() {
+        var cartData = JSON.parse(localStorage.getItem("hddev_cart")) || [];
+        var cartCount = document.getElementById("cartCount");
+        var cartItemsList = document.getElementById("cartItemsList");
+        var cartTotalPrice = document.getElementById("cartTotalPrice");
+        
+        if(cartCount) { cartCount.innerText = cartData.length; cartCount.style.display = cartData.length > 0 ? 'block' : 'none'; }
+        if(cartItemsList) {
+            if(cartData.length === 0) {
+                cartItemsList.innerHTML = '<p style="color: #888; font-size: 14px; text-align:center;">Chưa có sản phẩm nào.</p>';
+                if(cartTotalPrice) cartTotalPrice.innerText = '0đ';
             } else {
-                accountText.innerText = "Đăng nhập / Đăng ký";
-                accountText.style.color = "#00e5ff";
-                accountLink.href = "dang-nhap.html";
-                accountDropdown.style.display = "none";
-                if(cartWrapper) cartWrapper.style.display = "none"; 
+                var html = ""; var total = 0;
+                cartData.forEach(function(item, index) {
+                    total += item.price;
+                    html += `<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 5px; font-size: 14px;">
+                                <div><span>${item.name}</span><br><strong style="color: #00e5ff;">${item.price.toLocaleString()}đ</strong></div>
+                                <button onclick="removeFromCart(${index})" style="background: none; border: none; color: #ff007f; cursor: pointer; font-weight: bold;">Xóa</button>
+                             </div>`;
+                });
+                cartItemsList.innerHTML = html;
+                if(cartTotalPrice) cartTotalPrice.innerText = total.toLocaleString() + 'đ';
             }
         }
+    }
 
-        function handleAccountClick(e) {
-            if (localStorage.getItem("isLoggedIn") === "true") e.preventDefault();
-            else return true;
+    function addToCart(name, price) {
+        if (localStorage.getItem("isLoggedIn") !== "true") {
+            alert("Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng!");
+            window.location.href = "dang-nhap.html";
+            return;
         }
+        var cartData = JSON.parse(localStorage.getItem("hddev_cart")) || [];
+        cartData.push({ name: name, price: price });
+        localStorage.setItem("hddev_cart", JSON.stringify(cartData));
+        alert("Đã thêm " + name + " vào giỏ!");
+        renderCart();
+    }
 
-        function logout() {
-            localStorage.removeItem("isLoggedIn");
-            localStorage.removeItem("hddev_user");
-            alert("Bạn đã đăng xuất!");
-            window.location.reload();
-        }
+    function removeFromCart(index) {
+        var cartData = JSON.parse(localStorage.getItem("hddev_cart")) || [];
+        cartData.splice(index, 1);
+        localStorage.setItem("hddev_cart", JSON.stringify(cartData));
+        renderCart();
+    }
 
-        function openDonateModal() { document.getElementById("donateModal").style.display = "flex"; }
-        function closeDonateModal() { document.getElementById("donateModal").style.display = "none"; }
-        window.onclick = function(event) {
-            var modal = document.getElementById("donateModal");
-            if (event.target == modal) modal.style.display = "none";
-        }
+    // 5. XỬ LÝ WELCOME POPUP & THỜI GIAN THỰC
+    function closeWelcome() {
+        document.getElementById('welcomeModal').style.display = 'none';
+    }
 
-        function renderCart() {
-            var cartData = JSON.parse(localStorage.getItem("hddev_cart")) || [];
-            var cartCount = document.getElementById("cartCount");
-            var cartItemsList = document.getElementById("cartItemsList");
-            var cartTotalPrice = document.getElementById("cartTotalPrice");
-            
-            if(cartCount) { cartCount.innerText = cartData.length; cartCount.style.display = cartData.length > 0 ? 'block' : 'none'; }
-            if(cartItemsList) {
-                if(cartData.length === 0) {
-                    cartItemsList.innerHTML = '<p style="color: #888; font-size: 14px; text-align:center;">Chưa có sản phẩm nào.</p>';
-                    if(cartTotalPrice) cartTotalPrice.innerText = '0đ';
-                } else {
-                    var html = ""; var total = 0;
-                    cartData.forEach(function(item, index) {
-                        total += item.price;
-                        html += `<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 5px; font-size: 14px;">
-                                    <div><span>${item.name}</span><br><strong style="color: #00e5ff;">${item.price.toLocaleString()}đ</strong></div>
-                                    <button onclick="removeFromCart(${index})" style="background: none; border: none; color: #ff007f; cursor: pointer; font-weight: bold;">Xóa</button>
-                                 </div>`;
-                    });
-                    cartItemsList.innerHTML = html;
-                    if(cartTotalPrice) cartTotalPrice.innerText = total.toLocaleString() + 'đ';
-                }
-            }
-        }
+    function muteWelcome() {
+        const muteUntil = new Date().getTime();
+        localStorage.setItem('muteWelcomeTime', muteUntil);
+        document.getElementById('welcomeModal').style.display = 'none';
+        alert("Đã tắt thông báo trong 1 giờ. Hẹn gặp lại!");
+    }
 
-        function addToCart(name, price) {
-            if (localStorage.getItem("isLoggedIn") !== "true") {
-                alert("Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng!");
-                window.location.href = "dang-nhap.html";
-                return;
-            }
-            var cartData = JSON.parse(localStorage.getItem("hddev_cart")) || [];
-            cartData.push({ name: name, price: price });
-            localStorage.setItem("hddev_cart", JSON.stringify(cartData));
-            alert("Đã thêm " + name + " vào giỏ!");
-            renderCart();
-        }
-
-        function removeFromCart(index) {
-            var cartData = JSON.parse(localStorage.getItem("hddev_cart")) || [];
-            cartData.splice(index, 1);
-            localStorage.setItem("hddev_cart", JSON.stringify(cartData));
-            renderCart();
-        }
-
-        function closeWelcome() { document.getElementById('welcomeModal').style.display = 'none'; }
-        function muteWelcome() {
-            const muteUntil = new Date().getTime();
-            localStorage.setItem('muteWelcomeTime', muteUntil);
-            document.getElementById('welcomeModal').style.display = 'none';
-            alert("Đã tắt thông báo trong 1 giờ. Hẹn gặp lại!");
-        }
-
-        document.addEventListener("DOMContentLoaded", function() {
-            const muteTime = localStorage.getItem('muteWelcomeTime');
-            const now = new Date().getTime();
-            
-            if (muteTime) {
-                if (now - parseInt(muteTime) < 3600000) {
-                    document.getElementById('welcomeModal').style.display = 'none';
-                } else {
-                    localStorage.removeItem('muteWelcomeTime');
-                    document.getElementById('welcomeModal').style.display = 'flex';
-                }
+    // 6. KHỞI TẠO CHUNG
+    document.addEventListener("DOMContentLoaded", function() {
+        // Kiểm tra thời gian tắt thông báo
+        const muteTime = localStorage.getItem('muteWelcomeTime');
+        const now = new Date().getTime();
+        
+        if (muteTime) {
+            if (now - parseInt(muteTime) < 3600000) {
+                document.getElementById('welcomeModal').style.display = 'none';
             } else {
+                localStorage.removeItem('muteWelcomeTime');
                 document.getElementById('welcomeModal').style.display = 'flex';
             }
-
-            checkLoginState();
-            renderCart();
-            
-            if (typeof Swiper !== 'undefined') {
-                if(document.querySelector('.swiper-homepage-slider')) new Swiper('.swiper-homepage-slider', { slidesPerView: 1, loop: true, autoplay: { delay: 3000 }, navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' } });
-                if(document.querySelector('.swiper-homepage-collection-1')) new Swiper('.swiper-homepage-collection-1', { slidesPerView: 2, spaceBetween: 20, breakpoints: { 320: { slidesPerView: 1 }, 768: { slidesPerView: 2 } } });
-            }
-        });
-    </script>
-
-    <!-- JAVASCRIPT TÍNH NĂNG MỚI: 3D MODEL & API VPS -->
-    <script>
-        const API_BASE_URL = 'http://180.93.194.227:3000';
-
-        // --- XỬ LÝ XOAY 3D ---
-        let isDragging3D = false;
-        let prevX3D = 0, prevY3D = 0;
-        let rotX = 0, rotY = 0;
-        const modelBox = document.getElementById('model-3d-box');
-        const modelContainer = document.getElementById('model-container');
-
-        if (modelContainer) {
-            modelContainer.addEventListener('mousedown', (e) => {
-                isDragging3D = true; prevX3D = e.clientX; prevY3D = e.clientY;
-            });
-            window.addEventListener('mousemove', (e) => {
-                if (!isDragging3D) return;
-                let deltaX = e.clientX - prevX3D;
-                let deltaY = e.clientY - prevY3D;
-                rotY += deltaX * 0.8; rotX -= deltaY * 0.8;
-                if (rotX > 60) rotX = 60; if (rotX < -60) rotX = -60;
-                modelBox.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg)`;
-                prevX3D = e.clientX; prevY3D = e.clientY;
-            });
-            window.addEventListener('mouseup', () => { isDragging3D = false; });
-            
-            modelContainer.addEventListener('touchstart', (e) => {
-                isDragging3D = true; prevX3D = e.touches[0].clientX; prevY3D = e.touches[0].clientY;
-            });
-            window.addEventListener('touchmove', (e) => {
-                if (!isDragging3D) return;
-                let deltaX = e.touches[0].clientX - prevX3D;
-                let deltaY = e.touches[0].clientY - prevY3D;
-                rotY += deltaX * 0.8; rotX -= deltaY * 0.8;
-                if (rotX > 60) rotX = 60; if (rotX < -60) rotX = -60;
-                modelBox.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg)`;
-                prevX3D = e.touches[0].clientX; prevY3D = e.touches[0].clientY;
-            }, {passive: true});
-            window.addEventListener('touchend', () => { isDragging3D = false; });
+        } else {
+            document.getElementById('welcomeModal').style.display = 'flex';
         }
 
-        function update3DModel(imageUrl) {
-            const img = document.getElementById('model-3d-img');
-            if (img) {
-                img.style.opacity = '0';
-                setTimeout(() => {
-                    img.src = imageUrl;
-                    img.style.opacity = '1';
-                    rotX = 0; rotY = 0;
-                    if(modelBox) modelBox.style.transform = `rotateX(0deg) rotateY(0deg)`;
-                }, 200);
-            }
+        checkLoginState();
+        renderCart();
+        if (typeof Swiper !== 'undefined') {
+            if(document.querySelector('.swiper-homepage-slider')) new Swiper('.swiper-homepage-slider', { slidesPerView: 1, loop: true, autoplay: { delay: 3000 }, navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' } });
+            if(document.querySelector('.swiper-homepage-collection-1')) new Swiper('.swiper-homepage-collection-1', { slidesPerView: 2, spaceBetween: 20, breakpoints: { 320: { slidesPerView: 1 }, 768: { slidesPerView: 2 } } });
         }
+    });
+</script>
 
-        // --- TẢI DỮ LIỆU TỪ VPS ---
-        async function loadAdminSettings() {
-            try {
-                const response = await fetch(`${API_BASE_URL}/api/settings`);
-                if(!response.ok) throw new Error("API lỗi");
-                const data = await response.json();
+<!-- ========================================== -->
+<!-- JAVASCRIPT MỚI: KẾT NỐI VPS ĐỂ LẤY ẢNH TỪ ADMIN -->
+<!-- ========================================== -->
+<script>
+    // ĐIỀN IP VPS CỦA BẠN VÀO ĐÂY
+    const API_BASE_URL = 'http://180.93.194.227:3000'; 
 
-                if (data.topbar_img) document.getElementById('topbar-banner-img').src = data.topbar_img;
-                if (data.topbar_link) document.getElementById('topbar-banner-link').href = data.topbar_link;
-                if (data.friday_banner) document.getElementById('friday-banner-img').src = data.friday_banner;
+    async function loadAdminSettings() {
+        try {
+            const response = await fetch(`${API_BASE_URL}/api/settings`);
+            if(!response.ok) throw new Error("API lỗi");
+            const data = await response.json();
 
-                if (data.hero_sliders && data.hero_sliders.length > 0) {
-                    const wrapper = document.getElementById('hero-slider-wrapper');
-                    wrapper.innerHTML = ''; 
-                    data.hero_sliders.forEach(slide => {
-                        const imgSrc = typeof slide === 'string' ? slide : slide.image;
-                        const imgLink = (typeof slide === 'object' && slide.link) ? slide.link : '#';
-                        wrapper.innerHTML += `
+            // 1. Thay ảnh Topbar
+            if (data.topbar_img) {
+                document.getElementById('topbar-banner-img').src = data.topbar_img;
+            }
+            if (data.topbar_link) {
+                document.getElementById('topbar-banner-link').href = data.topbar_link;
+            }
+
+            // 2. Thay ảnh Banner Trái Orange Friday
+            if (data.friday_banner) {
+                document.getElementById('friday-banner-img').src = data.friday_banner;
+            }
+
+            // 3. Thay ảnh Slider Hero (Nhiều ảnh)
+            if (data.hero_sliders && data.hero_sliders.length > 0) {
+                const wrapper = document.getElementById('hero-slider-wrapper');
+                wrapper.innerHTML = ''; 
+                
+                data.hero_sliders.forEach(slide => {
+                    const imgSrc = typeof slide === 'string' ? slide : slide.image;
+                    const imgLink = (typeof slide === 'object' && slide.link) ? slide.link : '#';
+
+                    wrapper.innerHTML += `
+                        <div class="swiper-slide">
+                            <a href="${imgLink}">
+                                <picture>
+                                    <img class="lazyload" src="${imgSrc}" alt="Banner" style="width: 100%; object-fit: cover;">
+                                </picture>
+                            </a>
+                        </div>
+                    `;
+                });
+
+                // Load lại Swiper để nhận diện ảnh mới
+                if (typeof Swiper !== 'undefined') {
+                    if (document.querySelector('.swiper-homepage-slider').swiper) {
+                        document.querySelector('.swiper-homepage-slider').swiper.destroy(true, true);
+                    }
+                    new Swiper('.swiper-homepage-slider', { 
+                        slidesPerView: 1, loop: true, autoplay: { delay: 3000 },
+                        navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' } 
+                    });
+                }
+            }
+
+            // 4. Tải sản phẩm động
+            const productRes = await fetch(`${API_BASE_URL}/api/products`);
+            if (productRes.ok) {
+                const products = await productRes.json();
+                if (products.length > 0) {
+                    const productWrapper = document.getElementById('friday-products-wrapper');
+                    productWrapper.innerHTML = '';
+                    products.forEach(p => {
+                        productWrapper.innerHTML += `
                             <div class="swiper-slide">
-                                <a href="${imgLink}">
-                                    <img src="${imgSrc}" alt="Banner" style="width: 100%; height: auto; display: block;">
-                                </a>
+                                <div class="product-loop">
+                                  <div class="box-image"><a href="shop.html"><img src="${API_BASE_URL}${p.image}" style="width:100%"></a></div>
+                                  <div class="box-info">
+                                    <h4 style="margin-top:10px;"><a href="shop.html">${p.name}</a></h4>
+                                    <div class="box-price onsale" style="color:#FF5F15; font-weight:bold; margin:10px 0;"><span>${p.price.toLocaleString('vi-VN')}đ</span></div>
+                                    <button class="addtocart-loop" onclick="addToCart('${p.name}', ${p.price})">Thêm</button>
+                                  </div>
+                                </div>
                             </div>
                         `;
                     });
+                    
                     if (typeof Swiper !== 'undefined') {
-                        new Swiper('.swiper-homepage-slider', { slidesPerView: 1, loop: true, autoplay: { delay: 3000 }, navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' } });
-                    }
-                }
-            } catch (error) {
-                console.log("Chưa kết nối được API Settings.", error);
-            }
-        }
-
-        async function loadProducts() {
-            try {
-                const productRes = await fetch(`${API_BASE_URL}/api/products`);
-                if (productRes.ok) {
-                    const products = await productRes.json();
-                    if (products.length > 0) {
-                        const productWrapper = document.getElementById('friday-products-wrapper');
-                        productWrapper.innerHTML = '';
-                        
-                        products.forEach(p => {
-                            productWrapper.innerHTML += `
-                                <div class="swiper-slide" onclick="update3DModel('${API_BASE_URL}${p.image}')">
-                                    <div class="product-loop">
-                                      <div class="box-image"><img src="${API_BASE_URL}${p.image}" style="width:100%"></div>
-                                      <div class="box-info">
-                                        <h4 style="margin-top:10px; font-size:16px;">${p.name}</h4>
-                                        <div class="box-price onsale" style="color:#FF5F15; font-weight:bold; margin:10px 0;"><span>${p.price.toLocaleString('vi-VN')}đ</span></div>
-                                        <button class="addtocart-loop" onclick="event.stopPropagation(); addToCart('${p.name}', ${p.price})">Thêm</button>
-                                      </div>
-                                    </div>
-                                </div>
-                            `;
-                        });
-                        
-                        if (typeof Swiper !== 'undefined') {
-                            new Swiper('.swiper-homepage-collection-1', { slidesPerView: 2, spaceBetween: 20, breakpoints: { 320: { slidesPerView: 1 }, 768: { slidesPerView: 2 } } });
+                        if (document.querySelector('.swiper-homepage-collection-1').swiper) {
+                            document.querySelector('.swiper-homepage-collection-1').swiper.destroy(true, true);
                         }
-                        
-                        update3DModel(`${API_BASE_URL}${products[0].image}`);
+                        new Swiper('.swiper-homepage-collection-1', { 
+                            slidesPerView: 2, spaceBetween: 20, 
+                            breakpoints: { 320: { slidesPerView: 1 }, 768: { slidesPerView: 2 } } 
+                        });
                     }
                 }
-            } catch (error) {
-                console.log("Chưa kết nối được API Sản phẩm.", error);
             }
-        }
 
-        document.addEventListener("DOMContentLoaded", function() {
-            loadAdminSettings();
-            loadProducts();
-        });
-    </script>
+        } catch (error) {
+            console.log("Chưa kết nối được API Admin. Đang dùng ảnh mặc định.", error);
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        loadAdminSettings();
+    });
+</script>
 </body>
 </html>
