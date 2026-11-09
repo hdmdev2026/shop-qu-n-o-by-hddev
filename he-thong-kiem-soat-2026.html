@@ -3,331 +3,221 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hệ Thống Quản Trị - Sakura Theme</title>
+    <title>Hệ Thống Quản Trị</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap');
-
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Quicksand', sans-serif; }
         
-        /* =======================================================
-           BACKGROUND PHONG CẢNH THẬT
-        ======================================================= */
         body {
-            /* Dùng ảnh nền phong cảnh Nhật Bản thật */
-            background: url('https://images.unsplash.com/photo-1490730141103-6cac27aaab94?q=80&w=2070&auto=format&fit=crop') no-repeat center center fixed;
-            background-size: cover;
-            height: 100vh;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
+            background: #030510; color: #ffffff;
+            height: 100vh; overflow: hidden; display: flex;
+            justify-content: center; align-items: center; position: relative; cursor: crosshair;
         }
 
-        /* Lớp phủ tối mờ để làm nổi bật form đăng nhập */
-        body::before {
-            content: "";
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(10, 15, 30, 0.4); /* Làm tối nền một chút */
-            z-index: 1;
-        }
+        .overlay-bg { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(3, 5, 16, 0.75); z-index: 1; }
+        #star-network-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 0; }
 
-        /* =======================================================
-           HIỆU ỨNG HOA ANH ĐÀO RƠI (Dùng ảnh thật)
-        ======================================================= */
-        .leaves { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; pointer-events: none; overflow: hidden; }
-        
-        .leaf {
-            position: absolute;
-            top: -10%;
-            /* Sử dụng ảnh cánh hoa anh đào */
-            background-image: url('https://cdn-icons-png.flaticon.com/512/3462/3462352.png'); 
-            background-size: contain;
-            background-repeat: no-repeat;
-            opacity: 0.8;
-            animation: fall linear infinite, sway ease-in-out infinite alternate;
-        }
-
-        @keyframes fall {
-            0% { top: -10%; transform: rotate(0deg); }
-            100% { top: 110%; transform: rotate(360deg); }
-        }
-        @keyframes sway {
-            0% { transform: translateX(-40px) rotate(-30deg); }
-            100% { transform: translateX(40px) rotate(30deg); }
-        }
-
-        /* =======================================================
-           KHUNG KÍNH MỜ (GLASSMORPHISM) CỰC XỊN
-        ======================================================= */
         .glass-panel {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(25px) saturate(150%);
-            -webkit-backdrop-filter: blur(25px) saturate(150%);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255,255,255,0.4);
-            border-radius: 24px;
-            z-index: 10;
+            background: rgba(10, 15, 30, 0.85) !important;
+            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 229, 255, 0.3);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8), 0 0 15px rgba(0, 229, 255, 0.1);
+            border-radius: 15px; z-index: 10; position: relative;
         }
 
-        /* =======================================================
-           FORM ĐĂNG NHẬP
-        ======================================================= */
-        #loginBox {
-            display: flex; flex-direction: column; padding: 45px; width: 400px;
-            position: absolute; transition: 0.5s ease;
-        }
-        #loginBox h2 { 
-            text-align: center; color: #fff; margin-bottom: 30px; 
-            text-shadow: 0 2px 10px rgba(0,0,0,0.5); font-size: 28px; font-weight: 700; letter-spacing: 1px;
-        }
+        /* FORM ĐĂNG NHẬP */
+        #loginBox { display: flex; flex-direction: column; padding: 40px; width: 400px; position: absolute; transition: 0.5s ease; }
+        #loginBox h2 { text-align: center; color: #00e5ff; margin-bottom: 30px; text-shadow: 0 0 10px #00e5ff; font-size: 26px; font-weight: 700; text-transform: uppercase; }
         .input-group { margin-bottom: 20px; }
-        .input-group input {
-            width: 100%; padding: 15px 20px; border: 1px solid rgba(255,255,255,0.2); border-radius: 12px;
-            background: rgba(0,0,0,0.2); color: #fff; font-size: 16px; outline: none;
-            transition: 0.3s;
-        }
-        .input-group input::placeholder { color: rgba(255,255,255,0.6); }
-        .input-group input:focus { 
-            background: rgba(0,0,0,0.4); border-color: #ffb7c5;
-            box-shadow: 0 0 20px rgba(255,183,197,0.4); 
-        }
-        #loginBtn {
-            background: linear-gradient(135deg, #ff758c, #ff7eb3); color: #fff;
-            border: none; padding: 15px; border-radius: 12px; font-size: 16px; font-weight: bold;
-            cursor: pointer; transition: 0.3s; margin-top: 10px; letter-spacing: 1px;
-            box-shadow: 0 10px 20px rgba(255,117,140,0.3);
-        }
-        #loginBtn:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(255,117,140,0.5); }
+        .input-group input { width: 100%; padding: 14px 20px; border: 1px solid rgba(0, 229, 255, 0.4); border-radius: 10px; background: rgba(255,255,255,0.05); color: #fff; font-size: 16px; outline: none; transition: 0.3s; }
+        .input-group input::placeholder { color: rgba(255,255,255,0.4); }
+        .input-group input:focus { background: rgba(0, 229, 255, 0.1); border-color: #00e5ff; box-shadow: 0 0 15px rgba(0, 229, 255, 0.4); }
+        #loginBtn { background: linear-gradient(135deg, #0055ff, #00e5ff); color: #fff; border: none; padding: 14px; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 10px; letter-spacing: 1px; box-shadow: 0 4px 15px rgba(0, 229, 255, 0.4); }
+        #loginBtn:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(0, 229, 255, 0.6); }
 
-        /* =======================================================
-           GIAO DIỆN ADMIN (Giữ nguyên cấu trúc cũ nhưng đổi màu cho hợp)
-        ======================================================= */
-        #adminContent {
-            display: none; width: 95vw; height: 92vh;
-            grid-template-columns: 260px 1fr; overflow: hidden;
-        }
+        /* GIAO DIỆN ADMIN */
+        #adminContent { display: none; width: 95vw; height: 92vh; grid-template-columns: 260px 1fr; overflow: hidden; }
         
-        /* Sidebar */
-        .sidebar {
-            background: rgba(15, 15, 25, 0.6); padding: 25px 20px; display: flex; flex-direction: column; 
-            border-right: 1px solid rgba(255,255,255,0.1); border-radius: 24px 0 0 24px;
-        }
-        .sidebar h2 { 
-            color: #fff; text-align: center; margin-bottom: 30px; 
-            text-shadow: 0 0 15px #ffb7c5; font-size: 24px; font-weight: bold;
-        }
-        .nav-link {
-            padding: 15px 20px; color: #e2e8f0; text-decoration: none; border-radius: 12px; margin-bottom: 8px;
-            cursor: pointer; transition: 0.3s; font-weight: 600; display: flex; align-items: center; gap: 15px;
-            border: 1px solid transparent;
-        }
-        .nav-link:hover, .nav-link.active {
-            background: rgba(255, 183, 197, 0.15); color: #ffb7c5; 
-            border-color: rgba(255, 183, 197, 0.3);
-            box-shadow: inset 0 0 15px rgba(255,255,255,0.05), 0 0 15px rgba(255,183,197,0.1);
-        }
-        .logout-btn {
-            margin-top: auto; background: rgba(239, 68, 68, 0.8); color: white; border: none;
-            padding: 14px; border-radius: 12px; cursor: pointer; font-weight: bold; transition: 0.3s;
-            backdrop-filter: blur(10px);
-        }
-        .logout-btn:hover { background: #ef4444; box-shadow: 0 0 20px rgba(239,68,68,0.5); }
+        .sidebar { background: rgba(5, 8, 20, 0.9); padding: 25px 20px; display: flex; flex-direction: column; border-right: 1px solid rgba(0, 229, 255, 0.2); }
+        .sidebar h2 { color: #ff007f; text-align: center; margin-bottom: 30px; text-shadow: 0 0 15px #ff007f; font-size: 22px; font-weight: bold; }
+        .nav-link { padding: 15px 20px; color: #e2e8f0; text-decoration: none; border-radius: 10px; margin-bottom: 8px; cursor: pointer; transition: 0.3s; font-weight: 600; display: flex; align-items: center; gap: 15px; border: 1px solid transparent; }
+        .nav-link:hover, .nav-link.active { background: rgba(0, 229, 255, 0.1); color: #00e5ff; border-color: rgba(0, 229, 255, 0.4); box-shadow: inset 0 0 15px rgba(0, 229, 255, 0.1); }
+        .logout-btn { margin-top: auto; background: rgba(255, 0, 127, 0.2); color: #ff007f; border: 1px solid #ff007f; padding: 14px; border-radius: 10px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+        .logout-btn:hover { background: #ff007f; color: #fff; box-shadow: 0 0 20px rgba(255,0,127,0.5); }
 
-        /* Main Content */
-        .main-content { padding: 35px; overflow-y: auto; color: #fff; background: rgba(255,255,255,0.02); border-radius: 0 24px 24px 0; }
-        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
-        .header h1 { font-size: 28px; text-shadow: 0 2px 10px rgba(0,0,0,0.5); font-weight: bold; }
+        .main-content { padding: 35px; overflow-y: auto; background: rgba(3, 5, 16, 0.5); }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 1px solid rgba(0, 229, 255, 0.2); padding-bottom: 15px;}
+        .header h1 { font-size: 26px; text-shadow: 0 0 10px rgba(0, 229, 255, 0.5); color: #00e5ff; }
         
         .tab-content { display: none; animation: fadeIn 0.4s; }
         .tab-content.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Cards & Tables */
         .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 30px; }
-        .stat-card { 
-            padding: 25px; border-radius: 16px; background: rgba(0,0,0,0.3); 
-            border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px);
-        }
-        .stat-card h3 { font-size: 14px; color: #cbd5e1; margin-bottom: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;}
-        .stat-card .value { font-size: 32px; font-weight: bold; text-shadow: 0 0 15px rgba(255,255,255,0.3); }
-        .stat-card.pink { border-left: 4px solid #ff758c; }
-        .stat-card.blue { border-left: 4px solid #00e5ff; }
-        .stat-card.green { border-left: 4px solid #10b981; }
+        .stat-card { padding: 25px; border-radius: 12px; background: rgba(10, 15, 30, 0.8); border: 1px solid rgba(0, 229, 255, 0.2); box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+        .stat-card h3 { font-size: 13px; color: #94a3b8; margin-bottom: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;}
+        .stat-card .value { font-size: 30px; font-weight: bold; text-shadow: 0 0 10px rgba(255,255,255,0.2); }
+        .stat-card.pink { border-bottom: 3px solid #ff007f; }
+        .stat-card.blue { border-bottom: 3px solid #00e5ff; }
+        .stat-card.green { border-bottom: 3px solid #10b981; }
 
-        .data-card { background: rgba(0,0,0,0.4); border-radius: 16px; padding: 25px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px); }
+        .data-card { background: rgba(10, 15, 30, 0.8); border-radius: 12px; padding: 25px; margin-bottom: 20px; border: 1px solid rgba(0, 229, 255, 0.2); }
         table { width: 100%; border-collapse: collapse; }
-        th, td { padding: 16px 15px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 15px; }
-        th { color: #ffb7c5; font-weight: bold; text-transform: uppercase; font-size: 13px; letter-spacing: 1px; }
-        tr:hover { background: rgba(255,255,255,0.03); }
-        td img { width: 45px; height: 45px; border-radius: 8px; object-fit: cover; border: 1px solid rgba(255,255,255,0.2); }
+        th, td { padding: 15px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 14px; }
+        th { color: #00e5ff; font-weight: bold; text-transform: uppercase; font-size: 12px; letter-spacing: 1px; }
+        tr:hover { background: rgba(0, 229, 255, 0.05); }
+        td img { width: 45px; height: 45px; border-radius: 8px; object-fit: cover; border: 1px solid #00e5ff; }
 
-        /* Forms */
+        /* FORM SỬA LẠI CHUẨN MÀU SẮC */
         .form-row { display: flex; gap: 20px; margin-bottom: 20px; }
         .form-row .form-group { flex: 1; }
-        .form-group label { display: block; font-size: 14px; margin-bottom: 8px; color: #cbd5e1; font-weight: bold; }
+        .form-group label { display: block; font-size: 13px; margin-bottom: 8px; color: #94a3b8; font-weight: bold; }
         .form-group input, .form-group select {
-            width: 100%; padding: 14px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.2); 
-            background: rgba(0,0,0,0.3); color: #fff; outline: none; transition: 0.3s;
+            width: 100%; padding: 12px; border-radius: 8px; border: 1px solid rgba(0, 229, 255, 0.3); 
+            background: rgba(0,0,0,0.5); color: #fff; outline: none; transition: 0.3s;
+            appearance: none; -webkit-appearance: none; /* Xóa giao diện mặc định của trình duyệt */
         }
-        .form-group input:focus { border-color: #ffb7c5; background: rgba(0,0,0,0.5); }
-        .btn { 
-            background: linear-gradient(135deg, #ff758c, #ff7eb3); color: #fff; padding: 12px 25px; 
-            border: none; border-radius: 10px; cursor: pointer; font-weight: bold; transition: 0.3s;
-        }
-        .btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(255,117,140,0.4); }
-        .btn-danger { background: linear-gradient(135deg, #ef4444, #b91c1c); }
-        .btn-danger:hover { box-shadow: 0 5px 15px rgba(239,68,68,0.4); }
+        .form-group select option { background: #0a0f1e; color: #fff; } /* Fix lỗi trắng xóa của option */
+        .form-group input:focus, .form-group select:focus { border-color: #00e5ff; box-shadow: 0 0 10px rgba(0,229,255,0.3); }
         
-        .status { padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; }
-        .status.success { background: rgba(16,185,129,0.2); color: #10b981; border: 1px solid #10b981; }
-        .status.pending { background: rgba(245,158,11,0.2); color: #f59e0b; border: 1px solid #f59e0b; }
-        .status.shipping { background: rgba(59,130,246,0.2); color: #3b82f6; border: 1px solid #3b82f6; }
+        .btn { background: linear-gradient(135deg, #0055ff, #00e5ff); color: #fff; padding: 12px 25px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0, 229, 255, 0.4); }
+        .btn-danger { background: linear-gradient(135deg, #ff007f, #cc0066); }
+        .btn-danger:hover { box-shadow: 0 5px 15px rgba(255, 0, 127, 0.4); }
+        
+        .status { padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; }
+        .status.success { background: rgba(16,185,129,0.15); color: #10b981; border: 1px solid #10b981; }
+        .status.pending { background: rgba(245,158,11,0.15); color: #f59e0b; border: 1px solid #f59e0b; }
+        .status.shipping { background: rgba(0,229,255,0.15); color: #00e5ff; border: 1px solid #00e5ff; }
+
+        /* GRID ẢNH BANNER */
+        .banner-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; margin-top: 15px; }
+        .banner-item { position: relative; border-radius: 8px; overflow: hidden; border: 1px solid rgba(0,229,255,0.3); }
+        .banner-item img { width: 100%; height: 100px; object-fit: cover; display: block; }
+        .banner-item .btn-delete { position: absolute; top: 5px; right: 5px; background: rgba(255,0,127,0.8); color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-size: 12px; }
+        .banner-item .btn-delete:hover { background: #ff007f; }
     </style>
 </head>
 <body>
+    <div class="overlay-bg"></div>
+    <canvas id="star-network-canvas"></canvas>
 
-    <!-- Hiệu ứng hoa rơi -->
-    <div class="leaves" id="leafContainer"></div>
-
-    <!-- FORM ĐĂNG NHẬP -->
     <div id="loginBox" class="glass-panel">
-        <h2>🌸 Đăng Nhập Quản Trị</h2>
+        <h2>🌟 Đăng Nhập Quản Trị</h2>
         <div class="input-group"><input type="text" id="username" placeholder="Tài khoản"></div>
         <div class="input-group"><input type="password" id="password" placeholder="Mật khẩu"></div>
         <button id="loginBtn" onclick="login()">Vào Hệ Thống</button>
     </div>
 
-    <!-- GIAO DIỆN ADMIN -->
     <div id="adminContent" class="glass-panel">
-        <!-- SIDEBAR -->
         <div class="sidebar">
-            <h2>🌸 HD SAKURA</h2>
+            <h2>HD VŨ TRỤ</h2>
             <a class="nav-link active" onclick="switchTab('dashboard', this)">📊 Thống kê doanh thu</a>
             <a class="nav-link" onclick="switchTab('products', this)">👕 Quản lý sản phẩm</a>
             <a class="nav-link" onclick="switchTab('inventory', this)">📦 Quản lý kho</a>
             <a class="nav-link" onclick="switchTab('orders', this)">🧾 Bán hàng & Hóa đơn</a>
             <a class="nav-link" onclick="switchTab('users', this)">👥 Quản lý Khách hàng</a>
-            <a class="nav-link" onclick="switchTab('banners', this)">🖼️ Cài đặt Banner</a>
+            <a class="nav-link" onclick="switchTab('banners', this)">🖼️ Quản lý Banner</a>
             <button class="logout-btn" onclick="logout()">Đăng Xuất</button>
         </div>
 
-        <!-- MAIN CONTENT -->
         <div class="main-content">
             <div class="header">
                 <h1 id="pageTitle">Thống kê doanh thu</h1>
-                <div style="font-weight: bold; color: #ffb7c5; text-shadow: 0 0 10px rgba(255,183,197,0.5);">Xin chào, Admin</div>
+                <div style="font-weight: bold; color: #ff007f; text-shadow: 0 0 10px rgba(255,0,127,0.5);">Xin chào, Admin</div>
             </div>
 
-            <!-- TAB DASHBOARD -->
             <div id="tab-dashboard" class="tab-content active">
                 <div class="stats-grid">
-                    <div class="stat-card pink">
-                        <h3>Tổng Doanh Thu</h3>
-                        <div class="value" id="stat-revenue">0 đ</div>
-                    </div>
-                    <div class="stat-card blue">
-                        <h3>Đơn Hàng</h3>
-                        <div class="value" id="stat-orders">0</div>
-                    </div>
-                    <div class="stat-card green">
-                        <h3>Khách Hàng</h3>
-                        <div class="value" id="stat-users">0</div>
-                    </div>
-                    <div class="stat-card">
-                        <h3>Sản Phẩm</h3>
-                        <div class="value" id="stat-products">0</div>
-                    </div>
+                    <div class="stat-card pink"><h3>Tổng Doanh Thu</h3><div class="value" id="stat-revenue">0 đ</div></div>
+                    <div class="stat-card blue"><h3>Đơn Hàng</h3><div class="value" id="stat-orders">0</div></div>
+                    <div class="stat-card green"><h3>Khách Hàng</h3><div class="value" id="stat-users">0</div></div>
+                    <div class="stat-card"><h3>Sản Phẩm</h3><div class="value" id="stat-products">0</div></div>
                 </div>
                 <div class="data-card">
-                    <h3 style="color:#ffb7c5; margin-bottom:15px;">⚠️ Sản phẩm sắp hết hàng (Dưới 10)</h3>
-                    <table>
-                        <thead><tr><th>Tên sản phẩm</th><th>Danh mục</th><th>Tồn kho</th></tr></thead>
-                        <tbody id="low-stock-table"></tbody>
-                    </table>
+                    <h3 style="color:#ff007f; margin-bottom:15px; text-shadow: 0 0 5px #ff007f;">⚠️ Sản phẩm sắp hết hàng (Dưới 10)</h3>
+                    <table><thead><tr><th>Tên sản phẩm</th><th>Danh mục</th><th>Tồn kho</th></tr></thead><tbody id="low-stock-table"></tbody></table>
                 </div>
             </div>
 
-            <!-- TAB SẢN PHẨM -->
             <div id="tab-products" class="tab-content">
                 <div class="data-card">
-                    <h3 style="color:#ffb7c5; margin-bottom:15px;">➕ Thêm Sản Phẩm Mới</h3>
+                    <h3 style="color:#00e5ff; margin-bottom:15px; text-shadow: 0 0 5px #00e5ff;">➕ Thêm Sản Phẩm Mới</h3>
                     <div class="form-row">
-                        <div class="form-group"><label>Tên SP</label><input type="text" id="p-name" placeholder="Ví dụ: Áo thun..."></div>
+                        <div class="form-group"><label>Tên SP</label><input type="text" id="p-name" placeholder="Ví dụ: Đầm váy công chúa..."></div>
                         <div class="form-group"><label>Giá (VNĐ)</label><input type="number" id="p-price" placeholder="150000"></div>
                     </div>
                     <div class="form-row">
                         <div class="form-group">
                             <label>Danh mục</label>
+                            <!-- ĐÃ THÊM ĐẦY ĐỦ DANH MỤC NHƯ ẢNH 3 -->
                             <select id="p-category">
                                 <option value="be-gai">Bé Gái</option>
                                 <option value="be-trai">Bé Trai</option>
                                 <option value="giay-dep">Giày Dép</option>
+                                <option value="bo-suu-tap-moi">Bộ Sưu Tập Mới</option>
+                                <option value="sieu-sale">Siêu Sale Diệu Kỳ</option>
+                                <option value="tho-chia-se">Thỏ Chia Sẻ</option>
                             </select>
                         </div>
                         <div class="form-group"><label>Số lượng kho</label><input type="number" id="p-stock" value="100"></div>
-                        <div class="form-group"><label>Ảnh</label><input type="file" id="p-image"></div>
+                        <div class="form-group"><label>Ảnh</label><input type="file" id="p-image" style="padding:9px;"></div>
                     </div>
                     <button class="btn" onclick="addProduct()">Thêm Sản Phẩm</button>
                 </div>
 
                 <div class="data-card">
-                    <h3 style="color:#ffb7c5; margin-bottom:15px;">Danh sách sản phẩm</h3>
-                    <table>
-                        <thead><tr><th>Ảnh</th><th>Tên</th><th>Giá</th><th>Kho</th><th>Hành động</th></tr></thead>
-                        <tbody id="products-table"></tbody>
-                    </table>
+                    <h3 style="color:#00e5ff; margin-bottom:15px; text-shadow: 0 0 5px #00e5ff;">Danh sách sản phẩm</h3>
+                    <table><thead><tr><th>Ảnh</th><th>Tên</th><th>Danh mục</th><th>Giá</th><th>Kho</th><th>Hành động</th></tr></thead><tbody id="products-table"></tbody></table>
                 </div>
             </div>
 
-            <!-- TAB KHO -->
             <div id="tab-inventory" class="tab-content">
                 <div class="data-card">
-                    <h3 style="color:#ffb7c5; margin-bottom:15px;">Cập nhật số lượng kho</h3>
-                    <table>
-                        <thead><tr><th>Sản phẩm</th><th>Tồn kho hiện tại</th><th>Cập nhật</th></tr></thead>
-                        <tbody id="inventory-table"></tbody>
-                    </table>
+                    <h3 style="color:#00e5ff; margin-bottom:15px; text-shadow: 0 0 5px #00e5ff;">Cập nhật số lượng kho</h3>
+                    <table><thead><tr><th>Sản phẩm</th><th>Tồn kho hiện tại</th><th>Cập nhật</th></tr></thead><tbody id="inventory-table"></tbody></table>
                 </div>
             </div>
 
-            <!-- TAB HÓA ĐƠN -->
             <div id="tab-orders" class="tab-content">
                 <div class="data-card">
-                    <h3 style="color:#ffb7c5; margin-bottom:15px;">Lịch sử giao dịch</h3>
-                    <table>
-                        <thead><tr><th>Mã Đơn</th><th>Khách hàng</th><th>Ngày</th><th>Tổng tiền</th><th>Trạng thái</th></tr></thead>
-                        <tbody id="orders-table"></tbody>
-                    </table>
+                    <h3 style="color:#00e5ff; margin-bottom:15px; text-shadow: 0 0 5px #00e5ff;">Lịch sử giao dịch</h3>
+                    <table><thead><tr><th>Mã Đơn</th><th>Khách hàng</th><th>Ngày</th><th>Tổng tiền</th><th>Trạng thái</th></tr></thead><tbody id="orders-table"></tbody></table>
                 </div>
             </div>
 
-            <!-- TAB KHÁCH HÀNG -->
             <div id="tab-users" class="tab-content">
                 <div class="data-card">
-                    <h3 style="color:#ffb7c5; margin-bottom:15px;">Danh sách khách hàng</h3>
-                    <table>
-                        <thead><tr><th>ID</th><th>Họ Tên</th><th>Email</th><th>Số điện thoại</th></tr></thead>
-                        <tbody id="users-table"></tbody>
-                    </table>
+                    <h3 style="color:#00e5ff; margin-bottom:15px; text-shadow: 0 0 5px #00e5ff;">Danh sách khách hàng</h3>
+                    <table><thead><tr><th>ID</th><th>Họ Tên</th><th>Email</th><th>Số điện thoại</th></tr></thead><tbody id="users-table"></tbody></table>
                 </div>
             </div>
 
-            <!-- TAB BANNER -->
+            <!-- TAB BANNER ĐÃ ĐƯỢC NÂNG CẤP -->
             <div id="tab-banners" class="tab-content">
                 <div class="data-card">
-                    <h3 style="color:#ffb7c5; margin-bottom:15px;">Cập nhật ảnh Banner</h3>
-                    <div class="form-group">
-                        <label>Vị trí ảnh</label>
-                        <select id="b-type" style="width:100%; padding:14px; margin-bottom:15px; border-radius:10px; background:rgba(0,0,0,0.3); color:white; border:1px solid rgba(255,255,255,0.2);">
-                            <option value="topbar_img" style="color:black;">Topbar (Trên cùng)</option>
-                            <option value="friday_banner" style="color:black;">Banner Orange Friday</option>
-                            <option value="hero_slider" style="color:black;">Slider chính (Thêm mới)</option>
-                        </select>
-                        <input type="file" id="b-file" style="width:100%; padding:12px; background:rgba(0,0,0,0.3); border-radius:10px; margin-bottom:15px; border:1px solid rgba(255,255,255,0.2); color:white;">
+                    <h3 style="color:#00e5ff; margin-bottom:15px; text-shadow: 0 0 5px #00e5ff;">🖼️ Thêm Ảnh Mới</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Vị trí ảnh</label>
+                            <select id="b-type">
+                                <option value="topbar_img">Topbar (Trên cùng)</option>
+                                <option value="friday_banner">Banner Orange Friday (Trái)</option>
+                                <option value="hero_slider">Slider chính (Ảnh to)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Chọn ảnh</label>
+                            <input type="file" id="b-file" style="padding:9px;">
+                        </div>
                     </div>
                     <button class="btn" onclick="uploadBanner()">Upload Ảnh</button>
+                </div>
+
+                <div class="data-card">
+                    <h3 style="color:#00e5ff; margin-bottom:15px; text-shadow: 0 0 5px #00e5ff;">Danh sách ảnh Slider chính (Hiện tại)</h3>
+                    <p style="color:#94a3b8; font-size:14px; margin-bottom:10px;">Bấm Xóa để gỡ ảnh khỏi Slider.</p>
+                    <div class="banner-grid" id="slider-list"></div>
                 </div>
             </div>
 
@@ -335,26 +225,35 @@
     </div>
 
     <script>
+        // --- HIỆU ỨNG MẠNG LƯỚI CHÒM SAO ---
+        const canvas = document.getElementById('star-network-canvas');
+        const ctx = canvas.getContext('2d');
+        let width, height, stars = [], mouse = { x: null, y: null };
+        function resizeCanvas() { width = canvas.width = window.innerWidth; height = canvas.height = window.innerHeight; initStars(); }
+        window.addEventListener('resize', resizeCanvas);
+        window.addEventListener('mousemove', (e) => { mouse.x = e.clientX; mouse.y = e.clientY; });
+        window.addEventListener('mouseout', () => { mouse.x = null; mouse.y = null; });
+        class Star { constructor() { this.x = Math.random() * width; this.y = Math.random() * height; this.vx = (Math.random() - 0.5) * 0.5; this.vy = (Math.random() - 0.5) * 0.5; this.radius = Math.random() * 1.5 + 0.5; } update() { this.x += this.vx; this.y += this.vy; if (this.x < 0 || this.x > width) this.vx *= -1; if (this.y < 0 || this.y > height) this.vy *= -1; } draw() { ctx.beginPath(); ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2); ctx.fillStyle = 'rgba(255, 255, 255, 0.8)'; ctx.fill(); } }
+        function initStars() { stars = []; for (let i = 0; i < 120; i++) stars.push(new Star()); }
+        function connectStars() {
+            for (let i = 0; i < stars.length; i++) {
+                for (let j = i + 1; j < stars.length; j++) {
+                    const dx = stars[i].x - stars[j].x, dy = stars[i].y - stars[j].y, dist = Math.sqrt(dx*dx + dy*dy);
+                    if (dist < 150) { ctx.beginPath(); ctx.moveTo(stars[i].x, stars[i].y); ctx.lineTo(stars[j].x, stars[j].y); ctx.strokeStyle = `rgba(0, 229, 255, ${(1 - dist/150) * 0.5})`; ctx.lineWidth = 0.5; ctx.stroke(); }
+                }
+                if (mouse.x != null) {
+                    const dxM = stars[i].x - mouse.x, dyM = stars[i].y - mouse.y, distM = Math.sqrt(dxM*dxM + dyM*dyM);
+                    if (distM < 200) { ctx.beginPath(); ctx.moveTo(stars[i].x, stars[i].y); ctx.lineTo(mouse.x, mouse.y); ctx.strokeStyle = `rgba(0, 229, 255, ${1 - distM/200})`; ctx.lineWidth = 1; ctx.stroke(); }
+                }
+            }
+        }
+        function animateStars() { ctx.clearRect(0, 0, width, height); stars.forEach(s => { s.update(); s.draw(); }); connectStars(); requestAnimationFrame(animateStars); }
+        resizeCanvas(); animateStars();
+
+        // --- LOGIC ADMIN ---
         const API_BASE_URL = 'http://180.93.194.227:3000'; 
         const SECRET_TOKEN = 'my-secret-token-123';
 
-        // Hiệu ứng hoa rơi (Dùng ảnh hoa thật)
-        function createLeaves() {
-            const container = document.getElementById('leafContainer');
-            for (let i = 0; i < 25; i++) {
-                let leaf = document.createElement('div');
-                leaf.classList.add('leaf');
-                leaf.style.left = Math.random() * 100 + 'vw';
-                leaf.style.animationDuration = (Math.random() * 6 + 6) + 's, ' + (Math.random() * 3 + 2) + 's';
-                leaf.style.animationDelay = Math.random() * 5 + 's';
-                leaf.style.width = Math.random() * 15 + 15 + 'px';
-                leaf.style.height = leaf.style.width;
-                container.appendChild(leaf);
-            }
-        }
-        createLeaves();
-
-        // --- XỬ LÝ ĐĂNG NHẬP ---
         window.onload = function() {
             if (localStorage.getItem('admin_token') === SECRET_TOKEN) {
                 document.getElementById('loginBox').style.display = 'none';
@@ -366,45 +265,27 @@
         async function login() {
             const res = await fetch(`${API_BASE_URL}/api/admin/login`, {
                 method: 'POST', headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ 
-                    username: document.getElementById('username').value, 
-                    password: document.getElementById('password').value 
-                })
+                body: JSON.stringify({ username: document.getElementById('username').value, password: document.getElementById('password').value })
             });
             const data = await res.json();
-            if (data.success) {
-                localStorage.setItem('admin_token', data.token);
-                window.location.reload();
-            } else {
-                alert("Sai tài khoản hoặc mật khẩu!");
-            }
+            if (data.success) { localStorage.setItem('admin_token', data.token); window.location.reload(); } 
+            else { alert("Sai tài khoản hoặc mật khẩu!"); }
         }
 
-        function logout() { 
-            localStorage.removeItem('admin_token'); 
-            window.location.reload(); 
-        }
+        function logout() { localStorage.removeItem('admin_token'); window.location.reload(); }
 
-        // --- CHUYỂN TAB ---
         function switchTab(tabId, el) {
             document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.nav-link').forEach(a => a.classList.remove('active'));
             document.getElementById(`tab-${tabId}`).classList.add('active');
             el.classList.add('active');
-            
-            const titles = { 
-                dashboard: 'Thống kê doanh thu', products: 'Quản lý sản phẩm', 
-                inventory: 'Quản lý kho', orders: 'Hóa đơn', 
-                users: 'Khách hàng', banners: 'Cài đặt Banner' 
-            };
+            const titles = { dashboard: 'Thống kê doanh thu', products: 'Quản lý sản phẩm', inventory: 'Quản lý kho', orders: 'Hóa đơn', users: 'Khách hàng', banners: 'Quản lý Banner' };
             document.getElementById('pageTitle').innerText = titles[tabId];
+            if(tabId === 'banners') loadBanners();
         }
 
-        // --- TẢI DỮ LIỆU ---
         async function loadAllData() {
-            loadProducts();
-            loadOrders();
-            loadUsers();
+            loadProducts(); loadOrders(); loadUsers(); loadBanners();
         }
 
         // --- QUẢN LÝ SẢN PHẨM ---
@@ -416,7 +297,8 @@
                 <tr>
                     <td><img src="${API_BASE_URL}${p.image}"></td>
                     <td><strong>${p.name}</strong></td>
-                    <td style="color:#ffb7c5; font-weight:bold;">${p.price.toLocaleString()}đ</td>
+                    <td>${p.category || 'Khác'}</td>
+                    <td style="color:#00e5ff; font-weight:bold;">${p.price.toLocaleString()}đ</td>
                     <td>${p.stock || 0}</td>
                     <td><button class="btn btn-danger" onclick="deleteProduct(${p.id})">Xóa</button></td>
                 </tr>
@@ -425,9 +307,9 @@
             document.getElementById('inventory-table').innerHTML = products.map(p => `
                 <tr>
                     <td><strong>${p.name}</strong></td>
-                    <td style="color:${p.stock < 10 ? '#ef4444' : '#10b981'}; font-weight:bold; font-size:18px;">${p.stock || 0}</td>
+                    <td style="color:${p.stock < 10 ? '#ff007f' : '#10b981'}; font-weight:bold; font-size:18px;">${p.stock || 0}</td>
                     <td>
-                        <input type="number" id="stock-${p.id}" value="${p.stock || 0}" style="width:100px; padding:8px; border-radius:5px; border:none; background:rgba(255,255,255,0.2); color:white;">
+                        <input type="number" id="stock-${p.id}" value="${p.stock || 0}" style="width:100px; padding:8px; border-radius:5px; border:1px solid rgba(0,229,255,0.3); background:rgba(0,0,0,0.3); color:white;">
                         <button class="btn" onclick="updateStock(${p.id})" style="padding:8px 15px;">Lưu</button>
                     </td>
                 </tr>
@@ -435,7 +317,7 @@
 
             const lowStock = products.filter(p => (p.stock || 0) < 10);
             document.getElementById('low-stock-table').innerHTML = lowStock.map(p => `
-                <tr><td>${p.name}</td><td>${p.category}</td><td style="color:#ef4444; font-weight:bold">${p.stock || 0}</td></tr>
+                <tr><td>${p.name}</td><td>${p.category}</td><td style="color:#ff007f; font-weight:bold">${p.stock || 0}</td></tr>
             `).join('') || '<tr><td colspan="3" style="text-align:center; color:#10b981;">Kho hàng ổn định</td></tr>';
             
             document.getElementById('stat-products').innerText = products.length;
@@ -449,88 +331,83 @@
             formData.append('stock', document.getElementById('p-stock').value);
             formData.append('image', document.getElementById('p-image').files[0]);
             
-            await fetch(`${API_BASE_URL}/api/admin/add-product`, { 
-                method: 'POST', headers: { 'Authorization': `Bearer ${SECRET_TOKEN}` }, body: formData 
-            });
+            await fetch(`${API_BASE_URL}/api/admin/add-product`, { method: 'POST', headers: { 'Authorization': `Bearer ${SECRET_TOKEN}` }, body: formData });
             alert("Thêm thành công!"); 
             loadProducts();
         }
 
         async function deleteProduct(id) {
             if(!confirm('Bạn có chắc muốn xóa sản phẩm này?')) return;
-            await fetch(`${API_BASE_URL}/api/admin/delete-product/${id}`, { 
-                method: 'DELETE', headers: { 'Authorization': `Bearer ${SECRET_TOKEN}` } 
-            });
+            await fetch(`${API_BASE_URL}/api/admin/delete-product/${id}`, { method: 'DELETE', headers: { 'Authorization': `Bearer ${SECRET_TOKEN}` } });
             loadProducts();
         }
 
         async function updateStock(id) {
             const stock = document.getElementById(`stock-${id}`).value;
             await fetch(`${API_BASE_URL}/api/admin/update-stock/${id}`, {
-                method: 'POST', 
-                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${SECRET_TOKEN}` },
+                method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${SECRET_TOKEN}` },
                 body: JSON.stringify({ stock })
             });
-            alert("Đã cập nhật kho!"); 
-            loadProducts();
+            alert("Đã cập nhật kho!"); loadProducts();
         }
 
-        // --- QUẢN LÝ HÓA ĐƠN ---
-        async function loadOrders() {
-            const res = await fetch(`${API_BASE_URL}/api/admin/orders`, { 
-                headers: { 'Authorization': `Bearer ${SECRET_TOKEN}` } 
-            });
-            const orders = await res.json();
+        // --- QUẢN LÝ BANNER (MỚI) ---
+        async function loadBanners() {
+            const res = await fetch(`${API_BASE_URL}/api/admin/banners`, { headers: { 'Authorization': `Bearer ${SECRET_TOKEN}` } });
+            const settings = await res.json();
             
-            let totalRevenue = 0;
-            document.getElementById('orders-table').innerHTML = orders.map(o => {
-                totalRevenue += o.total;
-                let statusClass = o.status === 'Hoàn thành' ? 'success' : (o.status === 'Chờ xử lý' ? 'pending' : 'shipping');
-                return `
-                <tr>
-                    <td><strong>${o.id}</strong></td>
-                    <td>${o.customer}</td>
-                    <td>${o.date}</td>
-                    <td style="color:#ffb7c5; font-weight:bold">${o.total.toLocaleString()}đ</td>
-                    <td><span class="status ${statusClass}">${o.status}</span></td>
-                </tr>`;
-            }).join('');
-
-            document.getElementById('stat-orders').innerText = orders.length;
-            document.getElementById('stat-revenue').innerText = totalRevenue.toLocaleString() + ' đ';
+            const sliderList = document.getElementById('slider-list');
+            if(settings.hero_sliders && settings.hero_sliders.length > 0) {
+                sliderList.innerHTML = settings.hero_sliders.map((s, index) => `
+                    <div class="banner-item">
+                        <img src="${API_BASE_URL}${s.image}">
+                        <button class="btn-delete" onclick="deleteBanner(${index})">Xóa</button>
+                    </div>
+                `).join('');
+            } else {
+                sliderList.innerHTML = '<p style="color:#94a3b8;">Chưa có ảnh Slider nào.</p>';
+            }
         }
 
-        // --- QUẢN LÝ KHÁCH HÀNG ---
-        async function loadUsers() {
-            const res = await fetch(`${API_BASE_URL}/api/admin/users`, { 
-                headers: { 'Authorization': `Bearer ${SECRET_TOKEN}` } 
-            });
-            const users = await res.json();
-            
-            document.getElementById('users-table').innerHTML = users.map(u => `
-                <tr>
-                    <td>#${u.id}</td>
-                    <td><strong>${u.name}</strong></td>
-                    <td>${u.email}</td>
-                    <td>${u.phone || 'Chưa cập nhật'}</td>
-                </tr>
-            `).join('') || '<tr><td colspan="4" style="text-align:center;">Chưa có khách hàng nào.</td></tr>';
-            
-            document.getElementById('stat-users').innerText = users.length;
-        }
-
-        // --- CẬP NHẬT BANNER ---
         async function uploadBanner() {
             const formData = new FormData();
             formData.append('type', document.getElementById('b-type').value);
             formData.append('image', document.getElementById('b-file').files[0]);
-            
             if(!document.getElementById('b-file').files[0]) return alert("Vui lòng chọn ảnh!");
             
-            await fetch(`${API_BASE_URL}/api/admin/upload-banner`, { 
-                method: 'POST', headers: { 'Authorization': `Bearer ${SECRET_TOKEN}` }, body: formData 
+            await fetch(`${API_BASE_URL}/api/admin/upload-banner`, { method: 'POST', headers: { 'Authorization': `Bearer ${SECRET_TOKEN}` }, body: formData });
+            alert("Upload ảnh thành công!"); loadBanners();
+        }
+
+        async function deleteBanner(index) {
+            if(!confirm('Bạn có chắc muốn xóa ảnh này khỏi Slider?')) return;
+            await fetch(`${API_BASE_URL}/api/admin/delete-banner`, { 
+                method: 'DELETE', 
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${SECRET_TOKEN}` },
+                body: JSON.stringify({ type: 'hero_slider', index: index })
             });
-            alert("Upload ảnh thành công!");
+            loadBanners();
+        }
+
+        // --- CÁC PHẦN KHÁC ---
+        async function loadOrders() {
+            const res = await fetch(`${API_BASE_URL}/api/admin/orders`, { headers: { 'Authorization': `Bearer ${SECRET_TOKEN}` } });
+            const orders = await res.json();
+            let totalRevenue = 0;
+            document.getElementById('orders-table').innerHTML = orders.map(o => {
+                totalRevenue += o.total;
+                let statusClass = o.status === 'Hoàn thành' ? 'success' : (o.status === 'Chờ xử lý' ? 'pending' : 'shipping');
+                return `<tr><td><strong>${o.id}</strong></td><td>${o.customer}</td><td>${o.date}</td><td style="color:#00e5ff; font-weight:bold">${o.total.toLocaleString()}đ</td><td><span class="status ${statusClass}">${o.status}</span></td></tr>`;
+            }).join('');
+            document.getElementById('stat-orders').innerText = orders.length;
+            document.getElementById('stat-revenue').innerText = totalRevenue.toLocaleString() + ' đ';
+        }
+
+        async function loadUsers() {
+            const res = await fetch(`${API_BASE_URL}/api/admin/users`, { headers: { 'Authorization': `Bearer ${SECRET_TOKEN}` } });
+            const users = await res.json();
+            document.getElementById('users-table').innerHTML = users.map(u => `<tr><td>#${u.id}</td><td><strong>${u.name}</strong></td><td>${u.email}</td><td>${u.phone || 'Chưa cập nhật'}</td></tr>`).join('') || '<tr><td colspan="4" style="text-align:center;">Chưa có khách hàng nào.</td></tr>';
+            document.getElementById('stat-users').innerText = users.length;
         }
     </script>
 </body>

@@ -79,7 +79,7 @@
   /* THU NHỎ TOPBAR */
   #topbar { background: #fff !important; position: relative; z-index: 2; padding: 5px 0; }
   #topbar * { color: #000 !important; }
-  #topbar img { width: 100%; max-height: 35px; object-fit: cover; display: block; margin: 0 auto; }
+  #topbar img { width: 100%; height: 45px; object-fit: cover; display: block; margin: 0 auto; }
 
   #header-main, #main-footer, .wrapper-section-content, #list-icon-home .item-icon {
       background: rgba(10, 15, 30, 0.75) !important;
@@ -106,12 +106,10 @@
   }
 
   #menu-main a, .h4-head-product-tab span {
-      /* Áp dụng hiệu ứng nhấp nháy liên tục không cần hover */
       animation: neonGlow 1.5s infinite alternate !important;
       text-decoration: none;
   }
 
-  /* Khi rê chuột vào thì sáng rực lên một chút */
   #menu-main a:hover {
       color: #ffffff !important;
       text-shadow: 0 0 20px #ffffff, 0 0 30px #00e5ff, 0 0 40px #00e5ff !important;
@@ -196,7 +194,7 @@
      5. WELCOME NOTIFICATION POPUP
      ======================================================= */
   #welcomeModal {
-      display: none; /* Sẽ được bật bằng JS */
+      display: none;
       position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
       background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(5px);
       z-index: 100005; justify-content: center; align-items: center;
@@ -1177,12 +1175,12 @@ const PE = {
       <div class="wrap-menu">
 <nav id="menu-main">
   <ul class="ul-lv1" style="display: flex; gap: 20px;">
-    <li class="li-mega"><a href="shop.html">BÉ GÁI</a></li>
-    <li class="li-mega"><a href="shop.html">BÉ TRAI</a></li>
-    <li class="li-mega"><a href="shop.html">🌟 GIÀY DÉP</a></li>
-    <li class="li-mega"><a href="shop.html">BỘ SƯU TẬP MỚI</a></li>
-    <li class="li-mega"><a href="shop.html">🔥 SIÊU SALE DIỆU KỲ</a></li>
-    <li class="li-mega"><a href="shop.html">THỎ CHIA SẺ</a></li>
+    <li class="li-mega"><a href="shop.html?category=be-gai">BÉ GÁI</a></li>
+    <li class="li-mega"><a href="shop.html?category=be-trai">BÉ TRAI</a></li>
+    <li class="li-mega"><a href="shop.html?category=giay-dep">🌟 GIÀY DÉP</a></li>
+    <li class="li-mega"><a href="shop.html?category=bo-suu-tap-moi">BỘ SƯU TẬP MỚI</a></li>
+    <li class="li-mega"><a href="shop.html?category=sieu-sale">🔥 SIÊU SALE DIỆU KỲ</a></li>
+    <li class="li-mega"><a href="shop.html?category=tho-chia-se">THỎ CHIA SẺ</a></li>
   </ul>
 </nav>      </div>
       <div class="search-header">
@@ -1286,82 +1284,82 @@ const PE = {
     <div class="wrap-list">
       <div class="item-icon">
         <div class="box-img">
-          <a href="shop.html" aria-label="Đầm váy">
+          <a href="shop.html?category=be-gai" aria-label="Đầm váy">
             <img class="lazyload" src="images/1_6cbfbc2a3aee4569a77b40a6d3992c3f.png" alt="Đầm váy">
           </a>
         </div>
         <div class="box-info">
-          <a href="shop.html">Đầm váy</a>
+          <a href="shop.html?category=be-gai">Đầm váy</a>
         </div>
       </div>
       <div class="item-icon">
         <div class="box-img">
-          <a href="shop.html" aria-label="Áo">
+          <a href="shop.html?category=be-trai" aria-label="Áo">
             <img class="lazyload" src="images/mai__2_.png" alt="Áo">
           </a>
         </div>
         <div class="box-info">
-          <a href="shop.html">Áo</a>
+          <a href="shop.html?category=be-trai">Áo</a>
         </div>
       </div>
       <div class="item-icon">
         <div class="box-img">
-          <a href="shop.html" aria-label="Đồ bộ">
+          <a href="shop.html?category=bo-suu-tap-moi" aria-label="Đồ bộ">
             <img class="lazyload" src="images/do_bo__1_.png" alt="Đồ bộ">
           </a>
         </div>
         <div class="box-info">
-          <a href="shop.html">Đồ bộ</a>
+          <a href="shop.html?category=bo-suu-tap-moi">Đồ bộ</a>
         </div>
       </div>
       <div class="item-icon">
         <div class="box-img">
-          <a href="shop.html" aria-label="Đồ lót">
+          <a href="shop.html?category=be-gai" aria-label="Đồ lót">
             <img class="lazyload" src="images/freepik__background__5578.png" alt="Đồ lót">
           </a>
         </div>
         <div class="box-info">
-          <a href="shop.html">Đồ lót</a>
+          <a href="shop.html?category=be-gai">Đồ lót</a>
         </div>
       </div>
       <div class="item-icon">
         <div class="box-img">
-          <a href="shop.html" aria-label="Quần">
+          <a href="shop.html?category=be-trai" aria-label="Quần">
             <img class="lazyload" src="images/mai.png" alt="Quần">
           </a>
         </div>
         <div class="box-info">
-          <a href="shop.html">Quần</a>
+          <a href="shop.html?category=be-trai">Quần</a>
         </div>
       </div>
       <div class="item-icon">
         <div class="box-img">
-          <a href="shop.html" aria-label="Chân váy">
+          <a href="shop.html?category=be-gai" aria-label="Chân váy">
             <img class="lazyload" src="images/chan_vay.png" alt="Chân váy">
           </a>
         </div>
         <div class="box-info">
-          <a href="shop.html">Chân váy</a>
+          <a href="shop.html?category=be-gai">Chân váy</a>
         </div>
       </div>
       <div class="item-icon">
         <div class="box-img">
-          <a href="shop.html" aria-label="Giày dép">
+          <a href="shop.html?category=giay-dep" aria-label="Giày dép">
             <img class="lazyload" src="images/giay_dep.png" alt="Giày dép">
           </a>
         </div>
         <div class="box-info">
-          <a href="shop.html">Giày dép</a>
+          <a href="shop.html?category=giay-dep">Giày dép</a>
         </div>
       </div>
       <div class="item-icon">
         <div class="box-img">
-          <a href="shop.html" aria-label="Áo khoác">
+          <a href="shop.html?category=bo-suu-tap-moi" aria-label="Áo khoác">
             <img class="lazyload" src="images/mai__1_.png" alt="Áo khoác">
           </a>
         </div>
         <div class="box-info">
-          <a href="shop.html">Áo khoác</a>
+          <a href="shop.html?category=bo-suu-tap-moi">Áo khoác</a>
         </div>
       </div>
     </div>

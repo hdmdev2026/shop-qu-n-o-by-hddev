@@ -10,16 +10,15 @@ const DB_PATH = path.join(__dirname, 'db.json');
 
 app.use(cors());
 app.use(express.json());
-app.use(express.static(__dirname)); // Phục vụ file tĩnh
+app.use(express.static(__dirname));
 
-// --- Helper Đọc/Ghi DB ---
+// --- Helper DB ---
 function readDB() {
     try {
         if (!fs.existsSync(DB_PATH)) {
-            // Tạo dữ liệu mẫu ban đầu nếu chưa có file db.json
             const defaultData = { 
                 products: [], 
-                settings: { hero_sliders: [] }, 
+                settings: { topbar_img: "", friday_banner: "", hero_sliders: [] }, 
                 users: [
                     {id: 1, name: "Nguyễn Văn A", email: "vana@gmail.com", phone: "0987654321"},
                     {id: 2, name: "Trần Thị B", email: "thib@gmail.com", phone: "0123456789"}
@@ -36,17 +35,16 @@ function readDB() {
         const data = JSON.parse(fs.readFileSync(DB_PATH, 'utf-8'));
         if (!data.users) data.users = [];
         if (!data.orders) data.orders = [];
+        if (!data.settings) data.settings = { hero_sliders: [] };
+        if (!data.settings.hero_sliders) data.settings.hero_sliders = [];
         return data;
     } catch (err) {
-        return { products: [], settings: {}, users: [], orders: [] };
+        return { products: [], settings: { hero_sliders: [] }, users: [], orders: [] };
     }
 }
+function writeDB(data) { fs.writeFileSync(DB_PATH, JSON.stringify(data, null, 2), 'utf-8'); }
 
-function writeDB(data) { 
-    fs.writeFileSync(DB_PATH, JSON.stringify(data, null, 2), 'utf-8'); 
-}
-
-// --- Cấu hình Upload Ảnh ---
+// --- Upload ---
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         const dir = './images';
@@ -57,13 +55,12 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
-// --- Middleware Xác Thực Admin ---
 const verifyAdmin = (req, res, next) => {
     if (req.headers.authorization === 'Bearer my-secret-token-123') next();
-    else res.status(403).json({ success: false, message: 'Không có quyền truy cập!' });
+    else res.status(403).json({ success: false, message: 'Không có quyền!' });
 };
 
-// --- API ĐĂNG NHẬP ---
+// --- API Đăng nhập ---
 app.post('/api/admin/login', (req, res) => {
     const { username, password } = req.body;
     if (username === 'spmxhhdm' && password === '22122007') {
@@ -74,6 +71,11 @@ app.post('/api/admin/login', (req, res) => {
 });
 
 // --- API BANNER ---
+app.get('/api/admin/banners', verifyAdmin, (req, res) => {
+    const db = readDB();
+    res.json(db.settings);
+});
+
 app.post('/api/admin/upload-banner', verifyAdmin, upload.single('image'), (req, res) => {
     if (!req.file) return res.status(400).json({ success: false });
     const type = req.body.type;
@@ -87,6 +89,16 @@ app.post('/api/admin/upload-banner', verifyAdmin, upload.single('image'), (req, 
         dbData.settings[type] = imageUrl;
     }
     writeDB(dbData);
+    res.json({ success: true });
+});
+
+app.delete('/api/admin/delete-banner', verifyAdmin, (req, res) => {
+    const { type, index } = req.body;
+    let dbData = readDB();
+    if (type === 'hero_slider' && dbData.settings.hero_sliders) {
+        dbData.settings.hero_sliders.splice(index, 1);
+        writeDB(dbData);
+    }
     res.json({ success: true });
 });
 
@@ -110,7 +122,6 @@ app.delete('/api/admin/delete-product/:id', verifyAdmin, (req, res) => {
     res.json({ success: true });
 });
 
-// --- API KHO ---
 app.post('/api/admin/update-stock/:id', verifyAdmin, (req, res) => {
     const id = Number(req.params.id);
     let dbData = readDB();
@@ -130,7 +141,4 @@ app.get('/api/products', (req, res) => res.json(readDB().products || []));
 app.get('/api/admin/users', verifyAdmin, (req, res) => res.json(readDB().users));
 app.get('/api/admin/orders', verifyAdmin, (req, res) => res.json(readDB().orders));
 
-// --- KHỞI ĐỘNG ---
-app.listen(PORT, '0.0.0.0', () => {
-    console.log(`🚀 Server đang chạy tại: http://localhost:${PORT}`);
-});
+app.listen(PORT, '0.0.0.0', () => console.log(`🚀 Server chạy tại: http://localhost:${PORT}`));
