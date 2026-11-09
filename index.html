@@ -83,20 +83,10 @@
       overflow: hidden;
   }
   #topbar * { color: #000 !important; }
-  #topbar .container { 
-      max-width: 100% !important; 
-      padding: 0 !important; 
-  }
-  #topbar img { 
-      width: 100%;
-      height: auto;
-      max-height: 120px;
-      object-fit: cover; 
-      display: block; 
-      margin: 0 auto; 
-  }
+  #topbar .container { max-width: 100% !important; padding: 0 !important; }
+  #topbar img { width: 100%; height: auto; max-height: 120px; object-fit: cover; display: block; margin: 0 auto; }
 
-  #header-main, #main-footer, .wrapper-section-content, #list-icon-home .item-icon {
+  #header-main, #main-footer, .wrapper-section-content, #list-icon-home .item-icon, .model-3d-container {
       background: rgba(10, 15, 30, 0.75) !important;
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
@@ -107,53 +97,34 @@
   }
 
   @keyframes neonGlow {
-      0%, 100% {
-          color: #ffffff !important;
-          text-shadow: 0 0 5px #ffffff, 0 0 10px #00e5ff, 0 0 20px #00e5ff;
-      }
-      50% {
-          color: #00e5ff !important;
-          text-shadow: 0 0 10px #00e5ff, 0 0 20px #00e5ff, 0 0 30px #00e5ff, 0 0 40px #00e5ff;
-      }
+      0%, 100% { color: #ffffff !important; text-shadow: 0 0 5px #ffffff, 0 0 10px #00e5ff, 0 0 20px #00e5ff; }
+      50% { color: #00e5ff !important; text-shadow: 0 0 10px #00e5ff, 0 0 20px #00e5ff, 0 0 30px #00e5ff, 0 0 40px #00e5ff; }
   }
 
-  #menu-main a, .h4-head-product-tab span {
+  #menu-main a, .h4-head-product-tab span, #accountText {
       animation: neonGlow 1.5s infinite alternate !important;
       text-decoration: none;
   }
 
-  #menu-main a:hover {
-      color: #ffffff !important;
-      text-shadow: 0 0 20px #ffffff, 0 0 30px #00e5ff, 0 0 40px #00e5ff !important;
-  }
-
-  .box-info a, .title-footer, .column-footer a {
-      color: #ffffff !important;
-      text-decoration: none;
-  }
+  #menu-main a:hover { color: #ffffff !important; text-shadow: 0 0 20px #ffffff, 0 0 30px #00e5ff, 0 0 40px #00e5ff !important; }
+  .box-info a, .title-footer, .column-footer a { color: #ffffff !important; text-decoration: none; }
   .title-footer { font-weight: 700; color: #00e5ff !important; text-shadow: 0 0 10px #00e5ff; }
 
   .right-header { display: flex !important; align-items: center !important; justify-content: flex-end !important; gap: 20px; }
   .account-header { position: relative; display: flex; flex-direction: column; align-items: center; cursor: pointer; }
   .account-header svg { width: 32px; height: 32px; fill: #00e5ff; transition: 0.3s; filter: drop-shadow(0 0 5px #00e5ff); }
   .account-header:hover svg { fill: #ffffff; filter: drop-shadow(0 0 10px #ffffff); }
-  #accountText { font-size: 12px; color: #00e5ff; font-weight: 700; margin-top: 5px; white-space: nowrap; animation: neonGlow 1.5s infinite alternate; }
   
   .account-dropdown {
-      display: none; position: absolute; top: 100%; right: 0;
-      min-width: 220px; width: max-content;
-      white-space: nowrap;
-      background: rgba(5, 10, 25, 0.98); border: 1px solid #00e5ff;
-      border-radius: 10px; padding: 10px 0; z-index: 99999;
-      box-shadow: 0 0 20px rgba(0, 229, 255, 0.4); flex-direction: column;
-      margin-top: 5px;
+      display: none; position: absolute; top: 100%; right: 0; min-width: 220px; width: max-content; white-space: nowrap;
+      background: rgba(5, 10, 25, 0.98); border: 1px solid #00e5ff; border-radius: 10px; padding: 10px 0; z-index: 99999;
+      box-shadow: 0 0 20px rgba(0, 229, 255, 0.4); flex-direction: column; margin-top: 5px;
   }
   .account-dropdown::before { content: ''; position: absolute; top: -15px; left: 0; width: 100%; height: 15px; }
   .account-header:hover .account-dropdown { display: flex; }
   .account-dropdown a {
       padding: 12px 20px; color: #e2e8f0 !important; font-size: 14px; text-decoration: none;
-      transition: 0.2s; border-bottom: 1px solid rgba(255,255,255,0.1);
-      animation: none !important;
+      transition: 0.2s; border-bottom: 1px solid rgba(255,255,255,0.1); animation: none !important;
   }
   .account-dropdown a:last-child { border-bottom: none; }
   .account-dropdown a:hover { background: rgba(0, 229, 255, 0.15); color: #00e5ff !important; padding-left: 25px; }
@@ -164,81 +135,51 @@
   .cart-count-badge { position: absolute; top: -5px; right: -10px; background: #ff007f; color: white; border-radius: 50%; padding: 2px 6px; font-size: 11px; font-weight: bold; display: none; box-shadow: 0 0 10px #ff007f; }
   
   .cart-preview {
-      display: none; position: absolute; top: 100%; right: 0;
-      width: 320px; background: rgba(5, 10, 25, 0.98); border: 1px solid #00e5ff;
-      border-radius: 10px; padding: 15px; z-index: 99999; box-shadow: 0 0 20px rgba(0, 229, 255, 0.4);
-      white-space: normal; margin-top: 5px;
+      display: none; position: absolute; top: 100%; right: 0; width: 320px; background: rgba(5, 10, 25, 0.98); border: 1px solid #00e5ff;
+      border-radius: 10px; padding: 15px; z-index: 99999; box-shadow: 0 0 20px rgba(0, 229, 255, 0.4); white-space: normal; margin-top: 5px;
   }
   .cart-preview::before { content: ''; position: absolute; top: -15px; left: 0; width: 100%; height: 15px; }
   .cart-header:hover .cart-preview { display: block !important; }
 
-  .wrapper-section-content { display: flex !important; flex-wrap: nowrap !important; align-items: stretch; padding: 30px; border-radius: 15px; max-width: 1200px; margin: 0 auto; }
-  .box-img-tab { width: 40% !important; flex-shrink: 0; }
+  .wrapper-section-content { display: flex !important; flex-wrap: nowrap !important; align-items: stretch; padding: 30px; border-radius: 15px; max-width: 1200px; margin: 0 auto; gap: 20px; }
+  .box-img-tab { width: 40% !important; flex-shrink: 0; display: flex; flex-direction: column; gap: 20px; }
   .box-img-tab img { width: 100%; height: auto; border-radius: 10px; }
-  .box-content-tab { width: 60% !important; padding-left: 40px; display: flex; flex-direction: column; justify-content: center; }
-  .h4-head-product-tab { display: flex; justify-content: space-between; align-items: center; font-weight: bold; text-transform: uppercase; border-bottom: 2px solid #00e5ff; padding-bottom: 10px; }
+  .box-content-tab { width: 60% !important; display: flex; flex-direction: column; justify-content: flex-start; }
+  .h4-head-product-tab { display: flex; justify-content: space-between; align-items: center; font-weight: bold; text-transform: uppercase; border-bottom: 2px solid #00e5ff; padding-bottom: 10px; margin-bottom: 20px; }
   .h4-head-product-tab a { color: #00e5ff !important; text-decoration: underline; font-size: 14px; animation: none; }
   
   .collection-list-1 .swiper-wrapper { display: flex !important; gap: 20px; }
-  .collection-list-1 .swiper-slide { flex: 1; background: rgba(255,255,255,0.05) !important; border-radius: 12px; padding: 20px; text-align: center; border: 1px solid rgba(0, 229, 255, 0.3); }
+  .collection-list-1 .swiper-slide { flex: 1; background: rgba(255,255,255,0.05) !important; border-radius: 12px; padding: 20px; text-align: center; border: 1px solid rgba(0, 229, 255, 0.3); cursor: pointer; transition: 0.3s; }
+  .collection-list-1 .swiper-slide:hover { transform: translateY(-5px); border-color: #00e5ff; box-shadow: 0 0 15px rgba(0,229,255,0.4); }
 
   .addtocart-loop {
       background: linear-gradient(135deg, #0055ff, #00e5ff) !important; color: #fff !important; border: none !important; border-radius: 20px !important; padding: 8px 20px !important; font-weight: bold !important; cursor: pointer !important; margin-top: 15px !important; transition: 0.3s; box-shadow: 0 4px 15px rgba(0, 229, 255, 0.4);
   }
   .addtocart-loop:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0, 229, 255, 0.6); }
-  .addtocart-loop::before, .addtocart-loop::after { display: none !important; content: none !important; }
 
-  .modal { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(5px); z-index: 100000; justify-content: center; align-items: center; }
-  .modal-content { background: rgba(10, 15, 30, 0.95); border: 2px solid #00e5ff; border-radius: 15px; padding: 30px; text-align: center; max-width: 400px; width: 90%; box-shadow: 0 0 30px rgba(0, 229, 255, 0.5); position: relative; animation: zoomIn 0.3s ease; }
-  @keyframes zoomIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-  .modal-content img { width: 100%; border-radius: 10px; border: 1px solid #00e5ff; margin-bottom: 15px; }
-  .modal-content p { color: #fff; font-weight: bold; margin: 0; font-size: 15px; }
-  .close-btn { position: absolute; top: 10px; right: 15px; font-size: 28px; color: #ff007f; cursor: pointer; transition: 0.2s; }
-  .close-btn:hover { color: #fff; transform: scale(1.2); }
-
-  #welcomeModal {
-      display: none;
-      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-      background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(5px);
-      z-index: 100005; justify-content: center; align-items: center;
+  /* KHUNG 3D */
+  .model-3d-container {
+      width: 100%; height: 350px; border-radius: 15px; border: 1px solid #00e5ff;
+      position: relative; cursor: grab; overflow: hidden; display: flex; justify-content: center; align-items: center;
+      perspective: 1000px; margin-top: 10px;
   }
-  .welcome-box {
-      background: rgba(10, 15, 30, 0.95); border: 2px solid #ec4899;
-      border-radius: 15px; padding: 30px 25px; max-width: 600px; width: 90%;
-      box-shadow: 0 0 40px rgba(236, 72, 153, 0.4);
-      position: relative; animation: zoomIn 0.4s ease; text-align: center;
-      font-family: 'Quicksand', sans-serif;
+  .model-3d-container:active { cursor: grabbing; }
+  #model-3d-box {
+      width: 250px; height: 300px; position: relative; transform-style: preserve-3d; transition: transform 0.1s;
   }
-  .welcome-close-x {
-      position: absolute; top: 10px; right: 15px; font-size: 28px;
-      color: #ec4899; cursor: pointer; transition: 0.3s; font-weight: bold;
+  #model-3d-img {
+      width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 0 20px rgba(0,229,255,0.6));
+      transition: opacity 0.3s;
   }
-  .welcome-close-x:hover { color: #fff; transform: rotate(90deg); }
-  .welcome-box h2 {
-      color: #00e5ff; font-size: 22px; margin-bottom: 15px;
-      text-transform: uppercase; text-shadow: 0 0 10px rgba(0, 229, 255, 0.5);
+  .model-hint {
+      position: absolute; bottom: 15px; width: 100%; text-align: center; 
+      color: #00e5ff; font-size: 12px; font-weight: bold; pointer-events: none; 
+      text-shadow: 0 0 5px #00e5ff;
   }
-  .welcome-box p { color: #e2e8f0; font-size: 15px; line-height: 1.6; margin-bottom: 15px; text-align: justify; }
-  .welcome-ad {
-      background: rgba(236, 72, 153, 0.1); border: 1px dashed #ec4899;
-      border-radius: 10px; padding: 15px; margin-bottom: 15px; text-align: left;
-  }
-  .welcome-ad strong { color: #ec4899; display: block; margin-bottom: 5px; font-size: 16px; }
-  .welcome-copyright { font-size: 12px; color: #64748b; margin-bottom: 20px; font-style: italic; }
-  .welcome-btns { display: flex; justify-content: center; gap: 15px; }
-  .btn-welcome {
-      padding: 10px 25px; border: none; border-radius: 8px; font-weight: bold;
-      cursor: pointer; transition: 0.3s; font-size: 14px;
-  }
-  .btn-close { background: transparent; border: 1px solid #cbd5e1; color: #cbd5e1; }
-  .btn-close:hover { background: #cbd5e1; color: #000; }
-  .btn-mute { background: linear-gradient(90deg, #ec4899, #a855f7); color: #fff; }
-  .btn-mute:hover { box-shadow: 0 0 15px #ec4899; transform: scale(1.05); }
 
   @media (max-width: 991px) {
       .wrapper-section-content { flex-direction: column; }
-      .box-img-tab, .box-content-tab { width: 100% !important; padding-left: 0; }
-      .box-img-tab { margin-bottom: 20px; }
+      .box-img-tab, .box-content-tab { width: 100% !important; }
   }
 </style>
 <script>
@@ -261,16 +202,7 @@
   	id: 1000290074,
   	template: "index",
   	moneyFormat: "{{amount}}đ",
-  	account: {
-  		id: '',
-  		email: '',
-  		logged: false,
-  		birthday: '',
-  		gender: 'Không xác định',
-  		tags: '',
-  		phone: '',
-  		marketing: '',
-  	}
+  	account: { id: '', email: '', logged: false, birthday: '', gender: 'Không xác định', tags: '', phone: '', marketing: '' }
   }
 </script>
 <script>
@@ -293,18 +225,14 @@
       if (navigator[_0x4ad6[2]][_0x4ad6[1]](_0x4ad6[0]) != -1) { for (let i = 0; i < navigator[_0x4ad6[5]][_0x4ad6[4]][_0x4ad6[3]]; i++) { let vl = navigator[_0x4ad6[5]][_0x4ad6[4]][i][_0x4ad6[6]]; if (vl[_0x4ad6[8]](_0x4ad6[7])) { checklh = true; break; } } }
     </script>
     <script type="text/javascript">
-//<![CDATA[
 if ((typeof Haravan) === 'undefined') { Haravan = {}; }
 Haravan.culture = 'vi-VN';
 Haravan.shop = '4conbovahddev-fashion.infy.click';
 Haravan.theme = {"name":"theme - 1001491034","id":1001491034,"role":"main"};
 Haravan.domain = '4conbovahddev-fashion.infy.click';
-//]]>
 </script>
 <script>
-//<![CDATA[
 (function() { function asyncLoad() { var urls = ["//hstatic.net/074/1000290074/20/2019/7-28/noname_64f6efa31d2b4d01bb0ae1a118fb27b7.js","https://c.o-s.io/70000/tracker.js","https://onapp.haravan.com/promotionbar/embed/asset/frontend/promotionbar.js?shop=4conbovahddev-fashion.infy.click&ver=1671699033228","https://buyxgety-omni.haravan.com/js/script_tag_production.js?v=1576487994026","https://cdn.ezca.asia/js/sdk.js?id=63621e23d417a33775987e02","https://hstatic.net/074/1000290074/20/2025/8-12/noname_6f07c532ebd54baea82a05272c1b8125.js","https://app.hstatic.net/customerreviews/script_tag_1000290074.js?v=1759387189625","https://app.hstatic.net/socialloginplus/1000290074/script-tag.js?v=1759387689163"];for (var i = 0; i < urls.length; i++) {var s = document.createElement('script');s.type = 'text/javascript';s.async = true;s.src = urls[i];var x = document.getElementsByTagName('script')[0];x.parentNode.insertBefore(s, x);}}window.attachEvent ? window.attachEvent('onload', asyncLoad) : window.addEventListener('load', asyncLoad, false);})();
-//]]>
 </script>
 <script defer="" src="js/beacon.min.js" hrv-beacon-t="1000290074"></script><style>.grecaptcha-badge{visibility:hidden;}</style>
 <script type="text/javascript">
@@ -318,7 +246,6 @@ for (var attr in meta) {
 window.HaravanAnalytics.AutoTrack = true;
 </script>
 <script>
-//<![CDATA[
 window.HaravanAnalytics.ga = "UA-135962472-1";
 window.HaravanAnalytics.enhancedEcommerce = true;
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -329,13 +256,11 @@ ga('create', window.HaravanAnalytics.ga, {cookieDomain: 'auto', siteSpeedSampleR
 ga('send', 'pageview'); ga('require', 'linker');ga('require', 'linker');try {
 setTimeout(function(){if( window.location.pathname.indexOf( 'checkouts') >= 0  ) {
 $.get('https://file.hstatic.net/1000290074/file/checkout_tagmanager_b0172c6177844b2a9a9224025188b853.js');
-
 }
 },100);
 } catch (e) {};
-                //]]>
-                </script>
-                <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-XVGRBCDFPN"></script><script>
+</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-XVGRBCDFPN"></script><script>
 window.HaravanAnalytics.ga4 = "G-XVGRBCDFPN";
 window.HaravanAnalytics.enhancedEcommercev4 = true;
 window.dataLayer = window.dataLayer || [];
@@ -345,16 +270,13 @@ gtag('config', 'G-XVGRBCDFPN');
 </script><script>
 window.HaravanAnalytics.fb = "1433004650170843";
 window.HaravanAnalytics.metaAdvancedMatching = false;
-//<![CDATA[
 !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
 n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
 n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
 t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
 document,'script','//connect.facebook.net/en_US/fbevents.js');
-// Insert Your Facebook Pixel ID below. 
 fbq('init', "1433004650170843", {} , {'agent':'plharavan'});
 fbq('track', 'PageView');
-//]]>
 </script>
 <noscript><img height='1' width='1' style='display:none' src='https://www.facebook.com/tr?id=1433004650170843&ev=PageView&noscript=1'/></noscript>
 <script>
@@ -1166,7 +1088,7 @@ const PE = {
           </div>
           <div class="wrap-menu">
             <nav id="menu-main">
-              <ul class="ul-lv1" style="display: flex; gap: 20px;">
+              <ul class="ul-lv1" style="display: flex; gap: 20px; list-style: none; margin: 0; padding: 0;">
                 <li class="li-mega"><a href="shop.html?category=be-gai">BÉ GÁI</a></li>
                 <li class="li-mega"><a href="shop.html?category=be-trai">BÉ TRAI</a></li>
                 <li class="li-mega"><a href="shop.html?category=giay-dep">🌟 GIÀY DÉP</a></li>
@@ -1184,13 +1106,11 @@ const PE = {
           </div>
           
           <div class="right-header">
-            <!-- TÀI KHOẢN -->
             <div class="account-header" id="accountWrapper">
               <a href="javascript:void(0)" id="accountLink" onclick="handleAccountClick(event)" style="text-decoration: none; display: flex; flex-direction: column; align-items: center;">
                 <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-                <span id="accountText">Đăng nhập / Đăng ký</span>
+                <span id="accountText">Đăng nhập</span>
               </a>
-              
               <div class="account-dropdown" id="accountDropdown">
                   <a href="thong-tin-tai-khoan.html">Thông tin tài khoản</a>
                   <a href="javascript:void(0)" onclick="openDonateModal()">Donate Admin</a>
@@ -1198,7 +1118,6 @@ const PE = {
               </div>
             </div>
 
-            <!-- GIỎ HÀNG -->
             <div class="cart-header" id="cartWrapper" style="display: none;">
               <a href="cart.html" style="display: flex; flex-direction: column; align-items: center; text-decoration: none;">
                 <svg viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
@@ -1224,7 +1143,7 @@ const PE = {
       <section id="slider-homepage" class="style-navigation-2">
         <div class="wrap-slider">
           <div class="swiper-homepage-slider swiper-container">
-            <!-- KHUNG SLIDER ĐÃ ĐƯỢC XÓA TRẮNG, JS SẼ TỰ ĐỘNG ĐỔ ẢNH TỪ ADMIN VÀO -->
+            <!-- ĐÃ XÓA ẢNH CỨNG, JS SẼ TỰ ĐỘNG ĐỔ ẢNH TỪ ADMIN VÀO -->
             <div class="swiper-wrapper" id="hero-slider-wrapper"></div>
             <div class="btn-nav swiper-button-prev"></div>
             <div class="btn-nav swiper-button-next"></div>
@@ -1274,7 +1193,9 @@ const PE = {
       <section class="section-product-tab style-navigation-2">
         <div class="container container-full">
           <div class="section-content">	
-            <div class="wrapper-section-content" style="background: #FF5F15;">
+            <div class="wrapper-section-content" style="background: rgba(255, 95, 21, 0.1);">
+              
+              <!-- BÊN TRÁI: BANNER CAM + MODEL 3D -->
               <div class="box-img-tab">
                 <div class="inner-box-img-tab">
                   <picture>
@@ -1283,7 +1204,17 @@ const PE = {
                     <img class="lazyload" id="friday-banner-img" src="images/block_banner_bf_1920x2300.jpg" alt="ORANGE FRIDAY">
                   </picture>
                 </div>
+                
+                <!-- KHUNG NGƯỜI MẪU 3D -->
+                <div class="model-3d-container" id="model-container">
+                   <div id="model-3d-box">
+                       <img id="model-3d-img" src="images/1_6cbfbc2a3aee4569a77b40a6d3992c3f.png" alt="3D Model">
+                   </div>
+                   <span class="model-hint">🖱️ Kéo để xoay 360°</span>
+                </div>
               </div>
+
+              <!-- BÊN PHẢI: SẢN PHẨM -->
               <div class="box-content-tab">
                 <div class="head-product-tab">
                   <div class="h5-head-product-tab">SỰ KIỆN MUA SẮM LỚN NHẤT NĂM</div>
@@ -1294,13 +1225,14 @@ const PE = {
                 </div>
                 <div class="collection-list collection-list-1">
                   <div class="swiper-homepage-collection-1 swiper-container flex-loop">
-                    <!-- SẢN PHẨM ĐƯỢC LOAD TỪ API, NẾU TRỐNG SẼ KHÔNG HIỂN THỊ GÌ -->
+                    <!-- ĐÃ XÓA SẢN PHẨM CỨNG, JS SẼ TỰ ĐỘNG ĐỔ SẢN PHẨM TỪ ADMIN VÀO -->
                     <div class="swiper-wrapper" id="friday-products-wrapper"></div>
                     <div class="btn-nav swiper-button-prev"></div>
                     <div class="btn-nav swiper-button-next"></div>
                   </div>
                 </div>
               </div>
+
             </div>
           </div>
         </div>
@@ -1364,7 +1296,7 @@ const PE = {
         </div>
     </div>
 
-    <!-- JAVASCRIPT GỐC CỦA BẠN -->
+    <!-- JAVASCRIPT GỐC -->
     <script>
         const canvas = document.getElementById('star-network-canvas');
         const ctx = canvas.getContext('2d');
@@ -1542,72 +1474,112 @@ const PE = {
         });
     </script>
 
-    <!-- JAVASCRIPT KẾT NỐI VPS ĐỂ LẤY ẢNH TỪ ADMIN -->
+    <!-- JAVASCRIPT TÍNH NĂNG MỚI: 3D MODEL & API VPS -->
     <script>
-        const API_BASE_URL = 'http://180.93.194.227:3000'; 
+        const API_BASE_URL = 'http://180.93.194.227:3000';
 
+        // --- XỬ LÝ XOAY 3D ---
+        let isDragging3D = false;
+        let prevX3D = 0, prevY3D = 0;
+        let rotX = 0, rotY = 0;
+        const modelBox = document.getElementById('model-3d-box');
+        const modelContainer = document.getElementById('model-container');
+
+        if (modelContainer) {
+            modelContainer.addEventListener('mousedown', (e) => {
+                isDragging3D = true; prevX3D = e.clientX; prevY3D = e.clientY;
+            });
+            window.addEventListener('mousemove', (e) => {
+                if (!isDragging3D) return;
+                let deltaX = e.clientX - prevX3D;
+                let deltaY = e.clientY - prevY3D;
+                rotY += deltaX * 0.8; rotX -= deltaY * 0.8;
+                if (rotX > 60) rotX = 60; if (rotX < -60) rotX = -60;
+                modelBox.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+                prevX3D = e.clientX; prevY3D = e.clientY;
+            });
+            window.addEventListener('mouseup', () => { isDragging3D = false; });
+            
+            modelContainer.addEventListener('touchstart', (e) => {
+                isDragging3D = true; prevX3D = e.touches[0].clientX; prevY3D = e.touches[0].clientY;
+            });
+            window.addEventListener('touchmove', (e) => {
+                if (!isDragging3D) return;
+                let deltaX = e.touches[0].clientX - prevX3D;
+                let deltaY = e.touches[0].clientY - prevY3D;
+                rotY += deltaX * 0.8; rotX -= deltaY * 0.8;
+                if (rotX > 60) rotX = 60; if (rotX < -60) rotX = -60;
+                modelBox.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+                prevX3D = e.touches[0].clientX; prevY3D = e.touches[0].clientY;
+            }, {passive: true});
+            window.addEventListener('touchend', () => { isDragging3D = false; });
+        }
+
+        function update3DModel(imageUrl) {
+            const img = document.getElementById('model-3d-img');
+            if (img) {
+                img.style.opacity = '0';
+                setTimeout(() => {
+                    img.src = imageUrl;
+                    img.style.opacity = '1';
+                    rotX = 0; rotY = 0;
+                    if(modelBox) modelBox.style.transform = `rotateX(0deg) rotateY(0deg)`;
+                }, 200);
+            }
+        }
+
+        // --- TẢI DỮ LIỆU TỪ VPS ---
         async function loadAdminSettings() {
             try {
                 const response = await fetch(`${API_BASE_URL}/api/settings`);
                 if(!response.ok) throw new Error("API lỗi");
                 const data = await response.json();
 
-                if (data.topbar_img) {
-                    document.getElementById('topbar-banner-img').src = data.topbar_img;
-                }
-                if (data.topbar_link) {
-                    document.getElementById('topbar-banner-link').href = data.topbar_link;
-                }
-
-                if (data.friday_banner) {
-                    document.getElementById('friday-banner-img').src = data.friday_banner;
-                }
+                if (data.topbar_img) document.getElementById('topbar-banner-img').src = data.topbar_img;
+                if (data.topbar_link) document.getElementById('topbar-banner-link').href = data.topbar_link;
+                if (data.friday_banner) document.getElementById('friday-banner-img').src = data.friday_banner;
 
                 if (data.hero_sliders && data.hero_sliders.length > 0) {
                     const wrapper = document.getElementById('hero-slider-wrapper');
                     wrapper.innerHTML = ''; 
-                    
                     data.hero_sliders.forEach(slide => {
                         const imgSrc = typeof slide === 'string' ? slide : slide.image;
                         const imgLink = (typeof slide === 'object' && slide.link) ? slide.link : '#';
-
                         wrapper.innerHTML += `
                             <div class="swiper-slide">
                                 <a href="${imgLink}">
-                                    <picture>
-                                        <img class="lazyload" src="${imgSrc}" alt="Banner" style="width: 100%; object-fit: cover;">
-                                    </picture>
+                                    <img src="${imgSrc}" alt="Banner" style="width: 100%; height: auto; display: block;">
                                 </a>
                             </div>
                         `;
                     });
-
                     if (typeof Swiper !== 'undefined') {
-                        if (document.querySelector('.swiper-homepage-slider').swiper) {
-                            document.querySelector('.swiper-homepage-slider').swiper.destroy(true, true);
-                        }
-                        new Swiper('.swiper-homepage-slider', { 
-                            slidesPerView: 1, loop: true, autoplay: { delay: 3000 },
-                            navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' } 
-                        });
+                        new Swiper('.swiper-homepage-slider', { slidesPerView: 1, loop: true, autoplay: { delay: 3000 }, navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' } });
                     }
                 }
+            } catch (error) {
+                console.log("Chưa kết nối được API Settings.", error);
+            }
+        }
 
+        async function loadProducts() {
+            try {
                 const productRes = await fetch(`${API_BASE_URL}/api/products`);
                 if (productRes.ok) {
                     const products = await productRes.json();
                     if (products.length > 0) {
                         const productWrapper = document.getElementById('friday-products-wrapper');
                         productWrapper.innerHTML = '';
+                        
                         products.forEach(p => {
                             productWrapper.innerHTML += `
-                                <div class="swiper-slide">
+                                <div class="swiper-slide" onclick="update3DModel('${API_BASE_URL}${p.image}')">
                                     <div class="product-loop">
-                                      <div class="box-image"><a href="shop.html"><img src="${API_BASE_URL}${p.image}" style="width:100%"></a></div>
+                                      <div class="box-image"><img src="${API_BASE_URL}${p.image}" style="width:100%"></div>
                                       <div class="box-info">
-                                        <h4 style="margin-top:10px;"><a href="shop.html">${p.name}</a></h4>
+                                        <h4 style="margin-top:10px; font-size:16px;">${p.name}</h4>
                                         <div class="box-price onsale" style="color:#FF5F15; font-weight:bold; margin:10px 0;"><span>${p.price.toLocaleString('vi-VN')}đ</span></div>
-                                        <button class="addtocart-loop" onclick="addToCart('${p.name}', ${p.price})">Thêm</button>
+                                        <button class="addtocart-loop" onclick="event.stopPropagation(); addToCart('${p.name}', ${p.price})">Thêm</button>
                                       </div>
                                     </div>
                                 </div>
@@ -1615,24 +1587,20 @@ const PE = {
                         });
                         
                         if (typeof Swiper !== 'undefined') {
-                            if (document.querySelector('.swiper-homepage-collection-1').swiper) {
-                                document.querySelector('.swiper-homepage-collection-1').swiper.destroy(true, true);
-                            }
-                            new Swiper('.swiper-homepage-collection-1', { 
-                                slidesPerView: 2, spaceBetween: 20, 
-                                breakpoints: { 320: { slidesPerView: 1 }, 768: { slidesPerView: 2 } } 
-                            });
+                            new Swiper('.swiper-homepage-collection-1', { slidesPerView: 2, spaceBetween: 20, breakpoints: { 320: { slidesPerView: 1 }, 768: { slidesPerView: 2 } } });
                         }
+                        
+                        update3DModel(`${API_BASE_URL}${products[0].image}`);
                     }
                 }
-
             } catch (error) {
-                console.log("Chưa kết nối được API Admin. Đang dùng ảnh mặc định.", error);
+                console.log("Chưa kết nối được API Sản phẩm.", error);
             }
         }
 
         document.addEventListener("DOMContentLoaded", function() {
             loadAdminSettings();
+            loadProducts();
         });
     </script>
 </body>
