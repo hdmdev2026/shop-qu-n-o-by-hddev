@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Đăng Nhập - HDDEV2026</title>
+    <style>
+        body { background: #f4f6f9; font-family: Arial, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .login-box { background: #fff; padding: 40px; border-radius: 10px; width: 350px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-top: 5px solid #ff6200; }
+        .login-box h2 { margin-bottom: 20px; color: #333; }
+        .login-box input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; }
+        .login-box button { width: 100%; padding: 12px; background: #ff6200; color: white; border: none; border-radius: 5px; font-size: 16px; cursor: pointer; font-weight: bold; margin-top: 10px;}
+        .login-box button:hover { background: #e05600; }
+        .links { display: flex; justify-content: space-between; margin-top: 15px; font-size: 14px; }
+        .links a { color: #ff6200; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <div class="login-box">
+        <h2>ĐĂNG NHẬP</h2>
+        <form id="loginForm">
+            <input type="email" id="loginEmail" placeholder="Email" required>
+            <input type="password" id="loginPass" placeholder="Mật khẩu" required>
+            <button type="button" onclick="loginUser()">Đăng Nhập</button>
+        </form>
+        <div class="links">
+            <a href="dang-ky.html">Chưa có tài khoản? Đăng ký</a>
+            <a href="index.html">Về trang chủ</a>
+        </div>
+    </div>
+
+    <script>
+        function loginUser() {
+            var email = document.getElementById("loginEmail").value;
+            var pass = document.getElementById("loginPass").value;
+
+            fetch('/api/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 
+                    email: email, 
+                    password: pass 
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert("Đăng nhập thành công! Xin chào " + data.data.name);
+                    // Lưu thông tin vào LocalStorage để trang chủ hiển thị
+                    localStorage.setItem("isLoggedIn", "true");
+                    localStorage.setItem("hddev_user", JSON.stringify(data.data));
+                    window.location.href = "index.html"; 
+                } else {
+                    alert("Lỗi: " + data.message);
+                }
+            })
+            .catch(error => alert("Không kết nối được với Server!"));
+        }
+    </script>
+</body>
+</html>
