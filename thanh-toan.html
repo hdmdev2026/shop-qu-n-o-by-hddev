@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Thanh Toán - HDDEV2026</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f6f9; padding: 20px; margin: 0; }
+        .container { max-width: 800px; margin: auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        h2 { text-align: center; color: #ff6200; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
+        .form-group input, .form-group textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; }
+        .order-summary div { display: flex; justify-content: space-between; margin-bottom: 10px; border-bottom: 1px dashed #eee; padding-bottom: 5px; }
+        .btn-submit { width: 100%; padding: 15px; background: #ff6200; color: white; border: none; border-radius: 5px; font-size: 18px; font-weight: bold; cursor: pointer; margin-top: 20px; }
+        .btn-submit:hover { background: #e05600; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>THANH TOÁN ĐƠN HÀNG</h2>
+        <h3>Đơn hàng của bạn:</h3>
+        <div class="order-summary" id="orderSummary"></div>
+
+        <h3>Thông tin giao hàng:</h3>
+        <form id="checkoutForm" onsubmit="placeOrder(event)">
+            <div class="form-group"><label>Họ và tên *</label><input type="text" id="cusName" required></div>
+            <div class="form-group"><label>Số điện thoại *</label><input type="tel" id="cusPhone" required></div>
+            <div class="form-group"><label>Địa chỉ nhận hàng *</label><textarea id="cusAddress" rows="3" required></textarea></div>
+            <button type="submit" class="btn-submit">XÁC NHẬN ĐẶT HÀNG</button>
+        </form>
+    </div>
+
+    <script>
+        var cartData = JSON.parse(localStorage.getItem("hddev_cart")) || [];
+        var totalAmount = 0;
+        
+        // Hiển thị giỏ hàng
+        document.addEventListener("DOMContentLoaded", function() {
+            var orderSummary = document.getElementById("orderSummary");
+            if (cartData.length === 0) {
+                orderSummary.innerHTML = "<p>Giỏ hàng đang trống.</p>";
+            } else {
+                var html = "";
+                cartData.forEach(function(item) {
+                    html += `<div><span>${item.name}</span><span>${item.price}đ</span></div>`;
+                    totalAmount += parseInt(item.price);
+                });
+                html += `<div style="font-weight: bold; color: #ff6200; margin-top: 10px; border: none;"><span>Tổng cộng:</span><span>${totalAmount}đ</span></div>`;
+                orderSummary.innerHTML = html;
+            }
+        });
+
+        // Gửi đơn hàng lên Server
+        function placeOrder(event) {
+            event.preventDefault();
+            
+            if(cartData.length === 0) {
+                alert("Giỏ hàng trống, không thể thanh toán!");
+                return;
+            }
+
+            var user = JSON.parse(localStorage.getItem("hddev_user")) || {};
+            var name = document.getElementById("cusName").value;
+            var phone = document.getElementById("cusPhone").value;
+            var address = document.getElementById("cusAddress").value;
+            
+            // Gửi dữ liệu lên API đặt hàng
+            fetch('/api/orders', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    userEmail: user.email || 'guest',
+                    items: cartData,
+                    total: totalAmount
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    alert("Đặt hàng thành công! Mã đơn hàng: " + data.data.orderId);
+                    localStorage.removeItem("hddev_cart"); // Xóa giỏ hàng
+                    window.location.href = "index.html";
+                } else {
+                    alert("Lỗi: " + data.message);
+                }
+            })
+            .catch(err => alert("Không thể kết nối đến Server!"));
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Cửa hàng - HD&ConBoStore</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #f4f6f9; }
+        h2 { text-align: center; color: #ff6200; }
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; max-width: 1200px; margin: auto; }
+        .product-item { background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); text-align: center; }
+        .product-item img { width: 100%; height: 200px; object-fit: cover; border-radius: 5px; margin-bottom: 10px; }
+        .product-item h4 { margin: 10px 0; font-size: 16px; }
+        .product-item .price { color: #ff6200; font-weight: bold; font-size: 18px; margin-bottom: 10px; }
+        .btn-add { background: #ff6200; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; width: 100%; }
+        .btn-add:hover { background: #e05600; }
+    </style>
+</head>
+<body>
+    <h2>DANH SÁCH SẢN PHẨM</h2>
+    <div class="product-grid" id="productList">
+        <!-- Sản phẩm sẽ được JS tải từ Server và hiển thị ở đây -->
+    </div>
+
+    <script>
+        // Hàm thêm vào giỏ hàng (Dùng LocalStorage)
+        function addToCart(name, price) {
+            var cartData = JSON.parse(localStorage.getItem("hddev_cart")) || [];
+            cartData.push({ name: name, price: price });
+            localStorage.setItem("hddev_cart", JSON.stringify(cartData));
+            alert("Đã thêm " + name + " vào giỏ!");
+        }
+
+        // Gọi API lấy danh sách sản phẩm từ Server
+        document.addEventListener("DOMContentLoaded", function() {
+            fetch('/api/products')
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    var html = "";
+                    data.data.forEach(sp => {
+                        // Lưu ý: Đường dẫn ảnh trong db.json đang là "img/products/..."
+                        html += `
+                        <div class="product-item">
+                            <img src="${sp.img}" alt="${sp.name}" onerror="this.src='images/logo-hddev.png'">
+                            <h4>${sp.name}</h4>
+                            <div class="price">${sp.price}đ</div>
+                            <button class="btn-add" onclick="addToCart('${sp.name}', ${sp.price})">Thêm vào giỏ</button>
+                        </div>`;
+                    });
+                    document.getElementById('productList').innerHTML = html;
+                }
+            })
+            .catch(err => console.error("Lỗi khi tải sản phẩm:", err));
+        });
+    </script>
+</body>
+</html>

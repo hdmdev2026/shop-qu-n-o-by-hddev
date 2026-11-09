@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Đăng Ký - HDDEV2026</title>
+    <style>
+        body { background: #f4f6f9; font-family: Arial, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .login-box { background: #fff; padding: 40px; border-radius: 10px; width: 350px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-top: 5px solid #ff6200; }
+        .login-box h2 { margin-bottom: 20px; color: #333; }
+        .login-box input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; }
+        .login-box button { width: 100%; padding: 12px; background: #ff6200; color: white; border: none; border-radius: 5px; font-size: 16px; cursor: pointer; font-weight: bold; margin-top: 10px;}
+        .login-box button:hover { background: #e05600; }
+        .links { display: flex; justify-content: space-between; margin-top: 15px; font-size: 14px; }
+        .links a { color: #ff6200; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <div class="login-box">
+        <h2>ĐĂNG KÝ TÀI KHOẢN</h2>
+        <form id="registerForm">
+            <input type="text" id="regName" placeholder="Họ và tên" required>
+            <input type="tel" id="regPhone" placeholder="Số điện thoại" required>
+            <input type="email" id="regEmail" placeholder="Email" required>
+            <input type="password" id="regPass" placeholder="Mật khẩu" required>
+            <button type="button" onclick="registerUser()">Đăng Ký</button>
+        </form>
+        <div class="links">
+            <a href="dang-nhap.html">Đã có tài khoản? Đăng nhập</a>
+            <a href="index.html">Về trang chủ</a>
+        </div>
+    </div>
+
+    <script>
+        function registerUser() {
+            var name = document.getElementById("regName").value;
+            var phone = document.getElementById("regPhone").value;
+            var email = document.getElementById("regEmail").value;
+            var pass = document.getElementById("regPass").value;
+
+            if(!name || !phone || !email || !pass) {
+                alert("Vui lòng điền đầy đủ thông tin!");
+                return;
+            }
+
+            // Gửi dữ liệu lên Server
+            fetch('/api/auth/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 
+                    name: name, 
+                    phone: phone, 
+                    email: email, 
+                    password: pass 
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert("Đăng ký thành công! Vui lòng đăng nhập.");
+                    window.location.href = "dang-nhap.html";
+                } else {
+                    alert("Lỗi: " + data.message);
+                }
+            })
+            .catch(error => alert("Không kết nối được với Server!"));
+        }
+    </script>
+</body>
+</html>
