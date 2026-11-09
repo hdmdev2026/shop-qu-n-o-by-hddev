@@ -103,7 +103,6 @@ app.get('/api/products', (req, res) => {
 
 // Các app.listen(3000...) cũ của bạn giữ nguyên bên dưới
 const express = require('express');
-const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
 
