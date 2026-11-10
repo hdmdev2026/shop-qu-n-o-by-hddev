@@ -161,8 +161,8 @@
         .copy-right { color: #aaa; font-size: 14px; }
         .bct-payment img { height: 50px; width: auto; }
 
-        /* MODAL DONATE */
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(5px); z-index: 100000; justify-content: center; align-items: center; }
+        /* MODAL DONATE & WELCOME */
+        .modal, #welcomeModal { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(5px); z-index: 100000; justify-content: center; align-items: center; }
         .modal-content { background: rgba(10, 15, 30, 0.95); border: 2px solid #00e5ff; border-radius: 15px; padding: 30px; text-align: center; max-width: 400px; width: 90%; box-shadow: 0 0 30px rgba(0, 229, 255, 0.5); position: relative; animation: zoomIn 0.3s ease; }
         @keyframes zoomIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
         .modal-content img { width: 100%; border-radius: 10px; border: 1px solid #00e5ff; margin-bottom: 15px; object-fit: contain; max-height: 450px;}
@@ -170,12 +170,34 @@
         .close-btn { position: absolute; top: 10px; right: 15px; font-size: 28px; color: #ff007f; cursor: pointer; transition: 0.2s; }
         .close-btn:hover { color: #fff; transform: scale(1.2); }
 
+        /* WELCOME POPUP CSS */
+        .welcome-box { background: rgba(10, 15, 30, 0.95); border: 2px solid #ec4899; border-radius: 15px; padding: 30px 25px; max-width: 600px; width: 90%; box-shadow: 0 0 40px rgba(236, 72, 153, 0.4); position: relative; animation: zoomIn 0.4s ease; text-align: center; font-family: 'Quicksand', sans-serif; }
+        .welcome-close-x { position: absolute; top: 10px; right: 15px; font-size: 28px; color: #ec4899; cursor: pointer; transition: 0.3s; font-weight: bold; }
+        .welcome-close-x:hover { color: #fff; transform: rotate(90deg); }
+        .welcome-box h2 { color: #00e5ff; font-size: 22px; margin-bottom: 15px; text-transform: uppercase; text-shadow: 0 0 10px rgba(0, 229, 255, 0.5); }
+        .welcome-box p { color: #e2e8f0; font-size: 15px; line-height: 1.6; margin-bottom: 15px; text-align: justify; }
+        .welcome-ad { background: rgba(236, 72, 153, 0.1); border: 1px dashed #ec4899; border-radius: 10px; padding: 15px; margin-bottom: 15px; text-align: left; }
+        .welcome-ad strong { color: #ec4899; display: block; margin-bottom: 5px; font-size: 16px; }
+        .welcome-copyright { font-size: 12px; color: #64748b; margin-bottom: 20px; font-style: italic; }
+        .welcome-btns { display: flex; justify-content: center; gap: 15px; }
+        .btn-welcome { padding: 10px 25px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 14px; }
+        .btn-close-welcome { background: transparent; border: 1px solid #cbd5e1; color: #cbd5e1; }
+        .btn-close-welcome:hover { background: #cbd5e1; color: #000; }
+        .btn-mute { background: linear-gradient(90deg, #ec4899, #a855f7); color: #fff; }
+        .btn-mute:hover { box-shadow: 0 0 15px #ec4899; transform: scale(1.05); }
+
         @media (max-width: 991px) {
             .friday-section { flex-direction: column; }
             .friday-left, .friday-right { width: 100%; }
             .wrap-header { flex-direction: column; gap: 15px; }
             .wrap-footer { grid-template-columns: 1fr; gap: 20px; }
             .wrap-footer-bottom { flex-direction: column; gap: 15px; text-align: center; }
+            
+            /* TẮT DÍNH MENU TRÊN ĐIỆN THOẠI */
+            #header-main {
+                position: relative !important;
+                top: auto !important;
+            }
         }
     </style>
 </head>
@@ -363,12 +385,34 @@
         </div>
     </div>
 
+    <!-- MODAL DONATE -->
     <div id="donateModal" class="modal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeDonateModal()">&times;</span>
             <h3 style="color: #00e5ff; margin-top: 0;">Donate Ủng Hộ Admin</h3>
             <img id="qr-donate-img" src="images/qr_donate.jpg" alt="QR Code Donate" onerror="this.src='https://via.placeholder.com/300x400?text=Chua+co+anh+QR'">
             <p>Donate ủng hộ admin bánh mỳ chống đói,<br>admin xin cảm ơn bạn!</p>
+        </div>
+    </div>
+
+    <!-- WELCOME POPUP -->
+    <div id="welcomeModal">
+        <div class="welcome-box">
+            <span class="welcome-close-x" onclick="closeWelcome()">&times;</span>
+            <h2>🌟 Chào mừng đến với 5CowFashion 🌟</h2>
+            <p>Ở đây các bạn sẽ được tận hưởng và tham khảo những mẫu thời trang thiết kế tinh xảo, độc đáo đến từ các nhà thiết kế thời trang nổi tiếng. Chúng tôi hy vọng các bạn sẽ yêu thích dịch vụ của chúng tôi! <strong>Hân Hạnh!</strong></p>
+            
+            <div class="welcome-ad">
+                <strong>🚀 Dịch vụ quảng cáo ngoài lề:</strong>
+                <span>Admin web nhận build web, bot tele giá rẻ nhất thị trường, nhận make all tool theo yêu cầu (không vppl), nhận unlock tài khoản mạng facebook siêu tốc, tăng tương tác nền tảng mạng xã hội, nâng cấp locket gold, capcut pro, chat gpt plus,...</span>
+            </div>
+            
+            <div class="welcome-copyright">© Bản quyền by HDDev2026</div>
+            
+            <div class="welcome-btns">
+                <button class="btn-welcome btn-close-welcome" onclick="closeWelcome()">Đóng</button>
+                <button class="btn-welcome btn-mute" onclick="muteWelcome()">Tắt thông báo 1 giờ ⏰</button>
+            </div>
         </div>
     </div>
 
@@ -399,10 +443,21 @@
         function handleAccountClick(e) { if (localStorage.getItem("isLoggedIn") !== "true") window.location.href = "dang-nhap.html"; }
         function logout() { localStorage.removeItem("isLoggedIn"); localStorage.removeItem("hddev_user"); alert("Bạn đã đăng xuất!"); window.location.reload(); }
 
-        // 3. DONATE MODAL
+        // 3. MODAL DONATE & WELCOME
         function openDonateModal() { document.getElementById("donateModal").style.display = "flex"; }
         function closeDonateModal() { document.getElementById("donateModal").style.display = "none"; }
         window.onclick = function(event) { var modal = document.getElementById("donateModal"); if (event.target == modal) modal.style.display = "none"; }
+
+        function closeWelcome() {
+            document.getElementById('welcomeModal').style.display = 'none';
+        }
+
+        function muteWelcome() {
+            const muteUntil = new Date().getTime();
+            localStorage.setItem('muteWelcomeTime', muteUntil);
+            document.getElementById('welcomeModal').style.display = 'none';
+            alert("Đã tắt thông báo trong 1 giờ. Hẹn gặp lại!");
+        }
 
         // 4. TẢI DỮ LIỆU TỪ VPS
         const API_BASE_URL = 'http://180.93.194.227:3000';
@@ -496,7 +551,7 @@
                     price: currentProduct.price, 
                     size: selectedSize, 
                     quantity: qty,
-                    image: currentProduct.image // Đã lưu ảnh vào giỏ
+                    image: currentProduct.image
                 });
             }
 
@@ -514,7 +569,26 @@
             countEl.style.display = totalQty > 0 ? 'block' : 'none';
         }
 
-        document.addEventListener("DOMContentLoaded", function() { checkLoginState(); updateCartCount(); loadData(); });
+        document.addEventListener("DOMContentLoaded", function() { 
+            checkLoginState(); 
+            updateCartCount(); 
+            loadData(); 
+
+            // KIỂM TRA THỜI GIAN TẮT THÔNG BÁO (WELCOME POPUP)
+            const muteTime = localStorage.getItem('muteWelcomeTime');
+            const now = new Date().getTime();
+            
+            if (muteTime) {
+                if (now - parseInt(muteTime) < 3600000) {
+                    document.getElementById('welcomeModal').style.display = 'none';
+                } else {
+                    localStorage.removeItem('muteWelcomeTime');
+                    document.getElementById('welcomeModal').style.display = 'flex';
+                }
+            } else {
+                document.getElementById('welcomeModal').style.display = 'flex';
+            }
+        });
     </script>
 </body>
 </html>
