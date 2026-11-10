@@ -36,7 +36,7 @@ function readDB() {
 }
 function writeDB(data) { fs.writeFileSync(DB_PATH, JSON.stringify(data, null, 2), 'utf-8'); }
 
-// --- Cấu hình Upload ảnh ---
+// --- Upload ---
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         const dir = './images';
@@ -62,7 +62,7 @@ app.post('/api/admin/login', (req, res) => {
     }
 });
 
-// --- API BANNER ---
+// --- API BANNER & SETTINGS ---
 app.post('/api/admin/upload-banner', verifyAdmin, upload.single('image'), (req, res) => {
     if (!req.file) return res.status(400).json({ success: false });
     const type = req.body.type;
@@ -72,7 +72,7 @@ app.post('/api/admin/upload-banner', verifyAdmin, upload.single('image'), (req, 
     if (type === 'hero_slider') {
         dbData.settings.hero_sliders.push({ image: imageUrl, link: '#' });
     } else {
-        dbData.settings[type] = imageUrl;
+        dbData.settings[type] = imageUrl; // Lưu qr_donate vào đây
     }
     writeDB(dbData);
     res.json({ success: true });
@@ -80,13 +80,13 @@ app.post('/api/admin/upload-banner', verifyAdmin, upload.single('image'), (req, 
 
 app.delete('/api/admin/delete-banner/:type', verifyAdmin, (req, res) => {
     const type = req.params.type;
-    const index = req.query.index; // Dùng cho slider
+    const index = req.query.index; 
     let dbData = readDB();
     
     if (type === 'hero_slider' && index !== undefined) {
         dbData.settings.hero_sliders.splice(Number(index), 1);
-    } else if (type === 'topbar_img' || type === 'friday_banner') {
-        dbData.settings[type] = ''; // Xóa link ảnh
+    } else if (type === 'topbar_img' || type === 'friday_banner' || type === 'qr_donate') {
+        dbData.settings[type] = ''; 
     }
     
     writeDB(dbData);
@@ -106,7 +106,6 @@ app.post('/api/admin/add-product', verifyAdmin, upload.single('image'), (req, re
     res.json({ success: true });
 });
 
-// API SỬA SẢN PHẨM MỚI
 app.put('/api/admin/edit-product/:id', verifyAdmin, upload.single('image'), (req, res) => {
     const id = Number(req.params.id);
     const { name, price, category, stock } = req.body;
@@ -120,7 +119,6 @@ app.put('/api/admin/edit-product/:id', verifyAdmin, upload.single('image'), (req
     product.category = category || product.category;
     product.stock = stock ? Number(stock) : product.stock;
     
-    // Nếu có upload ảnh mới thì cập nhật, không thì giữ nguyên ảnh cũ
     if (req.file) {
         product.image = `/images/${req.file.filename}`;
     }

@@ -129,10 +129,11 @@
   .account-header:hover svg { fill: #ffffff; filter: drop-shadow(0 0 10px #ffffff); }
   #accountText { font-size: 12px; color: #00e5ff; font-weight: 700; margin-top: 5px; white-space: nowrap; animation: neonGlow 1.5s infinite alternate; }
   
-  /* SỬA LỖI DROPDOWN BỊ LỆCH */
+  /* SỬA LỖI DROPDOWN BỊ LỆCH VÀ TRÀN KHUNG */
   .account-dropdown {
       display: none; position: absolute; top: 100%; right: 0;
-      min-width: 200px; width: max-content; white-space: nowrap;
+      min-width: 200px; width: max-content; max-width: 250px;
+      white-space: nowrap;
       background: rgba(5, 10, 25, 0.98); border: 1px solid #00e5ff;
       border-radius: 10px; padding: 10px 0; z-index: 99999;
       box-shadow: 0 0 20px rgba(0, 229, 255, 0.4); flex-direction: column;
@@ -140,10 +141,12 @@
   }
   .account-dropdown::before { content: ''; position: absolute; top: -15px; left: 0; width: 100%; height: 15px; }
   .account-header:hover .account-dropdown { display: flex; }
+  
   .account-dropdown a {
       padding: 12px 20px; color: #e2e8f0 !important; font-size: 14px; text-decoration: none;
       transition: 0.2s; border-bottom: 1px solid rgba(255,255,255,0.1);
-      animation: none !important; /* Không nhấp nháy trong menu xổ xuống */
+      animation: none !important; display: block; box-sizing: border-box; width: 100%;
+      text-align: left; white-space: normal; word-wrap: break-word; /* Chống tràn chữ */
   }
   .account-dropdown a:last-child { border-bottom: none; }
   .account-dropdown a:hover { background: rgba(0, 229, 255, 0.15); color: #00e5ff !important; padding-left: 25px; }
@@ -158,7 +161,7 @@
       display: none; position: absolute; top: 100%; right: 0;
       width: 320px; background: rgba(5, 10, 25, 0.98); border: 1px solid #00e5ff;
       border-radius: 10px; padding: 15px; z-index: 99999; box-shadow: 0 0 20px rgba(0, 229, 255, 0.4);
-      white-space: normal; margin-top: 10px;
+      white-space: normal; margin-top: 5px;
   }
   .cart-preview::before { content: ''; position: absolute; top: -15px; left: 0; width: 100%; height: 15px; }
   .cart-header:hover .cart-preview { display: block !important; }
@@ -174,19 +177,19 @@
   .collection-list-1 .swiper-wrapper { display: flex !important; gap: 20px; }
   .collection-list-1 .swiper-slide { flex: 1; background: rgba(255,255,255,0.05) !important; border-radius: 12px; padding: 20px; text-align: center; border: 1px solid rgba(0, 229, 255, 0.3); }
 
-  /* TẮT HIỆU ỨNG NHẤP NHÁY Ở SẢN PHẨM VÀ THÊM HIỆU ỨNG HOVER ĐỔI ẢNH */
+  /* TẮT HIỆU ỨNG NHẤP NHÁY VÀ THÊM HIỆU ỨNG HOVER ĐỔI ẢNH */
   .product-loop h4, .product-loop .box-price {
       animation: none !important; 
       text-shadow: none !important;
   }
   .product-image-container {
-      position: relative; width: 100%; overflow: hidden; border-radius: 10px; cursor: pointer;
+      position: relative; width: 100%; overflow: hidden; border-radius: 10px; cursor: pointer; height: 250px;
   }
   .product-image-container img {
-      width: 100%; height: 250px; object-fit: contain; transition: opacity 0.4s ease; display: block;
+      width: 100%; height: 100%; object-fit: contain; transition: opacity 0.4s ease; display: block; position: absolute; top: 0; left: 0;
   }
   .product-image-container .img-model {
-      position: absolute; top: 0; left: 0; opacity: 0;
+      opacity: 0;
   }
   .product-image-container:hover .img-product { opacity: 0; }
   .product-image-container:hover .img-model { opacity: 1; }
@@ -201,7 +204,7 @@
   .modal { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(5px); z-index: 100000; justify-content: center; align-items: center; }
   .modal-content { background: rgba(10, 15, 30, 0.95); border: 2px solid #00e5ff; border-radius: 15px; padding: 30px; text-align: center; max-width: 400px; width: 90%; box-shadow: 0 0 30px rgba(0, 229, 255, 0.5); position: relative; animation: zoomIn 0.3s ease; }
   @keyframes zoomIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-  .modal-content img { width: 100%; border-radius: 10px; border: 1px solid #00e5ff; margin-bottom: 15px; max-height: 400px; object-fit: contain; }
+  .modal-content img { width: 100%; border-radius: 10px; border: 1px solid #00e5ff; margin-bottom: 15px; object-fit: contain; max-height: 450px; }
   .modal-content p { color: #fff; font-weight: bold; margin: 0; font-size: 15px; }
   .close-btn { position: absolute; top: 10px; right: 15px; font-size: 28px; color: #ff007f; cursor: pointer; transition: 0.2s; }
   .close-btn:hover { color: #fff; transform: scale(1.2); }
@@ -1581,7 +1584,7 @@ const PE = {
     <div class="modal-content">
         <span class="close-btn" onclick="closeDonateModal()">&times;</span>
         <h3 style="color: #00e5ff; margin-top: 0;">Donate Ủng Hộ Admin</h3>
-        <img src="images/qr_donate.jpg" alt="QR Code Donate" onerror="this.src='https://via.placeholder.com/300x400?text=Anh+QR+Admin'">
+        <img id="qr-donate-img" src="images/qr_donate.jpg" alt="QR Code Donate" onerror="this.src='https://via.placeholder.com/300x400?text=Anh+QR+Admin'">
         <p>Donate ủng hộ admin bánh mỳ chống đói,<br>admin xin cảm ơn bạn!</p>
     </div>
 </div>
@@ -1822,6 +1825,12 @@ const PE = {
             if (data.friday_banner) {
                 const timeStamp = new Date().getTime();
                 document.getElementById('friday-banner-img').src = data.friday_banner + '?t=' + timeStamp;
+            }
+
+            // LẤY ẢNH QR DONATE TỪ ADMIN (MỚI)
+            if (data.qr_donate) {
+                const src = data.qr_donate.startsWith('http') ? data.qr_donate : API_BASE_URL + data.qr_donate;
+                document.getElementById('qr-donate-img').src = src + '?t=' + new Date().getTime();
             }
 
             // 3. Thay ảnh Slider Hero (Nhiều ảnh)

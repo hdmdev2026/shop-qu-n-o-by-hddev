@@ -26,7 +26,6 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Quicksand', sans-serif; }
         body { background: var(--bg-main); color: var(--text-main); display: flex; height: 100vh; overflow: hidden; position: relative; }
 
-        /* VŨ TRỤ NỀN */
         .overlay-bg { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(3, 5, 16, 0.75); z-index: -1; }
         #star-network-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 0; }
 
@@ -72,7 +71,7 @@
         /* FORMS */
         .form-group { margin-bottom: 15px; }
         .form-group label { display: flex; justify-content: space-between; font-size: 13px; font-weight: 600; color: var(--text-muted); margin-bottom: 8px; }
-        .form-group label span.note { font-weight: normal; font-size: 12px; color: #ff9800; } /* Màu cam nhắc nhở */
+        .form-group label span.note { font-weight: normal; font-size: 12px; color: #ff9800; }
         .form-control { width: 100%; padding: 10px 15px; border: 1px solid rgba(0, 229, 255, 0.4); background: rgba(0,0,0,0.3); border-radius: 8px; outline: none; font-size: 14px; color: #fff; transition: 0.3s; }
         .form-control:focus { border-color: var(--primary); box-shadow: 0 0 10px rgba(0, 229, 255, 0.3); }
         .form-control option { background: #0a0f1e; color: #fff; }
@@ -88,9 +87,9 @@
         .btn-warning:hover { background: #d97706; box-shadow: 0 0 15px #f59e0b; }
 
         /* BANNERS GRID */
-        .banner-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; margin-top: 15px; }
-        .banner-item { background: rgba(0,0,0,0.5); border: 1px solid var(--border-neon); border-radius: 8px; padding: 10px; text-align: center; position: relative; }
-        .banner-item img { width: 100%; height: 100px; object-fit: cover; border-radius: 6px; margin-bottom: 10px; }
+        .banner-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px; margin-top: 15px; }
+        .banner-item { background: rgba(0,0,0,0.5); border: 1px solid var(--border-neon); border-radius: 8px; padding: 10px; text-align: center; }
+        .banner-item img { width: 100%; height: 120px; object-fit: contain; border-radius: 6px; margin-bottom: 10px; background: rgba(255,255,255,0.05); }
         .banner-item .del-btn { background: var(--danger); color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold; width: 100%; }
 
         /* TAB LOGIC & LOGIN */
@@ -109,11 +108,9 @@
 </head>
 <body>
 
-    <!-- VŨ TRỤ NỀN -->
     <div class="overlay-bg"></div>
     <canvas id="star-network-canvas"></canvas>
 
-    <!-- ĐĂNG NHẬP -->
     <div id="loginScreen">
         <div class="login-card">
             <h2>👑 Admin Premium</h2>
@@ -123,7 +120,6 @@
         </div>
     </div>
 
-    <!-- APP -->
     <div id="adminApp" style="display: none; width: 100%; height: 100%;">
         
         <div class="sidebar">
@@ -135,7 +131,7 @@
                 <div class="nav-item" onclick="switchTab('inventory', this)"><span>📦</span> Quản lý Kho</div>
                 <div class="nav-item" onclick="switchTab('orders', this)"><span>🧾</span> Hóa đơn</div>
                 <div class="nav-item" onclick="switchTab('users', this)"><span>👥</span> Khách hàng</div>
-                <div class="nav-item" onclick="switchTab('banners', this)"><span>🖼️</span> Cài đặt Banner</div>
+                <div class="nav-item" onclick="switchTab('banners', this)"><span>🖼️</span> Cài đặt Banner & QR</div>
             </div>
             <button class="logout-btn" onclick="logout()">Đăng Xuất</button>
         </div>
@@ -245,18 +241,19 @@
                     </div>
                 </div>
 
-                <!-- TAB BANNER -->
+                <!-- TAB BANNER & QR -->
                 <div id="tab-banners" class="tab-content">
-                    <h1 class="page-title">Cài đặt Banner</h1>
+                    <h1 class="page-title">Cài đặt Banner & QR</h1>
                     <div class="table-container" style="margin-bottom: 20px;">
                         <h3 style="font-size: 16px; margin-bottom: 15px; color: var(--primary);">Thêm ảnh mới</h3>
                         <div class="form-row">
                             <div class="form-group">
                                 <label>Vị trí ảnh</label>
                                 <select id="b-type" class="form-control" style="margin-bottom: 10px;">
-                                    <option value="topbar_img">Topbar (Trên cùng) - Kích cỡ: 1920x80px</option>
-                                    <option value="friday_banner">Banner Trái Orange Friday - Kích cỡ: 800x1000px</option>
-                                    <option value="hero_slider">Slider chính (Ảnh to) - Kích cỡ: 1920x700px</option>
+                                    <option value="topbar_img">Topbar (1920x80px)</option>
+                                    <option value="friday_banner">Banner Trái Orange Friday (800x1000px)</option>
+                                    <option value="hero_slider">Slider chính (1920x700px)</option>
+                                    <option value="qr_donate">Ảnh QR Donate (Tùy ý)</option> <!-- THÊM MỤC NÀY -->
                                 </select>
                             </div>
                             <div class="form-group">
@@ -278,6 +275,9 @@
 
                         <h4 style="color: #fff; margin: 20px 0 10px 0; font-size: 14px;">Slider Chính:</h4>
                         <div class="banner-grid" id="list-slider"></div>
+
+                        <h4 style="color: #fff; margin: 20px 0 10px 0; font-size: 14px;">Ảnh QR Donate:</h4>
+                        <div class="banner-grid" id="list-qr"></div> <!-- THÊM KHU VỰC HIỂN THỊ QR -->
                     </div>
                 </div>
 
@@ -286,9 +286,6 @@
     </div>
 
     <script>
-        // ==========================================
-        // 1. HIỆU ỨNG CHÒM SAO
-        // ==========================================
         const canvas = document.getElementById('star-network-canvas');
         const ctx = canvas.getContext('2d');
         let width, height, stars = [], mouse = { x: null, y: null };
@@ -313,9 +310,6 @@
         function animateStars() { ctx.clearRect(0, 0, width, height); stars.forEach(s => { s.update(); s.draw(); }); connectStars(); requestAnimationFrame(animateStars); }
         resizeCanvas(); animateStars();
 
-        // ==========================================
-        // 2. LOGIC ADMIN
-        // ==========================================
         const API_BASE_URL = 'http://180.93.194.227:3000'; 
         const SECRET_TOKEN = 'my-secret-token-123';
         let revenueChart = null;
@@ -344,7 +338,7 @@
             document.querySelectorAll('.nav-item').forEach(a => a.classList.remove('active'));
             document.getElementById(`tab-${tabId}`).classList.add('active');
             el.classList.add('active');
-            const titles = { dashboard: 'Tổng quan', products: 'Quản lý Sản phẩm', inventory: 'Quản lý Kho', orders: 'Hóa đơn', users: 'Khách hàng', banners: 'Cài đặt Banner' };
+            const titles = { dashboard: 'Tổng quan', products: 'Quản lý Sản phẩm', inventory: 'Quản lý Kho', orders: 'Hóa đơn', users: 'Khách hàng', banners: 'Cài đặt Banner & QR' };
             document.getElementById('breadcrumb-title').innerText = titles[tabId];
             if (tabId === 'banners') loadBanners();
         }
@@ -357,7 +351,6 @@
             initChart();
         }
 
-        // --- QUẢN LÝ SẢN PHẨM ---
         async function loadProducts() {
             const res = await fetch(`${API_BASE_URL}/api/products`);
             const products = await res.json();
@@ -397,12 +390,12 @@
             document.getElementById('p-price').value = price;
             document.getElementById('p-category').value = category;
             document.getElementById('p-stock').value = stock;
-            document.getElementById('p-image').value = ''; // Reset file input
+            document.getElementById('p-image').value = ''; 
 
             document.getElementById('product-form-title').innerText = "Cập nhật sản phẩm";
             document.getElementById('btn-save-product').innerText = "Lưu thay đổi";
             document.getElementById('btn-cancel-edit').style.display = 'inline-block';
-            window.scrollTo(0, 0); // Cuộn lên đầu form
+            window.scrollTo(0, 0);
         }
 
         function resetProductForm() {
@@ -429,11 +422,9 @@
             if (file) formData.append('image', file);
 
             if (editId) {
-                // Gọi API Sửa
                 await fetch(`${API_BASE_URL}/api/admin/edit-product/${editId}`, { method: 'PUT', headers: { 'Authorization': `Bearer ${SECRET_TOKEN}` }, body: formData });
                 alert("Cập nhật thành công!");
             } else {
-                // Gọi API Thêm
                 if(!file) return alert("Vui lòng chọn ảnh cho sản phẩm mới!");
                 await fetch(`${API_BASE_URL}/api/admin/add-product`, { method: 'POST', headers: { 'Authorization': `Bearer ${SECRET_TOKEN}` }, body: formData });
                 alert("Thêm thành công!");
@@ -457,7 +448,6 @@
             alert("Đã cập nhật kho!"); loadProducts();
         }
 
-        // --- BANNER ---
         async function loadBanners() {
             const res = await fetch(`${API_BASE_URL}/api/settings`);
             const data = await res.json();
@@ -482,6 +472,9 @@
                 sliderHtml = '<p style="color:#94a3b8; font-size:13px;">Chưa có ảnh</p>';
             }
             document.getElementById('list-slider').innerHTML = sliderHtml;
+
+            // Hiển thị ảnh QR
+            document.getElementById('list-qr').innerHTML = renderBanner(data.qr_donate, 'qr_donate');
         }
 
         async function uploadBanner() {
@@ -502,7 +495,6 @@
             alert("Đã xóa ảnh!"); loadBanners();
         }
 
-        // --- ĐƠN HÀNG & KHÁCH HÀNG ---
         async function loadOrders() {
             const res = await fetch(`${API_BASE_URL}/api/admin/orders`, { headers: { 'Authorization': `Bearer ${SECRET_TOKEN}` } });
             const orders = await res.json();
