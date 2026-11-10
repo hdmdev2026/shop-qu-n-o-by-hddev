@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đơn Hàng Của Tôi - HD&ConBoStore</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background: #030510 url('images/space-bg.jpg') no-repeat center center fixed !important;
+            background-size: cover !important; color: #ffffff !important;
+            font-family: 'Quicksand', sans-serif; overflow-x: hidden; min-height: 100vh; display: flex; flex-direction: column;
+        }
+        .overlay-bg { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(3, 5, 16, 0.85); z-index: -1; }
+
+        .header { background: rgba(10, 15, 30, 0.9); padding: 20px; text-align: center; border-bottom: 1px solid rgba(0, 229, 255, 0.3); position: relative; z-index: 2; }
+        .header h1 { color: #00e5ff; text-transform: uppercase; text-shadow: 0 0 10px #00e5ff; font-size: 28px; }
+        .header a { color: #fff; text-decoration: none; font-size: 14px; display: inline-block; margin-top: 10px; }
+
+        .container { max-width: 1000px; margin: 40px auto; width: 95%; position: relative; z-index: 2; }
+
+        /* KHUNG ĐƠN HÀNG */
+        .order-box { background: rgba(10, 15, 30, 0.75); backdrop-filter: blur(12px); border: 1px solid rgba(0, 229, 255, 0.3); border-radius: 15px; padding: 20px; margin-bottom: 25px; }
+        
+        /* HEADER CỦA ĐƠN HÀNG */
+        .order-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed rgba(255,255,255,0.1); padding-bottom: 15px; margin-bottom: 15px; }
+        .order-id { font-weight: 700; font-size: 16px; color: #00e5ff; }
+        .order-date { font-size: 14px; color: #94a3b8; }
+        
+        /* TRẠNG THÁI (GÓC TRÊN CÙNG BÊN PHẢI) */
+        .status-badge { padding: 6px 15px; border-radius: 20px; font-size: 13px; font-weight: bold; }
+        .status-pending { background: rgba(245, 158, 11, 0.2); color: #f59e0b; border: 1px solid #f59e0b; }
+        .status-success { background: rgba(16, 185, 129, 0.2); color: #10b981; border: 1px solid #10b981; }
+        .status-cancelled { background: rgba(239, 68, 68, 0.2); color: #ef4444; border: 1px solid #ef4444; }
+
+        /* CHI TIẾT SẢN PHẨM */
+        .product-list { display: flex; flex-direction: column; gap: 15px; }
+        .product-item { display: flex; align-items: center; gap: 15px; background: rgba(255,255,255,0.03); padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); }
+        .product-item img { width: 80px; height: 100px; object-fit: contain; border-radius: 8px; background: #fff; border: 1px solid rgba(0,229,255,0.3); }
+        .product-info { flex: 1; }
+        .product-info h4 { color: #fff; font-size: 16px; margin-bottom: 5px; }
+        .product-info .size-qty { color: #94a3b8; font-size: 14px; margin-bottom: 5px; }
+        .product-info .price { color: #ff007f; font-weight: bold; font-size: 15px; }
+
+        /* TỔNG TIỀN */
+        .order-footer { display: flex; justify-content: flex-end; align-items: center; gap: 15px; margin-top: 20px; padding-top: 15px; border-top: 1px dashed rgba(255,255,255,0.1); }
+        .order-footer span { font-size: 16px; font-weight: bold; color: #00e5ff; }
+        .empty-state { text-align: center; padding: 50px; background: rgba(10, 15, 30, 0.75); border-radius: 15px; border: 1px solid rgba(0, 229, 255, 0.3); }
+    </style>
+</head>
+<body>
+    <div class="overlay-bg"></div>
+
+    <div class="header">
+        <h1>Đơn Hàng Của Tôi</h1>
+        <a href="index.html">← Quay lại trang chủ</a>
+    </div>
+
+    <div class="container" id="order-container">
+        <!-- JS render đơn hàng vào đây -->
+        <div style="text-align: center; color: #00e5ff;">Đang tải đơn hàng...</div>
+    </div>
+
+    <script>
+        const API_BASE_URL = 'http://180.93.194.227:3000';
+
+        async function loadMyOrders() {
+            const container = document.getElementById('order-container');
+            
+            // Lấy thông tin user đang đăng nhập từ LocalStorage
+            const user = JSON.parse(localStorage.getItem("hddev_user"));
+            
+            if (!user || !user.email) {
+                container.innerHTML = `<div class="empty-state">Bạn cần <a href="dang-nhap.html" style="color:#00e5ff;">đăng nhập</a> để xem đơn hàng!</div>`;
+                return;
+            }
+
+            try {
+                const res = await fetch(`${API_BASE_URL}/api/orders/user/${user.email}`);
+                const orders = await res.json();
+
+                if (orders.length === 0) {
+                    container.innerHTML = `<div class="empty-state">Bạn chưa có đơn hàng nào.</div>`;
+                    return;
+                }
+
+                container.innerHTML = orders.map(order => {
+                    // Xác định class và text cho trạng thái
+                    let statusClass = 'status-pending';
+                    let statusText = 'Chờ giao hàng';
+                    
+                    if (order.status === 'Giao hàng thành công') {
+                        statusClass = 'status-success';
+                        statusText = 'Đã giao hàng thành công';
+                    } else if (order.status === 'Đã hủy') {
+                        statusClass = 'status-cancelled';
+                        statusText = 'Đã hủy';
+                    }
+
+                    // Render danh sách sản phẩm trong đơn
+                    const itemsHtml = order.items.map(item => {
+                        const imgSrc = item.image ? (item.image.startsWith('http') ? item.image : API_BASE_URL + item.image) : 'images/logo-hddev.png';
+                        return `
+                            <div class="product-item">
+                                <img src="${imgSrc}" alt="${item.name}">
+                                <div class="product-info">
+                                    <h4>${item.name}</h4>
+                                    <div class="size-qty">Phân loại: Size ${item.size} | Số lượng: ${item.quantity}</div>
+                                    <div class="price">${item.price.toLocaleString('vi-VN')}đ</div>
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+
+                    return `
+                        <div class="order-box">
+                            <div class="order-header">
+                                <div>
+                                    <div class="order-id">Mã đơn: #${order.id}</div>
+                                    <div class="order-date">Ngày đặt: ${order.date}</div>
+                                </div>
+                                <div class="status-badge ${statusClass}">${statusText}</div>
+                            </div>
+                            
+                            <div class="product-list">
+                                ${itemsHtml}
+                            </div>
+
+                            <div class="order-footer">
+                                Tổng thanh toán: <span>${order.total.toLocaleString('vi-VN')}đ</span>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+            } catch (error) {
+                console.error(error);
+                container.innerHTML = `<div class="empty-state" style="color:red;">Lỗi kết nối Server!</div>`;
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", loadMyOrders);
+    </script>
+</body>
+</html>

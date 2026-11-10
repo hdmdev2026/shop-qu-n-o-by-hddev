@@ -47,76 +47,52 @@ const verifyAdmin = (req, res, next) => {
     else res.status(403).json({ success: false, message: 'Không có quyền!' });
 };
 
-// --- API ĐĂNG KÝ ---
-app.post('/api/auth/register', (req, res) => {
-    const { name, email, phone, password, address } = req.body;
-    
-    if (!name || !email || !password) {
-        return res.status(400).json({ success: false, message: 'Vui lòng điền đủ Họ tên, Email và Mật khẩu!' });
-    }
-    
-    let dbData = readDB();
-    
-    // Kiểm tra trùng Email hoặc SĐT
-    const exists = dbData.users.find(u => 
-        (u.email && u.email.toLowerCase() === email.toLowerCase()) || 
-        (u.phone && u.phone === phone)
-    );
-    
-    if (exists) {
-        return res.status(409).json({ success: false, message: 'Email hoặc Số điện thoại này đã được đăng ký!' });
-    }
-    
-    dbData.users.push({ 
-        id: Date.now(), 
-        name, 
-        email: email.toLowerCase(), 
-        phone: phone || 'Chưa có', 
-        password, 
-        address: address || 'Chưa có',
-        createdAt: new Date().toLocaleString('vi-VN') 
-    });
-    writeDB(dbData);
-    res.json({ success: true, message: 'Đăng ký thành công!' });
-});
-
-// --- API ĐĂNG NHẬP (CHẶT CHẼ) ---
-app.post('/api/auth/login', (req, res) => {
-    const { loginAccount, password } = req.body;
-    let dbData = readDB();
-    
-    // Tìm tài khoản khớp CHÍNH XÁC cả Email/SĐT và Mật khẩu
-    const user = dbData.users.find(u => {
-        const isEmailMatch = u.email && u.email.toLowerCase() === loginAccount.toLowerCase();
-        const isPhoneMatch = u.phone && u.phone === loginAccount;
-        return (isEmailMatch || isPhoneMatch) && u.password === password;
-    });
-    
-    if (!user) {
-        // Trả về lỗi nếu không tìm thấy hoặc sai mật khẩu
-        return res.status(401).json({ success: false, message: 'Tài khoản hoặc mật khẩu không chính xác!' });
-    }
-    
-    // Đăng nhập thành công, trả về thông tin (ẩn mật khẩu đi cho bảo mật)
-    const { password: _, ...userData } = user; 
-    res.json({ success: true, message: 'Đăng nhập thành công!', data: userData });
-});
-
-// --- CÁC API KHÁC (GIỮ NGUYÊN) ---
+// --- API ĐĂNG NHẬP ADMIN ---
 app.post('/api/admin/login', (req, res) => {
     const { username, password } = req.body;
     if (username === 'spmxhhdm' && password === '22122007') {
         res.json({ success: true, token: 'my-secret-token-123' });
     } else {
-        res.status(401).json({ success: false, message: 'Sai tài khoản Admin' });
+        res.status(401).json({ success: false, message: 'Sai tài khoản hoặc mật khẩu' });
     }
 });
 
+// --- API ĐĂNG KÝ / ĐĂNG NHẬP KHÁCH ---
+app.post('/api/auth/register', (req, res) => {
+    const { name, email, phone, password, address } = req.body;
+    if (!name || !email || !password) return res.status(400).json({ success: false, message: 'Vui lòng điền đủ thông tin!' });
+    
+    let dbData = readDB();
+    const exists = dbData.users.find(u => u.email.toLowerCase() === email.toLowerCase() || u.phone === phone);
+    if (exists) return res.status(409).json({ success: false, message: 'Email hoặc SĐT đã được đăng ký!' });
+    
+    dbData.users.push({ 
+        id: Date.now(), name, email: email.toLowerCase(), phone: phone || 'Chưa có', 
+        password, address: address || 'Chưa có', createdAt: new Date().toLocaleString('vi-VN') 
+    });
+    writeDB(dbData);
+    res.json({ success: true, message: 'Đăng ký thành công!' });
+});
+
+app.post('/api/auth/login', (req, res) => {
+    const { loginAccount, password } = req.body;
+    let dbData = readDB();
+    const user = dbData.users.find(u => 
+        (u.email.toLowerCase() === loginAccount.toLowerCase() || u.phone === loginAccount) 
+        && u.password === password
+    );
+    if (!user) return res.status(401).json({ success: false, message: 'Sai tài khoản hoặc mật khẩu!' });
+    
+    const { password: _, ...userData } = user; 
+    res.json({ success: true, message: 'Đăng nhập thành công!', data: userData });
+});
+
+// --- API ĐẶT HÀNG & QUẢN LÝ ĐƠN HÀNG ---
 app.post('/api/orders', (req, res) => {
     const { customerName, phone, address, userEmail, items, total } = req.body;
     let dbData = readDB();
     
-    dbData.orders.push({
+    const newOrder = {
         id: 'ORD' + Date.now(),
         customer: customerName || 'Khách vãng lai',
         phone: phone || 'Chưa có',
@@ -126,11 +102,36 @@ app.post('/api/orders', (req, res) => {
         total: Number(total) || 0,
         date: new Date().toLocaleString('vi-VN'),
         status: 'Chờ xử lý'
-    });
+    };
+    dbData.orders.push(newOrder);
     writeDB(dbData);
     res.json({ success: true, message: 'Đặt hàng thành công!' });
 });
 
+app.get('/api/orders/user/:email', (req, res) => {
+    const email = req.params.email;
+    let dbData = readDB();
+    const userOrders = dbData.orders.filter(o => o.userEmail === email);
+    userOrders.sort((a, b) => b.id.localeCompare(a.id)); 
+    res.json(userOrders);
+});
+
+app.put('/api/admin/update-order-status/:id', verifyAdmin, (req, res) => {
+    const id = req.params.id;
+    const { status } = req.body;
+    let dbData = readDB();
+    const order = dbData.orders.find(o => o.id === id);
+    
+    if (order) {
+        order.status = status; 
+        writeDB(dbData);
+        res.json({ success: true, message: 'Cập nhật trạng thái thành công!' });
+    } else {
+        res.status(404).json({ success: false, message: 'Không tìm thấy đơn hàng!' });
+    }
+});
+
+// --- CÁC API KHÁC ---
 app.post('/api/admin/add-product', verifyAdmin, upload.single('image'), (req, res) => {
     const { name, price, category, stock, sub_category } = req.body; 
     let dbData = readDB();

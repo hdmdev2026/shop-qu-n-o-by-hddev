@@ -261,6 +261,7 @@
                     </a>
                     <div class="account-dropdown" id="accountDropdown">
                         <a href="thong-tin-tai-khoan.html">Thông tin tài khoản</a>
+                        <a href="lich-su-mua-hang.html">Đơn hàng của tôi</a> <!-- LINK LỊCH SỬ ĐƠN HÀNG -->
                         <a href="javascript:void(0)" onclick="openDonateModal()">Donate Admin</a>
                         <a href="javascript:void(0)" onclick="logout()" style="color: #ff007f !important;">Đăng xuất</a>
                     </div>
@@ -574,7 +575,6 @@
             updateCartCount(); 
             loadData(); 
 
-            // KIỂM TRA THỜI GIAN TẮT THÔNG BÁO (WELCOME POPUP)
             const muteTime = localStorage.getItem('muteWelcomeTime');
             const now = new Date().getTime();
             
