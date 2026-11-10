@@ -17,17 +17,9 @@ function readDB() {
     try {
         if (!fs.existsSync(DB_PATH)) {
             const defaultData = { 
-                products: [], 
-                settings: { topbar_img: "", friday_banner: "", hero_sliders: [] }, 
-                users: [
-                    {id: 1, name: "Nguyễn Văn A", email: "vana@gmail.com", phone: "0987654321"},
-                    {id: 2, name: "Trần Thị B", email: "thib@gmail.com", phone: "0123456789"}
-                ], 
-                orders: [
-                    {id: "ORD001", customer: "Nguyễn Văn A", total: 450000, status: "Hoàn thành", date: "2026-05-10"},
-                    {id: "ORD002", customer: "Trần Thị B", total: 1200000, status: "Đang giao", date: "2026-05-11"},
-                    {id: "ORD003", customer: "Khách vãng lai", total: 250000, status: "Chờ xử lý", date: "2026-05-11"}
-                ] 
+                products: [], settings: { hero_sliders: [] }, 
+                users: [ {id: 1, name: "Nguyễn Văn A", email: "vana@gmail.com", phone: "0987654321"} ], 
+                orders: [ {id: "ORD001", customer: "Nguyễn Văn A", total: 450000, status: "Hoàn thành", date: "2026-05-10"} ] 
             };
             fs.writeFileSync(DB_PATH, JSON.stringify(defaultData, null, 2), 'utf-8');
             return defaultData;
@@ -44,7 +36,7 @@ function readDB() {
 }
 function writeDB(data) { fs.writeFileSync(DB_PATH, JSON.stringify(data, null, 2), 'utf-8'); }
 
-// --- Upload ---
+// --- Cấu hình Upload ảnh ---
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         const dir = './images';
@@ -71,18 +63,12 @@ app.post('/api/admin/login', (req, res) => {
 });
 
 // --- API BANNER ---
-app.get('/api/admin/banners', verifyAdmin, (req, res) => {
-    const db = readDB();
-    res.json(db.settings);
-});
-
 app.post('/api/admin/upload-banner', verifyAdmin, upload.single('image'), (req, res) => {
     if (!req.file) return res.status(400).json({ success: false });
     const type = req.body.type;
     const imageUrl = `/images/${req.file.filename}`; 
     let dbData = readDB();
-    if (!dbData.settings.hero_sliders) dbData.settings.hero_sliders = [];
-
+    
     if (type === 'hero_slider') {
         dbData.settings.hero_sliders.push({ image: imageUrl, link: '#' });
     } else {
@@ -92,13 +78,18 @@ app.post('/api/admin/upload-banner', verifyAdmin, upload.single('image'), (req, 
     res.json({ success: true });
 });
 
-app.delete('/api/admin/delete-banner', verifyAdmin, (req, res) => {
-    const { type, index } = req.body;
+app.delete('/api/admin/delete-banner/:type', verifyAdmin, (req, res) => {
+    const type = req.params.type;
+    const index = req.query.index; // Dùng cho slider
     let dbData = readDB();
-    if (type === 'hero_slider' && dbData.settings.hero_sliders) {
-        dbData.settings.hero_sliders.splice(index, 1);
-        writeDB(dbData);
+    
+    if (type === 'hero_slider' && index !== undefined) {
+        dbData.settings.hero_sliders.splice(Number(index), 1);
+    } else if (type === 'topbar_img' || type === 'friday_banner') {
+        dbData.settings[type] = ''; // Xóa link ảnh
     }
+    
+    writeDB(dbData);
     res.json({ success: true });
 });
 
@@ -111,6 +102,29 @@ app.post('/api/admin/add-product', verifyAdmin, upload.single('image'), (req, re
         category: category || 'khac', stock: Number(stock) || 0,
         image: `/images/${req.file.filename}` 
     });
+    writeDB(dbData);
+    res.json({ success: true });
+});
+
+// API SỬA SẢN PHẨM MỚI
+app.put('/api/admin/edit-product/:id', verifyAdmin, upload.single('image'), (req, res) => {
+    const id = Number(req.params.id);
+    const { name, price, category, stock } = req.body;
+    let dbData = readDB();
+    const product = dbData.products.find(p => p.id === id);
+
+    if (!product) return res.status(404).json({ success: false, message: "Không tìm thấy SP" });
+
+    product.name = name || product.name;
+    product.price = price ? Number(price) : product.price;
+    product.category = category || product.category;
+    product.stock = stock ? Number(stock) : product.stock;
+    
+    // Nếu có upload ảnh mới thì cập nhật, không thì giữ nguyên ảnh cũ
+    if (req.file) {
+        product.image = `/images/${req.file.filename}`;
+    }
+
     writeDB(dbData);
     res.json({ success: true });
 });
@@ -130,9 +144,7 @@ app.post('/api/admin/update-stock/:id', verifyAdmin, (req, res) => {
         product.stock = Number(req.body.stock);
         writeDB(dbData);
         res.json({ success: true });
-    } else {
-        res.status(404).json({ success: false });
-    }
+    } else res.status(404).json({ success: false });
 });
 
 // --- API LẤY DỮ LIỆU ---
