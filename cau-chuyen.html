@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Câu Chuyện HDDEV2026 - Huyền Thoại 5 Chàng Trai IT</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            background: #030510 url('images/space-bg.jpg') no-repeat center center fixed !important;
+            background-size: cover !important;
+            color: #ffffff !important;
+            font-family: 'Quicksand', sans-serif;
+            overflow-x: hidden;
+            cursor: crosshair;
+            min-height: 100vh;
+        }
+
+        .overlay-bg { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(3, 5, 16, 0.85); z-index: -1; }
+        #star-network-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 0; }
+
+        /* HIỆU ỨNG NEON */
+        @keyframes neonGlow {
+            0%, 100% { text-shadow: 0 0 5px #fff, 0 0 10px #00e5ff, 0 0 20px #00e5ff; }
+            50% { text-shadow: 0 0 10px #00e5ff, 0 0 20px #00e5ff, 0 0 40px #00e5ff; }
+        }
+        @keyframes zoomIn { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+        /* HEADER */
+        .header { text-align: center; padding: 60px 20px; position: relative; z-index: 2; }
+        .header h1 { font-size: 40px; color: #00e5ff; text-transform: uppercase; letter-spacing: 3px; animation: neonGlow 2s infinite alternate; margin-bottom: 10px; }
+        .header p { font-size: 18px; color: #ff007f; font-weight: bold; text-shadow: 0 0 10px #ff007f; }
+
+        /* KHUNG KÍNH MỜ */
+        .glass-container {
+            max-width: 900px;
+            margin: 0 auto 50px auto;
+            background: rgba(10, 15, 30, 0.75);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(0, 229, 255, 0.3);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 229, 255, 0.1);
+            border-radius: 20px;
+            padding: 40px;
+            position: relative;
+            z-index: 2;
+            animation: zoomIn 0.8s ease-out;
+        }
+
+        .story-content p {
+            font-size: 17px;
+            line-height: 1.8;
+            margin-bottom: 25px;
+            color: #e2e8f0;
+            text-align: justify;
+        }
+
+        .story-content .highlight {
+            color: #00e5ff;
+            font-weight: 700;
+            text-shadow: 0 0 5px rgba(0, 229, 255, 0.5);
+        }
+
+        /* DANH SÁCH TÍNH NĂNG */
+        .feature-list {
+            list-style: none;
+            margin: 30px 0;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.03);
+            border-left: 4px solid #ff007f;
+            border-radius: 8px;
+        }
+        .feature-list li {
+            font-size: 16px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-weight: 600;
+        }
+        .feature-list li:last-child { margin-bottom: 0; }
+        .feature-list span.emoji { font-size: 24px; }
+
+        /* TRÍCH DẪN */
+        .quote-box {
+            text-align: center;
+            font-size: 22px;
+            font-weight: 700;
+            color: #ff007f;
+            margin: 40px 0;
+            padding: 20px;
+            border-top: 1px dashed rgba(255, 0, 127, 0.5);
+            border-bottom: 1px dashed rgba(255, 0, 127, 0.5);
+            text-shadow: 0 0 10px rgba(255, 0, 127, 0.5);
+        }
+
+        /* NÚT QUAY LẠI */
+        .btn-back {
+            display: block;
+            width: fit-content;
+            margin: 0 auto 50px auto;
+            padding: 15px 40px;
+            background: linear-gradient(135deg, #0055ff, #00e5ff);
+            color: #fff;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 16px;
+            border-radius: 30px;
+            box-shadow: 0 4px 15px rgba(0, 229, 255, 0.4);
+            transition: 0.3s;
+            position: relative;
+            z-index: 2;
+        }
+        .btn-back:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(0, 229, 255, 0.6); }
+
+        @media (max-width: 768px) {
+            .header h1 { font-size: 28px; }
+            .glass-container { padding: 20px; margin: 0 15px 30px 15px; }
+            .story-content p { font-size: 15px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay-bg"></div>
+    <canvas id="star-network-canvas"></canvas>
+
+    <div class="header">
+        <h1>HDDEV2026</h1>
+        <p>Huyền Thoại 5 Chàng Trai IT & Đế Chế Thời Trang</p>
+    </div>
+
+    <div class="glass-container">
+        <div class="story-content">
+            <p>Ngày xửa ngày xưa, giữa kỷ nguyên số đầy biến động, <span class="highlight">5 chàng trai trẻ</span> mang trong mình dòng máu công nghệ, tư duy sắc bén và một khát vọng cháy bỏng: Tạo nên điều khác biệt. Họ là những kỹ sư IT tài ba, kẻ giỏi code, người thiết kế tài hoa, kẻ am hiểu kinh doanh. Nhưng họ không muốn mãi bị gói gọn trong những dòng code khô khan.</p>
+            
+            <p>Họ cùng chung một giấc mơ vĩ đại: <span class="highlight">Xây dựng một đế chế thời trang</span> mang dấu ấn riêng, nơi phong cách, chất lượng và công nghệ đỉnh cao cùng hội tụ. Và thế là, <strong>HDDEV2026 FASHION STORE</strong> chính thức ra đời!</p>
+
+            <p>Khởi đầu chỉ là một ý tưởng nhỏ bé hình thành từ những cuộc trò chuyện xuyên đêm. Nhưng với tinh thần "dám nghĩ, dám làm", 5 chàng trai đã biến giấc mơ ấy thành một đế chế thời trang đầy màu sắc.</p>
+
+            <ul class="feature-list">
+                <li><span class="emoji">👕</span> Những mẫu quần áo trẻ trung, hiện đại và hợp xu hướng toàn cầu.</li>
+                <li><span class="emoji">🎀</span> Thời trang trẻ em đáng yêu, năng động và đầy cá tính.</li>
+                <li><span class="emoji">🔥</span> Những chương trình khuyến mãi hấp dẫn, săn sale cực đã.</li>
+                <li><span class="emoji">💎</span> Trải nghiệm mua sắm hiện đại, tiện lợi và chuyên nghiệp.</li>
+                <li><span class="emoji">❤️</span> Luôn đặt sự hài lòng của khách hàng lên hàng đầu.</li>
+            </ul>
+
+            <p>Từ những ngày đầu xây dựng, 5 chàng trai đã không ngừng nỗ lực. Người viết code xây dựng website, người thiết kế giao diện, người quản lý sản phẩm, người phát triển thương hiệu và người vận hành hệ thống. Họ kết hợp sức mạnh của <span class="highlight">công nghệ 4.0</span> với niềm đam mê thời trang để tạo nên một HDDEV2026 khác biệt.</p>
+            
+            <p>Và rồi, cái tên HDDEV2026 dần trở thành biểu tượng cho một thế hệ kinh doanh trẻ: năng động, sáng tạo, hiện đại và không ngại thử thách.</p>
+
+            <div class="quote-box">
+                5 chàng trai - 1 tầm nhìn<br>
+                1 thương hiệu - 1 khát vọng vươn xa!
+            </div>
+
+            <p>Họ không chỉ muốn bán quần áo. Họ muốn xây dựng một thương hiệu thời trang được khách hàng yêu thích, tin tưởng và lựa chọn. Hành trình phía trước còn dài, nhưng với bản lĩnh của những chàng trai IT, <span class="highlight">không gì là không thể!</span></p>
+        </div>
+    </div>
+
+    <a href="index.html" class="btn-back">← Trở Về Trang Chủ</a>
+
+    <script>
+        const canvas = document.getElementById('star-network-canvas');
+        const ctx = canvas.getContext('2d');
+        let width, height, stars = [], mouse = { x: null, y: null };
+        function resizeCanvas() { width = canvas.width = window.innerWidth; height = canvas.height = window.innerHeight; initStars(); }
+        window.addEventListener('resize', resizeCanvas);
+        window.addEventListener('mousemove', (e) => { mouse.x = e.clientX; mouse.y = e.clientY; });
+        window.addEventListener('mouseout', () => { mouse.x = null; mouse.y = null; });
+        class Star { constructor() { this.x = Math.random() * width; this.y = Math.random() * height; this.vx = (Math.random() - 0.5) * 0.5; this.vy = (Math.random() - 0.5) * 0.5; this.radius = Math.random() * 1.5 + 0.5; } update() { this.x += this.vx; this.y += this.vy; if (this.x < 0 || this.x > width) this.vx *= -1; if (this.y < 0 || this.y > height) this.vy *= -1; } draw() { ctx.beginPath(); ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2); ctx.fillStyle = 'rgba(255, 255, 255, 0.8)'; ctx.fill(); } }
+        function initStars() { stars = []; for (let i = 0; i < 120; i++) stars.push(new Star()); }
+        function connectStars() { for (let i = 0; i < stars.length; i++) { for (let j = i + 1; j < stars.length; j++) { const dx = stars[i].x - stars[j].x, dy = stars[i].y - stars[j].y, dist = Math.sqrt(dx*dx + dy*dy); if (dist < 150) { ctx.beginPath(); ctx.moveTo(stars[i].x, stars[i].y); ctx.lineTo(stars[j].x, stars[j].y); ctx.strokeStyle = `rgba(0, 229, 255, ${(1 - dist/150) * 0.5})`; ctx.lineWidth = 0.5; ctx.stroke(); } } if (mouse.x != null) { const dxM = stars[i].x - mouse.x, dyM = stars[i].y - mouse.y, distM = Math.sqrt(dxM*dxM + dyM*dyM); if (distM < 200) { ctx.beginPath(); ctx.moveTo(stars[i].x, stars[i].y); ctx.lineTo(mouse.x, mouse.y); ctx.strokeStyle = `rgba(0, 229, 255, ${1 - distM/200})`; ctx.lineWidth = 1; ctx.stroke(); } } } }
+        function animateStars() { ctx.clearRect(0, 0, width, height); stars.forEach(s => { s.update(); s.draw(); }); connectStars(); requestAnimationFrame(animateStars); }
+        resizeCanvas(); animateStars();
+    </script>
+</body>
+</html>
