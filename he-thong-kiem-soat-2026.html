@@ -111,6 +111,7 @@
     <div class="overlay-bg"></div>
     <canvas id="star-network-canvas"></canvas>
 
+    <!-- MÀN HÌNH ĐĂNG NHẬP -->
     <div id="loginScreen">
         <div class="login-card">
             <h2>👑 Admin Premium</h2>
@@ -120,6 +121,7 @@
         </div>
     </div>
 
+    <!-- GIAO DIỆN CHÍNH -->
     <div id="adminApp" style="display: none; width: 100%; height: 100%;">
         
         <div class="sidebar">
@@ -191,6 +193,7 @@
                             </div>
                             <div class="form-group"><label>Số lượng kho</label><input type="number" id="p-stock" class="form-control" value="100"></div>
                             <div class="form-group">
+                                <!-- GHI CHÚ KÍCH CỠ ẢNH SẢN PHẨM -->
                                 <label>Ảnh sản phẩm <span class="note">(Kích cỡ chuẩn: 600x600px)</span></label>
                                 <input type="file" id="p-image" class="form-control" style="padding: 7px;">
                             </div>
@@ -250,10 +253,10 @@
                             <div class="form-group">
                                 <label>Vị trí ảnh</label>
                                 <select id="b-type" class="form-control" style="margin-bottom: 10px;">
-                                    <option value="topbar_img">Topbar (1920x80px)</option>
-                                    <option value="friday_banner">Banner Trái Orange Friday (800x1000px)</option>
-                                    <option value="hero_slider">Slider chính (1920x700px)</option>
-                                    <option value="qr_donate">Ảnh QR Donate (Tùy ý)</option> <!-- THÊM MỤC NÀY -->
+                                    <option value="topbar_img">Topbar (Kích cỡ: 1920x80px)</option>
+                                    <option value="friday_banner">Banner Trái Orange Friday (Kích cỡ: 800x1000px)</option>
+                                    <option value="hero_slider">Slider chính (Kích cỡ: 1920x700px)</option>
+                                    <option value="qr_donate">Ảnh QR Donate (Kích cỡ tùy ý)</option>
                                 </select>
                             </div>
                             <div class="form-group">
@@ -277,7 +280,7 @@
                         <div class="banner-grid" id="list-slider"></div>
 
                         <h4 style="color: #fff; margin: 20px 0 10px 0; font-size: 14px;">Ảnh QR Donate:</h4>
-                        <div class="banner-grid" id="list-qr"></div> <!-- THÊM KHU VỰC HIỂN THỊ QR -->
+                        <div class="banner-grid" id="list-qr"></div>
                     </div>
                 </div>
 
@@ -286,6 +289,9 @@
     </div>
 
     <script>
+        // ==========================================
+        // 1. HIỆU ỨNG MẠNG LƯỚI CHÒM SAO
+        // ==========================================
         const canvas = document.getElementById('star-network-canvas');
         const ctx = canvas.getContext('2d');
         let width, height, stars = [], mouse = { x: null, y: null };
@@ -310,6 +316,9 @@
         function animateStars() { ctx.clearRect(0, 0, width, height); stars.forEach(s => { s.update(); s.draw(); }); connectStars(); requestAnimationFrame(animateStars); }
         resizeCanvas(); animateStars();
 
+        // ==========================================
+        // 2. LOGIC ADMIN
+        // ==========================================
         const API_BASE_URL = 'http://180.93.194.227:3000'; 
         const SECRET_TOKEN = 'my-secret-token-123';
         let revenueChart = null;
@@ -351,6 +360,7 @@
             initChart();
         }
 
+        // --- QUẢN LÝ SẢN PHẨM ---
         async function loadProducts() {
             const res = await fetch(`${API_BASE_URL}/api/products`);
             const products = await res.json();
@@ -448,6 +458,7 @@
             alert("Đã cập nhật kho!"); loadProducts();
         }
 
+        // --- QUẢN LÝ BANNER & QR ---
         async function loadBanners() {
             const res = await fetch(`${API_BASE_URL}/api/settings`);
             const data = await res.json();
@@ -473,7 +484,6 @@
             }
             document.getElementById('list-slider').innerHTML = sliderHtml;
 
-            // Hiển thị ảnh QR
             document.getElementById('list-qr').innerHTML = renderBanner(data.qr_donate, 'qr_donate');
         }
 
@@ -495,6 +505,7 @@
             alert("Đã xóa ảnh!"); loadBanners();
         }
 
+        // --- ĐƠN HÀNG & KHÁCH HÀNG ---
         async function loadOrders() {
             const res = await fetch(`${API_BASE_URL}/api/admin/orders`, { headers: { 'Authorization': `Bearer ${SECRET_TOKEN}` } });
             const orders = await res.json();
@@ -515,6 +526,7 @@
             document.getElementById('stat-users').innerText = users.length;
         }
 
+        // --- BIỂU ĐỒ ---
         function initChart() {
             const ctx = document.getElementById('revenueChart').getContext('2d');
             if(revenueChart) revenueChart.destroy();

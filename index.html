@@ -7,7 +7,7 @@
     <link rel="shortcut icon" href="images/favicon.png" type="image/png">
     <meta name="description" content="HD&ConBoStore là thương hiệu thời trang trẻ em, chuyên cung cấp các sản phẩm an toàn, thoải mái cho bé.">
     
-    <!-- Tối ưu tốc độ tải với Preconnect và Font chữ -->
+    <!-- Tối ưu tốc độ -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
@@ -15,7 +15,7 @@
 
     <style>
         /* =======================================================
-           CSS GIAO DIỆN VŨ TRỤ (GIỮ NGUYÊN BẢN)
+           CSS GIAO DIỆN VŨ TRỤ
            ======================================================= */
         * { box-sizing: border-box; margin: 0; padding: 0; }
         
@@ -34,11 +34,10 @@
         .overlay-bg { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(3, 5, 16, 0.75); z-index: -1; }
         #star-network-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 0; }
 
-        /* TOPBAR */
+        /* TOPBAR & HEADER */
         #topbar { background: #fff !important; position: relative; z-index: 2; width: 100%; overflow: hidden; }
         #topbar img { width: 100%; height: auto; max-height: 100px; object-fit: cover; display: block; }
 
-        /* HEADER */
         #header-main {
             background: rgba(10, 15, 30, 0.85) !important;
             backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
@@ -66,23 +65,18 @@
         .account-header:hover svg, .cart-header:hover svg { fill: #ffffff; filter: drop-shadow(0 0 10px #ffffff); }
         #accountText { font-size: 13px; color: #00e5ff; font-weight: 700; margin-top: 5px; white-space: nowrap; }
         
-        /* FIX LỖI DROPDOWN (ĐÃ VUÔNG VẮN, KHÔNG RỚT DÒNG) */
+        /* DROPDOWN FIX */
         .account-dropdown {
             display: none; position: absolute; top: 100%; right: 0;
-            width: 200px; /* Kích thước cố định */
-            background: rgba(5, 10, 25, 0.98); border: 1px solid #00e5ff;
+            width: 200px; background: rgba(5, 10, 25, 0.98); border: 1px solid #00e5ff;
             border-radius: 10px; padding: 10px 0; z-index: 9999;
-            box-shadow: 0 0 20px rgba(0, 229, 255, 0.4); flex-direction: column;
-            margin-top: 10px;
+            box-shadow: 0 0 20px rgba(0, 229, 255, 0.4); flex-direction: column; margin-top: 10px;
         }
         .account-dropdown::before { content: ''; position: absolute; top: -15px; left: 0; width: 100%; height: 15px; }
         .account-header:hover .account-dropdown { display: flex; }
-        
         .account-dropdown a { 
             padding: 12px 20px; color: #e2e8f0 !important; font-size: 14px; text-decoration: none; 
-            transition: 0.2s; border-bottom: 1px solid rgba(255,255,255,0.1); 
-            display: block; box-sizing: border-box; width: 100%;
-            white-space: nowrap; /* Chặn rớt dòng */
+            transition: 0.2s; border-bottom: 1px solid rgba(255,255,255,0.1); display: block; width: 100%; white-space: nowrap;
         }
         .account-dropdown a:last-child { border-bottom: none; }
         .account-dropdown a:hover { background: rgba(0, 229, 255, 0.15); color: #00e5ff !important; padding-left: 25px; }
@@ -94,14 +88,13 @@
         .swiper { width: 100%; border-radius: 15px; overflow: hidden; box-shadow: 0 0 20px rgba(0, 229, 255, 0.2); }
         .swiper-slide img { width: 100%; height: auto; display: block; }
 
-        /* SECTION SẢN PHẨM (ORANGE FRIDAY) */
+        /* ORANGE FRIDAY */
         .friday-section {
             max-width: 1200px; width: 95%; margin: 30px auto; padding: 25px;
             background: rgba(10, 15, 30, 0.75) !important; backdrop-filter: blur(12px);
             border: 1px solid rgba(0, 229, 255, 0.3); border-radius: 15px;
             display: flex; gap: 30px; align-items: stretch;
         }
-
         .friday-left { width: 40%; flex-shrink: 0; display: flex; flex-direction: column; gap: 20px; }
         .friday-banner { width: 100%; border-radius: 12px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); }
         .friday-banner img { width: 100%; height: auto; display: block; }
@@ -111,17 +104,15 @@
         .friday-title h3 { font-size: 20px; color: #ffffff; text-transform: uppercase; text-shadow: 0 0 10px #00e5ff; margin: 0; }
         .friday-title a { color: #00e5ff; text-decoration: underline; font-size: 14px; font-weight: bold; }
 
-        /* THẺ SẢN PHẨM (ĐÃ TẮT NHẤP NHÁY) */
         .product-card {
             background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(0, 229, 255, 0.2);
             border-radius: 12px; padding: 15px; text-align: center; transition: 0.3s;
             display: flex; flex-direction: column; justify-content: space-between; height: 100%;
         }
         .product-card:hover { transform: translateY(-5px); border-color: #00e5ff; box-shadow: 0 0 20px rgba(0,229,255,0.3); }
-        
         .product-card h4, .product-card .price, .product-card h4 a { animation: none !important; text-shadow: none !important; }
 
-        /* HIỆU ỨNG HOVER ĐỔI ẢNH NGƯỜI MẪU */
+        /* HOVER ĐỔI ẢNH */
         .product-image-container { position: relative; width: 100%; height: 200px; overflow: hidden; border-radius: 8px; cursor: pointer; }
         .product-image-container img { width: 100%; height: 100%; object-fit: contain; transition: opacity 0.3s ease; position: absolute; top: 0; left: 0; }
         .product-image-container .img-model { opacity: 0; } 
@@ -133,6 +124,36 @@
         
         .btn-add { background: linear-gradient(135deg, #0055ff, #00e5ff); color: #fff; border: none; padding: 10px 15px; border-radius: 20px; font-weight: bold; cursor: pointer; width: 100%; transition: 0.3s; }
         .btn-add:hover { transform: scale(1.05); box-shadow: 0 0 15px rgba(0, 229, 255, 0.6); }
+
+        /* SẢN PHẨM TRƯNG BÀY (MỚI) */
+        .display-section {
+            max-width: 1200px; width: 95%; margin: 30px auto; padding: 25px;
+            background: rgba(10, 15, 30, 0.75) !important; backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 229, 255, 0.3); border-radius: 15px;
+        }
+        .display-title { text-align: center; font-size: 22px; color: #00e5ff; text-transform: uppercase; text-shadow: 0 0 10px #00e5ff; margin-bottom: 20px; }
+        .display-swiper { width: 100%; overflow: hidden; }
+        .display-swiper .swiper-slide { padding: 10px; }
+        
+        /* FOOTER (KHÔI PHỤC NGUYÊN BẢN) */
+        #main-footer { background: rgba(10, 15, 30, 0.85) !important; backdrop-filter: blur(12px); border-top: 1px solid rgba(0, 229, 255, 0.2); margin-top: 40px; position: relative; z-index: 2; }
+        .wrap-footer { display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr; gap: 30px; padding: 40px 20px; }
+        .title-footer { font-size: 16px; font-weight: 700; color: #00e5ff !important; text-shadow: 0 0 10px #00e5ff; margin-bottom: 20px; text-transform: uppercase; }
+        .column-footer p, .column-footer li, .column-footer a { color: #aaa !important; font-size: 14px; line-height: 2; text-decoration: none; list-style: none; }
+        .column-footer a:hover { color: #00e5ff !important; }
+        .column-footer ul { padding: 0; }
+        .sub-footer.content-newsletter form { display: flex; gap: 5px; margin-top: 15px; }
+        .sub-footer.content-newsletter input { padding: 10px; border-radius: 5px; border: none; flex: 1; outline: none; }
+        .sub-footer.content-newsletter button { padding: 10px; border-radius: 5px; background: #00e5ff; border: none; font-weight: bold; cursor: pointer; color: #000; }
+        .list-social ul { display: flex; gap: 10px; margin-top: 15px; }
+        .list-social img { width: 30px; }
+        .address-footer li { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 15px; }
+        .address-footer svg { width: 20px; height: 20px; fill: #fff; flex-shrink: 0; margin-top: 5px; }
+        
+        .bottom-footer { border-top: 1px solid rgba(255,255,255,0.1); padding: 20px 0; }
+        .wrap-footer-bottom { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .copy-right { color: #aaa; font-size: 14px; }
+        .bct-payment img { height: 50px; width: auto; }
 
         /* MODAL DONATE */
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(5px); z-index: 100000; justify-content: center; align-items: center; }
@@ -147,6 +168,8 @@
             .friday-section { flex-direction: column; }
             .friday-left, .friday-right { width: 100%; }
             .wrap-header { flex-direction: column; gap: 15px; }
+            .wrap-footer { grid-template-columns: 1fr; gap: 20px; }
+            .wrap-footer-bottom { flex-direction: column; gap: 15px; text-align: center; }
         }
     </style>
 </head>
@@ -154,12 +177,10 @@
     <div class="overlay-bg"></div>
     <canvas id="star-network-canvas"></canvas>
 
-    <!-- TOPBAR -->
     <div id="topbar">
         <a href="#" id="topbar-link"><img id="topbar-img" src="images/sticky_bar_bf_12600x400.jpg" alt="Banner Top" loading="lazy"></a>
     </div>
 
-    <!-- HEADER -->
     <header id="header-main">
         <div class="wrap-header">
             <div class="logo">
@@ -205,7 +226,7 @@
             </div>
         </section>
 
-        <!-- SẢN PHẨM -->
+        <!-- ORANGE FRIDAY -->
         <section class="friday-section">
             <div class="friday-left">
                 <div class="friday-banner">
@@ -224,10 +245,85 @@
                 </div>
             </div>
         </section>
+
+        <!-- SẢN PHẨM TRƯNG BÀY (MỚI) -->
+        <section class="display-section">
+            <h2 class="display-title">SẢN PHẨM TRƯNG BÀY</h2>
+            <div class="swiper display-swiper">
+                <div class="swiper-wrapper" id="display-products-wrapper">
+                    <!-- JS tự động đổ sản phẩm vào đây -->
+                </div>
+            </div>
+        </section>
     </main>
 
-    <footer style="text-align: center; padding: 20px; color: #aaa; background: rgba(10,15,30,0.8); border-top: 1px solid rgba(0,229,255,0.2); position:relative; z-index:2;">
-        © 2026 HD&CONBOSTORE - Bản quyền thuộc về HDDev2026.
+    <!-- FOOTER KHÔI PHỤC NGUYÊN BẢN -->
+    <footer id="main-footer">
+        <div class="container">
+            <div class="wrap-footer">
+                <div class="column-footer column-newsletter">
+                    <div class="title-footer">ĐĂNG KÝ NHẬN TIN</div>
+                    <div class="sub-footer content-newsletter">
+                        <p>Đăng ký ngay và là người đầu tiên nắm được thông tin khuyến mãi mới, các sự kiện sắp diễn ra tại cửa hàng và nhiều thông tin hấp dẫn khác.</p>
+                        <form id="newsletter-footer">
+                            <input required type="email" placeholder="Nhập địa chỉ email">
+                            <button type="submit">Đăng ký</button>
+                        </form>
+                        <div class="list-social">
+                            <ul>
+                                <li><a href="#"><img src="images/icon-01.png" alt="icon"></a></li>
+                                <li><a href="#"><img src="images/icon-02.png" alt="icon"></a></li>
+                                <li><a href="#"><img src="images/icon-03.png" alt="icon"></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="column-footer">
+                    <div class="title-footer">VỀ HD&CONBOSTORE</div>
+                    <ul class="sub-footer linklist-footer">
+                        <li><a href="#">Câu chuyện về HDDev2026</a></li>
+                        <li><a href="#">Tin tức</a></li>
+                        <li><a href="#">Hệ thống cửa hàng</a></li>
+                        <li><a href="#">Tuyển dụng</a></li>
+                    </ul>
+                </div>
+                <div class="column-footer">
+                    <div class="title-footer">HỖ TRỢ KHÁCH HÀNG</div>
+                    <ul class="sub-footer linklist-footer">
+                        <li><a href="#">Chính sách đổi trả hàng</a></li>
+                        <li><a href="#">Hướng dẫn chọn size</a></li>
+                        <li><a href="#">Tra cứu đơn hàng</a></li>
+                        <li><a href="#">Giao hàng &amp; phí giao hàng</a></li>
+                        <li><a href="#">Chính sách bảo mật thông tin</a></li>
+                    </ul>
+                </div>
+                <div class="column-footer">
+                    <div class="title-footer">THÔNG TIN LIÊN HỆ</div>
+                    <ul class="sub-footer address-footer">
+                        <li>
+                            <svg viewBox="0 0 512 512"><path d="M341.476 338.285c54.483-85.493 47.634-74.827 49.204-77.056C410.516 233.251 421 200.322 421 166 421 74.98 347.139 0 256 0 165.158 0 91 74.832 91 166c0 34.3 10.704 68.091 31.19 96.446l48.332 75.84C118.847 346.227 31 369.892 31 422c0 18.995 12.398 46.065 71.462 67.159C143.704 503.888 198.231 512 256 512c108.025 0 225-30.472 225-90 0-52.117-87.744-75.757-139.524-83.715zm-194.227-92.34a15.57 15.57 0 0 0-.517-.758C129.685 221.735 121 193.941 121 166c0-75.018 60.406-136 135-136 74.439 0 135 61.009 135 136 0 27.986-8.521 54.837-24.646 77.671-1.445 1.906 6.094-9.806-110.354 172.918L147.249 245.945zM256 482c-117.994 0-195-34.683-195-60 0-17.016 39.568-44.995 127.248-55.901l55.102 86.463a14.998 14.998 0 0 0 25.298 0l55.101-86.463C411.431 377.005 451 404.984 451 422c0 25.102-76.313 60-195 60z"></path><path d="M256 91c-41.355 0-75 33.645-75 75s33.645 75 75 75 75-33.645 75-75-33.645-75-75-75zm0 120c-24.813 0-45-20.187-45-45s20.187-45 45-45 45 20.187 45 45-20.187 45-45 45z"></path></svg>
+                            <div><strong style="color:#fff">Địa chỉ:</strong> <br>UNETI , DHTI19A1ND</div>
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 100 100"><path d="M58.545 68.314c-1.58-.421-3.271-.028-4.538 1.006l-5.919 4.837c-1.7 1.39-4.113 1.574-5.967.395-6.795-4.318-12.355-9.878-16.673-16.672-1.178-1.854-.994-4.267.396-5.968l4.836-5.919c1.034-1.266 1.428-2.957 1.006-4.537-2.087-7.824-6.513-13.382-13.19-16.749-1.497-.755-3.276-.656-4.748.146a79.547 79.547 0 0 0-9.124 5.792c-1.58 1.162-2.392 3.118-2.044 5.048 2.455 13.64 9.884 27.926 21.843 39.885S50.667 94.966 64.307 97.42c1.93.347 3.886-.465 5.049-2.044a79.553 79.553 0 0 0 5.791-9.124c.802-1.473.901-3.251.146-4.748-3.367-6.678-8.925-11.103-16.748-13.19z"></path></svg>
+                            <div><strong style="color:#fff">Hotline:</strong> <br><a href="tel:0822092522" style="color:#00e5ff;">0822092522</a></div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="bottom-footer">
+            <div class="wrap-footer-bottom">
+                <div class="copy-right">
+                    © 2026 HD&CONBOSTORE <br> Bản quyền thuộc về HDDev2026.
+                </div>
+                <div class="bct-payment">
+                    <a rel="nofollow" target="_blank" href="https://online.gov.vn/nen-tang/864e884c-54b1-4a42-94eb-0823fea0c550">
+                        <img src="images/logo_bct.png" alt="Logo bộ công thương" loading="lazy">
+                    </a>
+                </div>
+            </div>
+        </div>
     </footer>
 
     <!-- MODAL DONATE -->
@@ -332,11 +428,10 @@
                 if(resProducts.ok) {
                     const products = await resProducts.json();
                     if (products.length > 0) {
-                        const wrapper = document.getElementById('friday-products-wrapper');
-                        wrapper.innerHTML = products.map(p => {
+                        // 1. Load vào Orange Friday (Chỉ lấy 2 sản phẩm đầu)
+                        const fridayWrapper = document.getElementById('friday-products-wrapper');
+                        fridayWrapper.innerHTML = products.slice(0, 2).map(p => {
                             const imgSrc = p.image.startsWith('http') ? p.image : API_BASE_URL + p.image;
-                            
-                            // Ảnh người mẫu mặc định (Có thể thay bằng link thật)
                             const modelGirl = 'https://i.imgur.com/Q7j5Xq8.png'; 
                             const modelBoy = 'https://i.imgur.com/K6z1wJq.png'; 
                             const hoverImg = (p.category === 'be-gai' || p.category === 'dam-vay') ? modelGirl : modelBoy;
@@ -346,12 +441,12 @@
                                     <div class="product-card">
                                         <div class="product-image-container" onclick="window.location.href='shop.html'">
                                             <img class="img-product" src="${imgSrc}" alt="${p.name}" loading="lazy">
-                                            <img class="img-model" src="${hoverImg}" alt="Người mẫu mặc ${p.name}" loading="lazy">
+                                            <img class="img-model" src="${hoverImg}" alt="Mẫu" loading="lazy">
                                         </div>
                                         <div>
                                             <h4>${p.name}</h4>
                                             <div class="price">${p.price.toLocaleString('vi-VN')}đ</div>
-                                            <button class="btn-add" onclick="event.stopPropagation(); addToCart('${p.name}', ${p.price})">Thêm Vào Giỏ</button>
+                                            <button class="btn-add" onclick="event.stopPropagation(); addToCart('${p.name}', ${p.price})">Thêm</button>
                                         </div>
                                     </div>
                                 </div>
@@ -359,6 +454,33 @@
                         }).join('');
                         
                         new Swiper('.product-swiper', { slidesPerView: 2, spaceBetween: 15, navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' }, breakpoints: { 320: { slidesPerView: 1 }, 768: { slidesPerView: 2 } } });
+
+                        // 2. Load vào Sản phẩm trưng bày (Hiển thị 2 cái, tự động trượt)
+                        const displayWrapper = document.getElementById('display-products-wrapper');
+                        displayWrapper.innerHTML = products.map(p => {
+                            const imgSrc = p.image.startsWith('http') ? p.image : API_BASE_URL + p.image;
+                            return `
+                                <div class="swiper-slide">
+                                    <div class="product-card" onclick="window.location.href='shop.html'">
+                                        <img src="${imgSrc}" alt="${p.name}" style="width:100%; height:200px; object-fit:contain; border-radius:8px;">
+                                        <h4 style="margin-top:10px;">${p.name}</h4>
+                                        <div class="price">${p.price.toLocaleString('vi-VN')}đ</div>
+                                    </div>
+                                </div>
+                            `;
+                        }).join('');
+
+                        new Swiper('.display-swiper', {
+                            slidesPerView: 2,
+                            spaceBetween: 20,
+                            loop: products.length > 2, // Chỉ loop nếu có nhiều hơn 2 sản phẩm
+                            autoplay: {
+                                delay: 3000, // Dừng 3s rồi trượt
+                                disableOnInteraction: false,
+                            },
+                            speed: 1500, // Tốc độ trượt chậm dần (1.5 giây)
+                            breakpoints: { 320: { slidesPerView: 1 }, 768: { slidesPerView: 2 } }
+                        });
                     }
                 }
             } catch (error) {
