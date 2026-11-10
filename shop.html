@@ -6,272 +6,141 @@
     <title>Danh sách sản phẩm - HD&ConBoStore</title>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        /* =======================================================
-           1. RESET & BACKGROUND VŨ TRỤ
-           ======================================================= */
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        
         body {
             background: #030510 url('images/space-bg.jpg') no-repeat center center fixed !important;
-            background-size: cover !important;
-            color: #ffffff !important;
-            font-family: 'Quicksand', sans-serif;
-            overflow-x: hidden;
-            cursor: crosshair;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
+            background-size: cover !important; color: #ffffff !important;
+            font-family: 'Quicksand', sans-serif; overflow-x: hidden; cursor: crosshair; min-height: 100vh; display: flex; flex-direction: column;
         }
+        .overlay-bg { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(3, 5, 16, 0.75); z-index: -1; }
+        #star-network-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 0; }
 
-        .overlay-bg {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(3, 5, 16, 0.75); z-index: -1;
-        }
-
-        #star-network-canvas { 
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
-            pointer-events: none; z-index: 0; 
-        }
-
-        /* =======================================================
-           2. HEADER & TOPBAR
-           ======================================================= */
-        #topbar { background: #fff !important; position: relative; z-index: 2; padding: 5px 0; }
-        #topbar img { width: 100%; height: 65px; object-fit: cover; display: block; margin: 0 auto; }
+        #topbar { background: #fff !important; position: relative; z-index: 2; width: 100%; overflow: hidden; }
+        #topbar img { width: 100%; height: auto; max-height: 100px; object-fit: cover; display: block; }
 
         #header-main {
-            background: rgba(10, 15, 30, 0.75) !important;
-            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(100, 150, 255, 0.2);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
-            position: relative; z-index: 10; margin: 10px; border-radius: 15px;
+            background: rgba(10, 15, 30, 0.85) !important; backdrop-filter: blur(15px); border: 1px solid rgba(0, 229, 255, 0.3);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8); position: sticky; top: 0; margin: 10px auto; border-radius: 15px;
+            max-width: 1200px; width: 95%; z-index: 100;
         }
-
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 15px; }
-        .wrap-header { display: flex; justify-content: space-between; align-items: center; padding: 15px; }
-        
-        #menu-main a { 
-            color: #ffffff !important; text-decoration: none; font-weight: bold; margin: 0 10px;
-            transition: 0.3s;
-        }
-        #menu-main a:hover, #menu-main a.active { 
-            color: #00e5ff !important; text-shadow: 0 0 10px #00e5ff; 
-        }
-
-        /* =======================================================
-           3. TIÊU ĐỀ & HIỆU ỨNG NEON
-           ======================================================= */
-        @keyframes neonGlow {
-            0%, 100% { color: #ffffff; text-shadow: 0 0 5px #fff, 0 0 10px #ff007f, 0 0 20px #ff007f; }
-            50% { color: #ff007f; text-shadow: 0 0 10px #ff007f, 0 0 20px #ff007f, 0 0 30px #ff007f, 0 0 40px #ff007f; }
-        }
+        .wrap-header { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; }
+        #menu-main ul { display: flex; gap: 20px; list-style: none; }
+        #menu-main a { color: #ffffff !important; text-decoration: none; font-weight: 700; font-size: 15px; transition: 0.3s; }
+        #menu-main a:hover, #menu-main a.active { color: #00e5ff !important; text-shadow: 0 0 10px #00e5ff; }
 
         .page-title {
             text-align: center; font-size: 32px; font-weight: 700; margin: 40px 0; 
-            text-transform: uppercase; letter-spacing: 2px;
-            animation: neonGlow 1.5s infinite alternate !important;
+            text-transform: uppercase; letter-spacing: 2px; color: #00e5ff;
+            text-shadow: 0 0 10px #00e5ff, 0 0 20px #00e5ff;
         }
 
-        /* =======================================================
-           4. LƯỚI SẢN PHẨM
-           ======================================================= */
-        .wrap-main { flex: 1; position: relative; z-index: 2; padding-bottom: 50px; }
-        
         .product-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-            gap: 25px;
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 25px; max-width: 1200px; width: 95%; margin: 0 auto 50px;
         }
 
         .product-card {
-            background: rgba(10, 15, 30, 0.75) !important;
-            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(0, 229, 255, 0.3);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
-            border-radius: 15px; padding: 15px; text-align: center; transition: 0.3s;
+            background: rgba(10, 15, 30, 0.75); backdrop-filter: blur(12px); border: 1px solid rgba(0, 229, 255, 0.3);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5); border-radius: 15px; padding: 15px; text-align: center; transition: 0.3s;
             display: flex; flex-direction: column; justify-content: space-between;
         }
-        .product-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 15px 35px rgba(0, 229, 255, 0.4);
-            border-color: #00e5ff;
-        }
-        .product-card img { 
-            width: 100%; height: 240px; object-fit: cover; border-radius: 10px; 
-            margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.1);
-        }
-        .product-card h4 { font-size: 16px; margin: 0 0 10px 0; color: #fff; text-shadow: 0 0 5px rgba(255,255,255,0.5); }
-        .product-card .price { font-size: 18px; color: #ff007f; font-weight: bold; margin-bottom: 15px; text-shadow: 0 0 10px rgba(255,0,127,0.5); }
+        .product-card:hover { transform: translateY(-8px); box-shadow: 0 15px 35px rgba(0, 229, 255, 0.4); border-color: #00e5ff; }
+        .product-card img { width: 100%; height: 240px; object-fit: contain; border-radius: 10px; margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); }
+        .product-card h4 { font-size: 16px; margin: 0 0 10px 0; color: #fff; }
+        .product-card .price { font-size: 18px; color: #ff007f; font-weight: bold; margin-bottom: 15px; }
         
-        .btn-add {
-            background: linear-gradient(135deg, #0055ff, #00e5ff) !important; 
-            color: #fff !important; border: none !important; border-radius: 20px !important; 
-            padding: 12px 20px !important; font-weight: bold !important; cursor: pointer !important; 
-            transition: 0.3s; width: 100%; box-shadow: 0 4px 15px rgba(0, 229, 255, 0.3);
-        }
-        .btn-add:hover { transform: scale(1.05); box-shadow: 0 0 20px rgba(0, 229, 255, 0.6); }
+        .btn-add { background: linear-gradient(135deg, #0055ff, #00e5ff); color: #fff; border: none; border-radius: 20px; padding: 10px 20px; font-weight: bold; cursor: pointer; width: 100%; transition: 0.3s; }
+        .btn-add:hover { transform: scale(1.05); box-shadow: 0 0 15px rgba(0, 229, 255, 0.6); }
 
-        .loading-text { 
-            text-align: center; width: 100%; grid-column: 1 / -1; 
-            font-size: 20px; color: #00e5ff; margin: 50px 0; animation: pulse 1.5s infinite;
-        }
-        @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; text-shadow: 0 0 10px #00e5ff; } 100% { opacity: 0.5; } }
+        .loading-text { text-align: center; width: 100%; font-size: 20px; color: #00e5ff; margin: 50px 0; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
 
-        /* =======================================================
-           5. FOOTER
-           ======================================================= */
-        footer {
-            background: rgba(10, 15, 30, 0.75) !important;
-            backdrop-filter: blur(12px);
-            border-top: 1px solid rgba(100, 150, 255, 0.2);
-            position: relative; z-index: 2;
-            padding: 20px; text-align: center; border-radius: 15px 15px 0 0;
-            margin-top: auto;
-        }
+        footer { margin-top: auto; padding: 20px; text-align: center; background: rgba(10, 15, 30, 0.85); border-top: 1px solid rgba(0,229,255,0.2); position: relative; z-index: 2; }
     </style>
 </head>
 <body>
-
-    <!-- Nền Vũ Trụ -->
     <div class="overlay-bg"></div>
     <canvas id="star-network-canvas"></canvas>
 
-    <!-- TOPBAR -->
     <div id="topbar">
-        <div class="container">
-            <a href="index.html"><img src="images/sticky_bar_bf_12600x400.jpg" alt="Banner top"></a>
-        </div>
+        <a href="index.html"><img id="topbar-img" src="images/sticky_bar_bf_12600x400.jpg" alt="Banner Top"></a>
     </div>
 
-    <!-- HEADER -->
     <header id="header-main">
-        <div class="container">
-            <div class="wrap-header">
-                <div class="logo-header">
-                    <a href="index.html"><img src="images/logo-hddev.png" width="125" alt="Logo"></a>
-                </div>
-                <nav id="menu-main">
-                    <a href="shop.html">TẤT CẢ</a>
-                    <a href="shop.html?category=be-gai" class="cat-link" data-cat="be-gai">BÉ GÁI</a>
-                    <a href="shop.html?category=be-trai" class="cat-link" data-cat="be-trai">BÉ TRAI</a>
-                    <a href="shop.html?category=giay-dep" class="cat-link" data-cat="giay-dep">🌟 GIÀY DÉP</a>
-                </nav>
-                <div class="right-header">
-                    <a href="index.html" style="color: #00e5ff; font-weight: bold; text-decoration: none; text-shadow: 0 0 5px #00e5ff;">Về Trang Chủ</a>
-                </div>
-            </div>
+        <div class="wrap-header">
+            <div class="logo"><a href="index.html"><img src="images/logo-hddev.png" width="120" alt="Logo"></a></div>
+            <nav id="menu-main">
+                <ul>
+                    <li><a href="shop.html">TẤT CẢ</a></li>
+                    <li><a href="shop.html?category=be-gai" class="cat-link" data-cat="be-gai">BÉ GÁI</a></li>
+                    <li><a href="shop.html?category=be-trai" class="cat-link" data-cat="be-trai">BÉ TRAI</a></li>
+                    <li><a href="shop.html?category=giay-dep" class="cat-link" data-cat="giay-dep">🌟 GIÀY DÉP</a></li>
+                </ul>
+            </nav>
+            <a href="index.html" style="color: #00e5ff; font-weight: bold; text-decoration: none;">Về Trang Chủ</a>
         </div>
     </header>
 
-    <!-- NỘI DUNG CHÍNH -->
-    <main class="wrap-main">
-        <div class="container">
-            <h1 class="page-title" id="page-title">TẤT CẢ SẢN PHẨM</h1>
-            
-            <div class="product-grid" id="product-grid">
-                <div class="loading-text">⏳ Đang quét tín hiệu từ vũ trụ...</div>
-            </div>
+    <main style="flex: 1; position: relative; z-index: 2;">
+        <h1 class="page-title" id="page-title">TẤT CẢ SẢN PHẨM</h1>
+        <div class="product-grid" id="product-grid">
+            <div class="loading-text">⏳ Đang tải sản phẩm...</div>
         </div>
     </main>
 
-    <!-- FOOTER -->
-    <footer id="main-footer">
-        <div class="container">
-            <p style="color: #aaa;">© 2026 HD&CONBOSTORE - Bản quyền thuộc về HDDev2026.</p>
-        </div>
+    <footer>
+        © 2026 HD&CONBOSTORE - Bản quyền thuộc về HDDev2026.
     </footer>
 
     <script>
-        // ==========================================
-        // 1. HIỆU ỨNG CHÒM SAO
-        // ==========================================
+        // HIỆU ỨNG SAO
         const canvas = document.getElementById('star-network-canvas');
         const ctx = canvas.getContext('2d');
         let width, height, stars = [], mouse = { x: null, y: null };
-        
         function resizeCanvas() { width = canvas.width = window.innerWidth; height = canvas.height = window.innerHeight; initStars(); }
         window.addEventListener('resize', resizeCanvas);
         window.addEventListener('mousemove', (e) => { mouse.x = e.clientX; mouse.y = e.clientY; });
-        window.addEventListener('mouseout', () => { mouse.x = null; mouse.y = null; });
-        
-        class Star { 
-            constructor() { this.x = Math.random() * width; this.y = Math.random() * height; this.vx = (Math.random() - 0.5) * 0.5; this.vy = (Math.random() - 0.5) * 0.5; this.radius = Math.random() * 1.5 + 0.5; } 
-            update() { this.x += this.vx; this.y += this.vy; if (this.x < 0 || this.x > width) this.vx *= -1; if (this.y < 0 || this.y > height) this.vy *= -1; } 
-            draw() { ctx.beginPath(); ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2); ctx.fillStyle = 'rgba(255, 255, 255, 0.8)'; ctx.fill(); } 
-        }
-        
+        class Star { constructor() { this.x = Math.random() * width; this.y = Math.random() * height; this.vx = (Math.random() - 0.5) * 0.5; this.vy = (Math.random() - 0.5) * 0.5; this.radius = Math.random() * 1.5 + 0.5; } update() { this.x += this.vx; this.y += this.vy; if (this.x < 0 || this.x > width) this.vx *= -1; if (this.y < 0 || this.y > height) this.vy *= -1; } draw() { ctx.beginPath(); ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2); ctx.fillStyle = 'rgba(255, 255, 255, 0.8)'; ctx.fill(); } }
         function initStars() { stars = []; for (let i = 0; i < 120; i++) stars.push(new Star()); }
-        
-        function connectStars() {
-            for (let i = 0; i < stars.length; i++) {
-                for (let j = i + 1; j < stars.length; j++) {
-                    const dx = stars[i].x - stars[j].x, dy = stars[i].y - stars[j].y, dist = Math.sqrt(dx*dx + dy*dy);
-                    if (dist < 150) { 
-                        ctx.beginPath(); ctx.moveTo(stars[i].x, stars[i].y); ctx.lineTo(stars[j].x, stars[j].y); 
-                        ctx.strokeStyle = `rgba(0, 229, 255, ${(1 - dist/150) * 0.5})`; ctx.lineWidth = 0.5; ctx.stroke(); 
-                    }
-                }
-                if (mouse.x != null) {
-                    const dxM = stars[i].x - mouse.x, dyM = stars[i].y - mouse.y, distM = Math.sqrt(dxM*dxM + dyM*dyM);
-                    if (distM < 200) { 
-                        ctx.beginPath(); ctx.moveTo(stars[i].x, stars[i].y); ctx.lineTo(mouse.x, mouse.y); 
-                        ctx.strokeStyle = `rgba(0, 229, 255, ${1 - distM/200})`; ctx.lineWidth = 1; ctx.stroke(); 
-                    }
-                }
-            }
-        }
-        
-        function animateStars() { 
-            ctx.clearRect(0, 0, width, height); 
-            stars.forEach(s => { s.update(); s.draw(); }); 
-            connectStars(); 
-            requestAnimationFrame(animateStars); 
-        }
-        
-        resizeCanvas(); 
-        animateStars();
+        function connectStars() { for (let i = 0; i < stars.length; i++) { for (let j = i + 1; j < stars.length; j++) { const dx = stars[i].x - stars[j].x, dy = stars[i].y - stars[j].y, dist = Math.sqrt(dx*dx + dy*dy); if (dist < 150) { ctx.beginPath(); ctx.moveTo(stars[i].x, stars[i].y); ctx.lineTo(stars[j].x, stars[j].y); ctx.strokeStyle = `rgba(0, 229, 255, ${(1 - dist/150) * 0.5})`; ctx.lineWidth = 0.5; ctx.stroke(); } } if (mouse.x != null) { const dxM = stars[i].x - mouse.x, dyM = stars[i].y - mouse.y, distM = Math.sqrt(dxM*dxM + dyM*dyM); if (distM < 200) { ctx.beginPath(); ctx.moveTo(stars[i].x, stars[i].y); ctx.lineTo(mouse.x, mouse.y); ctx.strokeStyle = `rgba(0, 229, 255, ${1 - distM/200})`; ctx.lineWidth = 1; ctx.stroke(); } } } }
+        function animateStars() { ctx.clearRect(0, 0, width, height); stars.forEach(s => { s.update(); s.draw(); }); connectStars(); requestAnimationFrame(animateStars); }
+        resizeCanvas(); animateStars();
 
-        // ==========================================
-        // 2. TẢI SẢN PHẨM TỪ VPS
-        // ==========================================
+        // LOGIC LỌC SẢN PHẨM
         const API_BASE_URL = 'http://180.93.194.227:3000';
         const urlParams = new URLSearchParams(window.location.search);
         const categoryParam = urlParams.get('category');
+        const subCategoryParam = urlParams.get('sub_category');
 
-        // Cập nhật Menu Active và Tiêu đề
+        // Cập nhật tiêu đề
         if (categoryParam) {
-            document.querySelectorAll('.cat-link').forEach(link => {
-                if (link.dataset.cat === categoryParam) link.classList.add('active');
-            });
-            const titleMap = {
-                'be-gai': 'THỜI TRANG BÉ GÁI',
-                'be-trai': 'THỜI TRANG BÉ TRAI',
-                'giay-dep': 'GIÀY DÉP CHÍNH HÃNG',
-                'bo-suu-tap-moi': 'BỘ SƯU TẬP MỚI',
-                'sieu-sale': 'SIÊU SALE DIỆU KỲ',
-                'tho-chia-se': 'GÓC THỎ CHIA SẺ'
-            };
-            document.getElementById('page-title').innerText = titleMap[categoryParam] || 'DANH SÁCH SẢN PHẨM';
-        } else {
-            document.getElementById('page-title').innerText = 'TẤT CẢ SẢN PHẨM';
+            document.querySelectorAll('.cat-link').forEach(link => { if (link.dataset.cat === categoryParam) link.classList.add('active'); });
+            let title = categoryParam === 'be-gai' ? 'BÉ GÁI' : (categoryParam === 'be-trai' ? 'BÉ TRAI' : 'DANH MỤC');
+            if (subCategoryParam) {
+                const subNames = { 'quan': 'QUẦN', 'ao': 'ÁO', 'giay': 'GIÀY', 'dep': 'DÉP' };
+                title += ' - ' + subNames[subCategoryParam];
+            }
+            document.getElementById('page-title').innerText = title;
         }
 
-        async function fetchCategoryProducts() {
+        async function fetchProducts() {
             const grid = document.getElementById('product-grid');
             try {
-                const url = categoryParam ? `${API_BASE_URL}/api/products?category=${categoryParam}` : `${API_BASE_URL}/api/products`;
+                let url = `${API_BASE_URL}/api/products?`;
+                if (categoryParam) url += `category=${categoryParam}&`;
+                if (subCategoryParam) url += `sub_category=${subCategoryParam}`;
+
                 const response = await fetch(url);
                 const products = await response.json();
 
                 if (products.length === 0) {
-                    grid.innerHTML = '<div class="loading-text" style="color: #ff007f; animation: neonGlow 1.5s infinite alternate !important;">🌌 Không tìm thấy sản phẩm nào trong danh mục này.</div>';
+                    grid.innerHTML = '<div class="loading-text">Không tìm thấy sản phẩm nào.</div>';
                     return;
                 }
 
                 grid.innerHTML = products.map(p => `
                     <div class="product-card">
                         <div>
-                            <a href="#"><img src="${API_BASE_URL}${p.image}" alt="${p.name}"></a>
+                            <img src="${API_BASE_URL}${p.image}" alt="${p.name}" loading="lazy">
                             <h4>${p.name}</h4>
                         </div>
                         <div>
@@ -280,29 +149,23 @@
                         </div>
                     </div>
                 `).join('');
-
             } catch (error) {
                 console.error("Lỗi API:", error);
-                grid.innerHTML = '<div class="loading-text" style="color: red;">Mất kết nối với vũ trụ. Vui lòng thử lại sau.</div>';
+                grid.innerHTML = '<div class="loading-text" style="color: red;">Lỗi kết nối Server.</div>';
             }
         }
 
-        // Hàm thêm vào giỏ hàng
         function addToCart(name, price) {
             if (localStorage.getItem("isLoggedIn") !== "true") {
-                alert("Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng!");
-                window.location.href = "dang-nhap.html";
-                return;
+                alert("Vui lòng đăng nhập để thêm sản phẩm!"); window.location.href = "dang-nhap.html"; return;
             }
-            var cartData = JSON.parse(localStorage.getItem("hddev_cart")) || [];
-            cartData.push({ name: name, price: price });
-            localStorage.setItem("hddev_cart", JSON.stringify(cartData));
+            let cart = JSON.parse(localStorage.getItem("hddev_cart")) || [];
+            cart.push({ name: name, price: price });
+            localStorage.setItem("hddev_cart", JSON.stringify(cart));
             alert("Đã thêm " + name + " vào giỏ!");
         }
 
-        document.addEventListener("DOMContentLoaded", function() {
-            fetchCategoryProducts();
-        });
+        document.addEventListener("DOMContentLoaded", fetchProducts);
     </script>
 </body>
 </html>

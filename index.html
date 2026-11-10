@@ -7,56 +7,52 @@
     <link rel="shortcut icon" href="images/favicon.png" type="image/png">
     <meta name="description" content="HD&ConBoStore là thương hiệu thời trang trẻ em, chuyên cung cấp các sản phẩm an toàn, thoải mái cho bé.">
     
-    <!-- Tối ưu tốc độ -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
     <style>
-        /* =======================================================
-           CSS GIAO DIỆN VŨ TRỤ
-           ======================================================= */
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        
         body {
             background: #030510 url('images/space-bg.jpg') no-repeat center center fixed !important;
-            background-size: cover !important;
-            color: #ffffff !important;
-            font-family: 'Quicksand', sans-serif;
-            overflow-x: hidden;
-            cursor: crosshair;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
+            background-size: cover !important; color: #ffffff !important;
+            font-family: 'Quicksand', sans-serif; overflow-x: hidden; cursor: crosshair; min-height: 100vh; display: flex; flex-direction: column;
         }
-
         .overlay-bg { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(3, 5, 16, 0.75); z-index: -1; }
         #star-network-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 0; }
 
-        /* TOPBAR & HEADER */
         #topbar { background: #fff !important; position: relative; z-index: 2; width: 100%; overflow: hidden; }
         #topbar img { width: 100%; height: auto; max-height: 100px; object-fit: cover; display: block; }
 
         #header-main {
-            background: rgba(10, 15, 30, 0.85) !important;
-            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
-            border: 1px solid rgba(0, 229, 255, 0.3);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
-            position: sticky; top: 0; margin: 10px auto; border-radius: 15px;
+            background: rgba(10, 15, 30, 0.85) !important; backdrop-filter: blur(15px); border: 1px solid rgba(0, 229, 255, 0.3);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8); position: sticky; top: 0; margin: 10px auto; border-radius: 15px;
             max-width: 1200px; width: 95%; z-index: 100;
         }
-
         .wrap-header { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; }
         
-        /* MENU NEON */
-        @keyframes neonGlow {
-            0%, 100% { color: #ffffff; text-shadow: 0 0 5px #fff, 0 0 10px #00e5ff, 0 0 20px #00e5ff; }
-            50% { color: #00e5ff; text-shadow: 0 0 10px #00e5ff, 0 0 20px #00e5ff, 0 0 30px #00e5ff; }
+        /* CSS CHO MENU VÀ SUB-MENU */
+        @keyframes neonGlow { 0%, 100% { color: #ffffff; text-shadow: 0 0 5px #fff, 0 0 10px #00e5ff, 0 0 20px #00e5ff; } 50% { color: #00e5ff; text-shadow: 0 0 10px #00e5ff, 0 0 20px #00e5ff, 0 0 30px #00e5ff; } }
+        
+        #menu-main ul { display: flex; gap: 20px; list-style: none; margin: 0; padding: 0; }
+        #menu-main > ul > li { position: relative; padding: 10px 0; }
+        #menu-main a { color: #ffffff !important; text-decoration: none; font-weight: 700; font-size: 15px; transition: 0.3s; }
+        #menu-main > ul > li > a { animation: neonGlow 1.5s infinite alternate; }
+        #menu-main > ul > li:hover > a { color: #ffffff !important; text-shadow: 0 0 20px #ffffff, 0 0 30px #00e5ff; }
+        
+        /* SUB-MENU XỔ XUỐNG */
+        .sub-menu {
+            display: none; position: absolute; top: 100%; left: 0;
+            background: rgba(10, 15, 30, 0.95); border: 1px solid #00e5ff;
+            min-width: 150px; padding: 10px 0; border-radius: 8px; list-style: none;
+            box-shadow: 0 0 20px rgba(0,229,255,0.4); z-index: 999; flex-direction: column;
         }
-        #menu-main ul { display: flex; gap: 20px; list-style: none; }
-        #menu-main a { color: #ffffff !important; text-decoration: none; font-weight: 700; font-size: 15px; transition: 0.3s; animation: neonGlow 1.5s infinite alternate; }
-        #menu-main a:hover { color: #ffffff !important; text-shadow: 0 0 20px #ffffff, 0 0 30px #00e5ff; }
+        #menu-main li:hover .sub-menu { display: flex; animation: fadeIn 0.3s; }
+        .sub-menu li { padding: 0; }
+        .sub-menu a { padding: 10px 20px; display: block; font-size: 14px; color: #e2e8f0 !important; animation: none !important; }
+        .sub-menu a:hover { background: rgba(0, 229, 255, 0.15); color: #00e5ff !important; padding-left: 25px; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         /* ICON HEADER */
         .right-header { display: flex !important; align-items: center !important; justify-content: flex-end !important; gap: 25px; }
@@ -64,78 +60,40 @@
         .account-header svg, .cart-header svg { width: 30px; height: 30px; fill: #00e5ff; transition: 0.3s; filter: drop-shadow(0 0 5px #00e5ff); }
         .account-header:hover svg, .cart-header:hover svg { fill: #ffffff; filter: drop-shadow(0 0 10px #ffffff); }
         #accountText { font-size: 13px; color: #00e5ff; font-weight: 700; margin-top: 5px; white-space: nowrap; }
-        
-        /* DROPDOWN FIX */
-        .account-dropdown {
-            display: none; position: absolute; top: 100%; right: 0;
-            width: 200px; background: rgba(5, 10, 25, 0.98); border: 1px solid #00e5ff;
-            border-radius: 10px; padding: 10px 0; z-index: 9999;
-            box-shadow: 0 0 20px rgba(0, 229, 255, 0.4); flex-direction: column; margin-top: 10px;
-        }
-        .account-dropdown::before { content: ''; position: absolute; top: -15px; left: 0; width: 100%; height: 15px; }
+        .account-dropdown { display: none; position: absolute; top: 100%; right: 0; width: 200px; background: rgba(5, 10, 25, 0.98); border: 1px solid #00e5ff; border-radius: 10px; padding: 10px 0; z-index: 9999; box-shadow: 0 0 20px rgba(0, 229, 255, 0.4); flex-direction: column; margin-top: 10px; }
         .account-header:hover .account-dropdown { display: flex; }
-        .account-dropdown a { 
-            padding: 12px 20px; color: #e2e8f0 !important; font-size: 14px; text-decoration: none; 
-            transition: 0.2s; border-bottom: 1px solid rgba(255,255,255,0.1); display: block; width: 100%; white-space: nowrap;
-        }
-        .account-dropdown a:last-child { border-bottom: none; }
+        .account-dropdown a { padding: 12px 20px; color: #e2e8f0 !important; font-size: 14px; text-decoration: none; transition: 0.2s; border-bottom: 1px solid rgba(255,255,255,0.1); display: block; width: 100%; white-space: nowrap; animation: none; }
         .account-dropdown a:hover { background: rgba(0, 229, 255, 0.15); color: #00e5ff !important; padding-left: 25px; }
-
         .cart-count-badge { position: absolute; top: -5px; right: -10px; background: #ff007f; color: white; border-radius: 50%; padding: 2px 6px; font-size: 11px; font-weight: bold; display: none; box-shadow: 0 0 10px #ff007f; }
 
-        /* SLIDER */
+        /* SLIDER & SẢN PHẨM */
         .slider-section { margin: 20px auto; max-width: 1200px; width: 95%; }
         .swiper { width: 100%; border-radius: 15px; overflow: hidden; box-shadow: 0 0 20px rgba(0, 229, 255, 0.2); }
         .swiper-slide img { width: 100%; height: auto; display: block; }
 
-        /* ORANGE FRIDAY */
-        .friday-section {
-            max-width: 1200px; width: 95%; margin: 30px auto; padding: 25px;
-            background: rgba(10, 15, 30, 0.75) !important; backdrop-filter: blur(12px);
-            border: 1px solid rgba(0, 229, 255, 0.3); border-radius: 15px;
-            display: flex; gap: 30px; align-items: stretch;
-        }
+        .friday-section { max-width: 1200px; width: 95%; margin: 30px auto; padding: 25px; background: rgba(10, 15, 30, 0.75) !important; backdrop-filter: blur(12px); border: 1px solid rgba(0, 229, 255, 0.3); border-radius: 15px; display: flex; gap: 30px; align-items: stretch; }
         .friday-left { width: 40%; flex-shrink: 0; display: flex; flex-direction: column; gap: 20px; }
         .friday-banner { width: 100%; border-radius: 12px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); }
         .friday-banner img { width: 100%; height: auto; display: block; }
-
         .friday-right { width: 60%; display: flex; flex-direction: column; }
         .friday-title { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #00e5ff; padding-bottom: 15px; margin-bottom: 20px; }
         .friday-title h3 { font-size: 20px; color: #ffffff; text-transform: uppercase; text-shadow: 0 0 10px #00e5ff; margin: 0; }
         .friday-title a { color: #00e5ff; text-decoration: underline; font-size: 14px; font-weight: bold; }
 
-        .product-card {
-            background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(0, 229, 255, 0.2);
-            border-radius: 12px; padding: 15px; text-align: center; transition: 0.3s;
-            display: flex; flex-direction: column; justify-content: space-between; height: 100%;
-        }
+        .product-card { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(0, 229, 255, 0.2); border-radius: 12px; padding: 15px; text-align: center; transition: 0.3s; display: flex; flex-direction: column; justify-content: space-between; height: 100%; }
         .product-card:hover { transform: translateY(-5px); border-color: #00e5ff; box-shadow: 0 0 20px rgba(0,229,255,0.3); }
-        .product-card h4, .product-card .price, .product-card h4 a { animation: none !important; text-shadow: none !important; }
-
-        /* HOVER ĐỔI ẢNH */
+        .product-card h4, .product-card .price { animation: none !important; text-shadow: none !important; }
         .product-image-container { position: relative; width: 100%; height: 200px; overflow: hidden; border-radius: 8px; cursor: pointer; }
         .product-image-container img { width: 100%; height: 100%; object-fit: contain; transition: opacity 0.3s ease; position: absolute; top: 0; left: 0; }
         .product-image-container .img-model { opacity: 0; } 
         .product-image-container:hover .img-model { opacity: 1; }
         .product-image-container:hover .img-product { opacity: 0; }
-
         .product-card h4 { font-size: 15px; color: #fff; margin: 15px 0 8px 0; height: 40px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; text-decoration: none;}
         .product-card .price { font-size: 16px; color: #ff007f; font-weight: bold; margin-bottom: 15px; }
-        
         .btn-add { background: linear-gradient(135deg, #0055ff, #00e5ff); color: #fff; border: none; padding: 10px 15px; border-radius: 20px; font-weight: bold; cursor: pointer; width: 100%; transition: 0.3s; }
         .btn-add:hover { transform: scale(1.05); box-shadow: 0 0 15px rgba(0, 229, 255, 0.6); }
 
-        /* SẢN PHẨM TRƯNG BÀY (MỚI) */
-        .display-section {
-            max-width: 1200px; width: 95%; margin: 30px auto; padding: 25px;
-            background: rgba(10, 15, 30, 0.75) !important; backdrop-filter: blur(12px);
-            border: 1px solid rgba(0, 229, 255, 0.3); border-radius: 15px;
-        }
-        .display-title { text-align: center; font-size: 22px; color: #00e5ff; text-transform: uppercase; text-shadow: 0 0 10px #00e5ff; margin-bottom: 20px; }
-        .display-swiper { width: 100%; overflow: hidden; }
-        .display-swiper .swiper-slide { padding: 10px; }
-        
-        /* FOOTER (KHÔI PHỤC NGUYÊN BẢN) */
+        /* FOOTER */
         #main-footer { background: rgba(10, 15, 30, 0.85) !important; backdrop-filter: blur(12px); border-top: 1px solid rgba(0, 229, 255, 0.2); margin-top: 40px; position: relative; z-index: 2; }
         .wrap-footer { display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr; gap: 30px; padding: 40px 20px; }
         .title-footer { font-size: 16px; font-weight: 700; color: #00e5ff !important; text-shadow: 0 0 10px #00e5ff; margin-bottom: 20px; text-transform: uppercase; }
@@ -149,7 +107,6 @@
         .list-social img { width: 30px; }
         .address-footer li { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 15px; }
         .address-footer svg { width: 20px; height: 20px; fill: #fff; flex-shrink: 0; margin-top: 5px; }
-        
         .bottom-footer { border-top: 1px solid rgba(255,255,255,0.1); padding: 20px 0; }
         .wrap-footer-bottom { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
         .copy-right { color: #aaa; font-size: 14px; }
@@ -188,8 +145,25 @@
             </div>
             <nav id="menu-main">
                 <ul>
-                    <li><a href="shop.html?category=be-gai">BÉ GÁI</a></li>
-                    <li><a href="shop.html?category=be-trai">BÉ TRAI</a></li>
+                    <!-- THÊM SUB-MENU CHO BÉ GÁI VÀ BÉ TRAI -->
+                    <li>
+                        <a href="shop.html?category=be-gai">BÉ GÁI</a>
+                        <ul class="sub-menu">
+                            <li><a href="shop.html?category=be-gai&sub_category=quan">Quần</a></li>
+                            <li><a href="shop.html?category=be-gai&sub_category=ao">Áo</a></li>
+                            <li><a href="shop.html?category=be-gai&sub_category=giay">Giày</a></li>
+                            <li><a href="shop.html?category=be-gai&sub_category=dep">Dép</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="shop.html?category=be-trai">BÉ TRAI</a>
+                        <ul class="sub-menu">
+                            <li><a href="shop.html?category=be-trai&sub_category=quan">Quần</a></li>
+                            <li><a href="shop.html?category=be-trai&sub_category=ao">Áo</a></li>
+                            <li><a href="shop.html?category=be-trai&sub_category=giay">Giày</a></li>
+                            <li><a href="shop.html?category=be-trai&sub_category=dep">Dép</a></li>
+                        </ul>
+                    </li>
                     <li><a href="shop.html?category=giay-dep">🌟 GIÀY DÉP</a></li>
                     <li><a href="shop.html?category=bo-suu-tap-moi">BỘ SƯU TẬP MỚI</a></li>
                     <li><a href="shop.html?category=sieu-sale">🔥 SIÊU SALE</a></li>
@@ -216,7 +190,6 @@
     </header>
 
     <main style="flex: 1; position: relative; z-index: 2;">
-        <!-- SLIDER -->
         <section class="slider-section">
             <div class="swiper mySwiper">
                 <div class="swiper-wrapper" id="hero-slider-wrapper"></div>
@@ -226,7 +199,6 @@
             </div>
         </section>
 
-        <!-- ORANGE FRIDAY -->
         <section class="friday-section">
             <div class="friday-left">
                 <div class="friday-banner">
@@ -245,19 +217,8 @@
                 </div>
             </div>
         </section>
-
-        <!-- SẢN PHẨM TRƯNG BÀY (MỚI) -->
-        <section class="display-section">
-            <h2 class="display-title">SẢN PHẨM TRƯNG BÀY</h2>
-            <div class="swiper display-swiper">
-                <div class="swiper-wrapper" id="display-products-wrapper">
-                    <!-- JS tự động đổ sản phẩm vào đây -->
-                </div>
-            </div>
-        </section>
     </main>
 
-    <!-- FOOTER KHÔI PHỤC NGUYÊN BẢN -->
     <footer id="main-footer">
         <div class="container">
             <div class="wrap-footer">
@@ -314,9 +275,7 @@
         </div>
         <div class="bottom-footer">
             <div class="wrap-footer-bottom">
-                <div class="copy-right">
-                    © 2026 HD&CONBOSTORE <br> Bản quyền thuộc về HDDev2026.
-                </div>
+                <div class="copy-right">© 2026 HD&CONBOSTORE <br> Bản quyền thuộc về HDDev2026.</div>
                 <div class="bct-payment">
                     <a rel="nofollow" target="_blank" href="https://online.gov.vn/nen-tang/864e884c-54b1-4a42-94eb-0823fea0c550">
                         <img src="images/logo_bct.png" alt="Logo bộ công thương" loading="lazy">
@@ -326,7 +285,6 @@
         </div>
     </footer>
 
-    <!-- MODAL DONATE -->
     <div id="donateModal" class="modal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeDonateModal()">&times;</span>
@@ -336,10 +294,9 @@
         </div>
     </div>
 
-    <!-- JAVASCRIPT TỐI ƯU -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script>
-        // 1. HIỆU ỨNG CHÒM SAO
+        // HIỆU ỨNG CHÒM SAO
         const canvas = document.getElementById('star-network-canvas');
         const ctx = canvas.getContext('2d');
         let width, height, stars = [], mouse = { x: null, y: null };
@@ -349,69 +306,36 @@
         window.addEventListener('mouseout', () => { mouse.x = null; mouse.y = null; });
         class Star { constructor() { this.x = Math.random() * width; this.y = Math.random() * height; this.vx = (Math.random() - 0.5) * 0.5; this.vy = (Math.random() - 0.5) * 0.5; this.radius = Math.random() * 1.5 + 0.5; } update() { this.x += this.vx; this.y += this.vy; if (this.x < 0 || this.x > width) this.vx *= -1; if (this.y < 0 || this.y > height) this.vy *= -1; } draw() { ctx.beginPath(); ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2); ctx.fillStyle = 'rgba(255, 255, 255, 0.8)'; ctx.fill(); } }
         function initStars() { stars = []; for (let i = 0; i < 120; i++) stars.push(new Star()); }
-        function connectStars() {
-            for (let i = 0; i < stars.length; i++) {
-                for (let j = i + 1; j < stars.length; j++) {
-                    const dx = stars[i].x - stars[j].x, dy = stars[i].y - stars[j].y, dist = Math.sqrt(dx*dx + dy*dy);
-                    if (dist < 150) { ctx.beginPath(); ctx.moveTo(stars[i].x, stars[i].y); ctx.lineTo(stars[j].x, stars[j].y); ctx.strokeStyle = `rgba(0, 229, 255, ${(1 - dist/150) * 0.5})`; ctx.lineWidth = 0.5; ctx.stroke(); }
-                }
-                if (mouse.x != null) {
-                    const dxM = stars[i].x - mouse.x, dyM = stars[i].y - mouse.y, distM = Math.sqrt(dxM*dxM + dyM*dyM);
-                    if (distM < 200) { ctx.beginPath(); ctx.moveTo(stars[i].x, stars[i].y); ctx.lineTo(mouse.x, mouse.y); ctx.strokeStyle = `rgba(0, 229, 255, ${1 - distM/200})`; ctx.lineWidth = 1; ctx.stroke(); }
-                }
-            }
-        }
+        function connectStars() { for (let i = 0; i < stars.length; i++) { for (let j = i + 1; j < stars.length; j++) { const dx = stars[i].x - stars[j].x, dy = stars[i].y - stars[j].y, dist = Math.sqrt(dx*dx + dy*dy); if (dist < 150) { ctx.beginPath(); ctx.moveTo(stars[i].x, stars[i].y); ctx.lineTo(stars[j].x, stars[j].y); ctx.strokeStyle = `rgba(0, 229, 255, ${(1 - dist/150) * 0.5})`; ctx.lineWidth = 0.5; ctx.stroke(); } } if (mouse.x != null) { const dxM = stars[i].x - mouse.x, dyM = stars[i].y - mouse.y, distM = Math.sqrt(dxM*dxM + dyM*dyM); if (distM < 200) { ctx.beginPath(); ctx.moveTo(stars[i].x, stars[i].y); ctx.lineTo(mouse.x, mouse.y); ctx.strokeStyle = `rgba(0, 229, 255, ${1 - distM/200})`; ctx.lineWidth = 1; ctx.stroke(); } } } }
         function animateStars() { ctx.clearRect(0, 0, width, height); stars.forEach(s => { s.update(); s.draw(); }); connectStars(); requestAnimationFrame(animateStars); }
         resizeCanvas(); animateStars();
 
-        // 2. LOGIC ĐĂNG NHẬP
+        // LOGIC ĐĂNG NHẬP
         function checkLoginState() {
             const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
             const accountText = document.getElementById("accountText");
             const accountLink = document.getElementById("accountLink");
-            if (isLoggedIn) {
-                accountText.innerText = "Tài khoản";
-                accountLink.href = "javascript:void(0)";
-            } else {
-                accountText.innerText = "Đăng nhập";
-                accountLink.href = "dang-nhap.html";
-            }
+            if (isLoggedIn) { accountText.innerText = "Tài khoản"; accountLink.href = "javascript:void(0)"; } 
+            else { accountText.innerText = "Đăng nhập"; accountLink.href = "dang-nhap.html"; }
         }
         function handleAccountClick(e) { if (localStorage.getItem("isLoggedIn") !== "true") window.location.href = "dang-nhap.html"; }
         function logout() { localStorage.removeItem("isLoggedIn"); localStorage.removeItem("hddev_user"); alert("Bạn đã đăng xuất!"); window.location.reload(); }
 
-        // 3. DONATE MODAL
+        // DONATE MODAL
         function openDonateModal() { document.getElementById("donateModal").style.display = "flex"; }
         function closeDonateModal() { document.getElementById("donateModal").style.display = "none"; }
-        window.onclick = function(event) {
-            var modal = document.getElementById("donateModal");
-            if (event.target == modal) modal.style.display = "none";
-        }
+        window.onclick = function(event) { var modal = document.getElementById("donateModal"); if (event.target == modal) modal.style.display = "none"; }
 
-        // 4. TẢI DỮ LIỆU TỪ VPS
+        // TẢI DỮ LIỆU
         const API_BASE_URL = 'http://180.93.194.227:3000';
-
         async function loadData() {
             try {
                 const resSettings = await fetch(`${API_BASE_URL}/api/settings`);
                 if(resSettings.ok) {
                     const data = await resSettings.json();
-                    
-                    if (data.topbar_img) {
-                        const src = data.topbar_img.startsWith('http') ? data.topbar_img : API_BASE_URL + data.topbar_img;
-                        document.getElementById('topbar-img').src = src + '?t=' + Date.now();
-                    }
-                    
-                    if (data.friday_banner) {
-                        const src = data.friday_banner.startsWith('http') ? data.friday_banner : API_BASE_URL + data.friday_banner;
-                        document.getElementById('friday-banner-img').src = src + '?t=' + Date.now();
-                    }
-
-                    if (data.qr_donate) {
-                        const src = data.qr_donate.startsWith('http') ? data.qr_donate : API_BASE_URL + data.qr_donate;
-                        document.getElementById('qr-donate-img').src = src + '?t=' + Date.now();
-                    }
-
+                    if (data.topbar_img) document.getElementById('topbar-img').src = data.topbar_img + '?t=' + Date.now();
+                    if (data.friday_banner) document.getElementById('friday-banner-img').src = data.friday_banner + '?t=' + Date.now();
+                    if (data.qr_donate) document.getElementById('qr-donate-img').src = data.qr_donate + '?t=' + Date.now();
                     if (data.hero_sliders && data.hero_sliders.length > 0) {
                         const wrapper = document.getElementById('hero-slider-wrapper');
                         wrapper.innerHTML = data.hero_sliders.map(slide => {
@@ -419,23 +343,19 @@
                             const fullSrc = imgSrc.startsWith('http') ? imgSrc : API_BASE_URL + imgSrc;
                             return `<div class="swiper-slide"><img src="${fullSrc}?t=${Date.now()}" alt="Banner" loading="lazy"></div>`;
                         }).join('');
-                        
                         new Swiper('.mySwiper', { loop: true, autoplay: { delay: 3000 }, pagination: { el: '.swiper-pagination', clickable: true }, navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' } });
                     }
                 }
-
                 const resProducts = await fetch(`${API_BASE_URL}/api/products`);
                 if(resProducts.ok) {
                     const products = await resProducts.json();
                     if (products.length > 0) {
-                        // 1. Load vào Orange Friday (Chỉ lấy 2 sản phẩm đầu)
-                        const fridayWrapper = document.getElementById('friday-products-wrapper');
-                        fridayWrapper.innerHTML = products.slice(0, 2).map(p => {
+                        const wrapper = document.getElementById('friday-products-wrapper');
+                        wrapper.innerHTML = products.slice(0, 4).map(p => {
                             const imgSrc = p.image.startsWith('http') ? p.image : API_BASE_URL + p.image;
                             const modelGirl = 'https://i.imgur.com/Q7j5Xq8.png'; 
                             const modelBoy = 'https://i.imgur.com/K6z1wJq.png'; 
                             const hoverImg = (p.category === 'be-gai' || p.category === 'dam-vay') ? modelGirl : modelBoy;
-
                             return `
                                 <div class="swiper-slide">
                                     <div class="product-card">
@@ -443,76 +363,31 @@
                                             <img class="img-product" src="${imgSrc}" alt="${p.name}" loading="lazy">
                                             <img class="img-model" src="${hoverImg}" alt="Mẫu" loading="lazy">
                                         </div>
-                                        <div>
-                                            <h4>${p.name}</h4>
-                                            <div class="price">${p.price.toLocaleString('vi-VN')}đ</div>
-                                            <button class="btn-add" onclick="event.stopPropagation(); addToCart('${p.name}', ${p.price})">Thêm</button>
-                                        </div>
+                                        <div><h4>${p.name}</h4><div class="price">${p.price.toLocaleString('vi-VN')}đ</div><button class="btn-add" onclick="event.stopPropagation(); addToCart('${p.name}', ${p.price})">Thêm</button></div>
                                     </div>
                                 </div>
                             `;
                         }).join('');
-                        
                         new Swiper('.product-swiper', { slidesPerView: 2, spaceBetween: 15, navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' }, breakpoints: { 320: { slidesPerView: 1 }, 768: { slidesPerView: 2 } } });
-
-                        // 2. Load vào Sản phẩm trưng bày (Hiển thị 2 cái, tự động trượt)
-                        const displayWrapper = document.getElementById('display-products-wrapper');
-                        displayWrapper.innerHTML = products.map(p => {
-                            const imgSrc = p.image.startsWith('http') ? p.image : API_BASE_URL + p.image;
-                            return `
-                                <div class="swiper-slide">
-                                    <div class="product-card" onclick="window.location.href='shop.html'">
-                                        <img src="${imgSrc}" alt="${p.name}" style="width:100%; height:200px; object-fit:contain; border-radius:8px;">
-                                        <h4 style="margin-top:10px;">${p.name}</h4>
-                                        <div class="price">${p.price.toLocaleString('vi-VN')}đ</div>
-                                    </div>
-                                </div>
-                            `;
-                        }).join('');
-
-                        new Swiper('.display-swiper', {
-                            slidesPerView: 2,
-                            spaceBetween: 20,
-                            loop: products.length > 2, // Chỉ loop nếu có nhiều hơn 2 sản phẩm
-                            autoplay: {
-                                delay: 3000, // Dừng 3s rồi trượt
-                                disableOnInteraction: false,
-                            },
-                            speed: 1500, // Tốc độ trượt chậm dần (1.5 giây)
-                            breakpoints: { 320: { slidesPerView: 1 }, 768: { slidesPerView: 2 } }
-                        });
                     }
                 }
-            } catch (error) {
-                console.error("Lỗi kết nối VPS:", error);
-            }
+            } catch (error) { console.error("Lỗi kết nối VPS:", error); }
         }
 
         function addToCart(name, price) {
-            if (localStorage.getItem("isLoggedIn") !== "true") {
-                alert("Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng!");
-                window.location.href = "dang-nhap.html";
-                return;
-            }
+            if (localStorage.getItem("isLoggedIn") !== "true") { alert("Vui lòng đăng nhập!"); window.location.href = "dang-nhap.html"; return; }
             let cart = JSON.parse(localStorage.getItem("hddev_cart")) || [];
             cart.push({ name: name, price: price });
             localStorage.setItem("hddev_cart", JSON.stringify(cart));
             alert("Đã thêm " + name + " vào giỏ!");
             updateCartCount();
         }
-
         function updateCartCount() {
             let cart = JSON.parse(localStorage.getItem("hddev_cart")) || [];
             const countEl = document.getElementById('cartCount');
-            countEl.innerText = cart.length;
-            countEl.style.display = cart.length > 0 ? 'block' : 'none';
+            countEl.innerText = cart.length; countEl.style.display = cart.length > 0 ? 'block' : 'none';
         }
-
-        document.addEventListener("DOMContentLoaded", function() {
-            checkLoginState();
-            updateCartCount();
-            loadData();
-        });
+        document.addEventListener("DOMContentLoaded", function() { checkLoginState(); updateCartCount(); loadData(); });
     </script>
 </body>
 </html>
