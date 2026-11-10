@@ -129,15 +129,14 @@
   .account-header:hover svg { fill: #ffffff; filter: drop-shadow(0 0 10px #ffffff); }
   #accountText { font-size: 12px; color: #00e5ff; font-weight: 700; margin-top: 5px; white-space: nowrap; animation: neonGlow 1.5s infinite alternate; }
   
-  /* FIX LỖI DROPDOWN BỊ LỆCH VÀ CHE KHUẤT */
+  /* SỬA LỖI DROPDOWN BỊ LỆCH */
   .account-dropdown {
       display: none; position: absolute; top: 100%; right: 0;
-      min-width: 220px; width: max-content;
-      white-space: nowrap;
+      min-width: 200px; width: max-content; white-space: nowrap;
       background: rgba(5, 10, 25, 0.98); border: 1px solid #00e5ff;
       border-radius: 10px; padding: 10px 0; z-index: 99999;
       box-shadow: 0 0 20px rgba(0, 229, 255, 0.4); flex-direction: column;
-      margin-top: 5px;
+      margin-top: 10px;
   }
   .account-dropdown::before { content: ''; position: absolute; top: -15px; left: 0; width: 100%; height: 15px; }
   .account-header:hover .account-dropdown { display: flex; }
@@ -159,7 +158,7 @@
       display: none; position: absolute; top: 100%; right: 0;
       width: 320px; background: rgba(5, 10, 25, 0.98); border: 1px solid #00e5ff;
       border-radius: 10px; padding: 15px; z-index: 99999; box-shadow: 0 0 20px rgba(0, 229, 255, 0.4);
-      white-space: normal; margin-top: 5px;
+      white-space: normal; margin-top: 10px;
   }
   .cart-preview::before { content: ''; position: absolute; top: -15px; left: 0; width: 100%; height: 15px; }
   .cart-header:hover .cart-preview { display: block !important; }
@@ -175,6 +174,23 @@
   .collection-list-1 .swiper-wrapper { display: flex !important; gap: 20px; }
   .collection-list-1 .swiper-slide { flex: 1; background: rgba(255,255,255,0.05) !important; border-radius: 12px; padding: 20px; text-align: center; border: 1px solid rgba(0, 229, 255, 0.3); }
 
+  /* TẮT HIỆU ỨNG NHẤP NHÁY Ở SẢN PHẨM VÀ THÊM HIỆU ỨNG HOVER ĐỔI ẢNH */
+  .product-loop h4, .product-loop .box-price {
+      animation: none !important; 
+      text-shadow: none !important;
+  }
+  .product-image-container {
+      position: relative; width: 100%; overflow: hidden; border-radius: 10px; cursor: pointer;
+  }
+  .product-image-container img {
+      width: 100%; height: 250px; object-fit: contain; transition: opacity 0.4s ease; display: block;
+  }
+  .product-image-container .img-model {
+      position: absolute; top: 0; left: 0; opacity: 0;
+  }
+  .product-image-container:hover .img-product { opacity: 0; }
+  .product-image-container:hover .img-model { opacity: 1; }
+
   .addtocart-loop {
       background: linear-gradient(135deg, #0055ff, #00e5ff) !important; color: #fff !important; border: none !important; border-radius: 20px !important; padding: 8px 20px !important; font-weight: bold !important; cursor: pointer !important; margin-top: 15px !important; transition: 0.3s; box-shadow: 0 4px 15px rgba(0, 229, 255, 0.4);
   }
@@ -185,7 +201,7 @@
   .modal { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(5px); z-index: 100000; justify-content: center; align-items: center; }
   .modal-content { background: rgba(10, 15, 30, 0.95); border: 2px solid #00e5ff; border-radius: 15px; padding: 30px; text-align: center; max-width: 400px; width: 90%; box-shadow: 0 0 30px rgba(0, 229, 255, 0.5); position: relative; animation: zoomIn 0.3s ease; }
   @keyframes zoomIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-  .modal-content img { width: 100%; border-radius: 10px; border: 1px solid #00e5ff; margin-bottom: 15px; }
+  .modal-content img { width: 100%; border-radius: 10px; border: 1px solid #00e5ff; margin-bottom: 15px; max-height: 400px; object-fit: contain; }
   .modal-content p { color: #fff; font-weight: bold; margin: 0; font-size: 15px; }
   .close-btn { position: absolute; top: 10px; right: 15px; font-size: 28px; color: #ff007f; cursor: pointer; transition: 0.2s; }
   .close-btn:hover { color: #fff; transform: scale(1.2); }
@@ -1793,17 +1809,19 @@ const PE = {
             if(!response.ok) throw new Error("API lỗi");
             const data = await response.json();
 
-            // 1. Thay ảnh Topbar
+            // 1. Thay ảnh Topbar (Chống lưu Cache)
             if (data.topbar_img) {
-                document.getElementById('topbar-banner-img').src = data.topbar_img;
+                const timeStamp = new Date().getTime();
+                document.getElementById('topbar-banner-img').src = data.topbar_img + '?t=' + timeStamp;
             }
             if (data.topbar_link) {
                 document.getElementById('topbar-banner-link').href = data.topbar_link;
             }
 
-            // 2. Thay ảnh Banner Trái Orange Friday
+            // 2. Thay ảnh Banner Trái Orange Friday (Chống lưu Cache)
             if (data.friday_banner) {
-                document.getElementById('friday-banner-img').src = data.friday_banner;
+                const timeStamp = new Date().getTime();
+                document.getElementById('friday-banner-img').src = data.friday_banner + '?t=' + timeStamp;
             }
 
             // 3. Thay ảnh Slider Hero (Nhiều ảnh)
@@ -1814,12 +1832,13 @@ const PE = {
                 data.hero_sliders.forEach(slide => {
                     const imgSrc = typeof slide === 'string' ? slide : slide.image;
                     const imgLink = (typeof slide === 'object' && slide.link) ? slide.link : '#';
+                    const fullSrc = imgSrc.startsWith('http') ? imgSrc : API_BASE_URL + imgSrc;
 
                     wrapper.innerHTML += `
                         <div class="swiper-slide">
                             <a href="${imgLink}">
                                 <picture>
-                                    <img class="lazyload" src="${imgSrc}" alt="Banner" style="width: 100%; object-fit: cover;">
+                                    <img class="lazyload" src="${fullSrc}?t=${new Date().getTime()}" alt="Banner" style="width: 100%; object-fit: cover;">
                                 </picture>
                             </a>
                         </div>
@@ -1838,18 +1857,32 @@ const PE = {
                 }
             }
 
-            // 4. Tải sản phẩm động
+            // 4. Tải sản phẩm động (Kèm hiệu ứng hover đổi ảnh người mẫu)
             const productRes = await fetch(`${API_BASE_URL}/api/products`);
             if (productRes.ok) {
                 const products = await productRes.json();
                 if (products.length > 0) {
                     const productWrapper = document.getElementById('friday-products-wrapper');
                     productWrapper.innerHTML = '';
+                    
+                    // Ảnh người mẫu mặc định (Bạn có thể thay link ảnh thật vào đây)
+                    const modelGirl = 'https://i.imgur.com/Q7j5Xq8.png'; 
+                    const modelBoy = 'https://i.imgur.com/K6z1wJq.png'; 
+
                     products.forEach(p => {
+                        const imgSrc = p.image.startsWith('http') ? p.image : API_BASE_URL + p.image;
+                        const hoverImg = (p.category === 'be-gai' || p.category === 'dam-vay') ? modelGirl : modelBoy;
+
                         productWrapper.innerHTML += `
                             <div class="swiper-slide">
                                 <div class="product-loop">
-                                  <div class="box-image"><a href="shop.html"><img src="${API_BASE_URL}${p.image}" style="width:100%"></a></div>
+                                  <!-- KHUNG ĐỔI ẢNH KHI HOVER -->
+                                  <div class="product-image-container">
+                                      <a href="shop.html">
+                                          <img class="img-product" src="${imgSrc}" alt="${p.name}">
+                                          <img class="img-model" src="${hoverImg}" alt="Người mẫu">
+                                      </a>
+                                  </div>
                                   <div class="box-info">
                                     <h4 style="margin-top:10px;"><a href="shop.html">${p.name}</a></h4>
                                     <div class="box-price onsale" style="color:#FF5F15; font-weight:bold; margin:10px 0;"><span>${p.price.toLocaleString('vi-VN')}đ</span></div>
