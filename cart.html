@@ -159,19 +159,58 @@
             }
         }
 
-        function placeOrder() {
+        // HÀM GỬI ĐƠN HÀNG LÊN VPS
+        async function placeOrder() {
             const name = document.getElementById('customer-name').value.trim() || 'Khách';
             const phone = document.getElementById('customer-phone').value.trim();
             const address = document.getElementById('customer-address').value.trim();
             const total = cartData.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            
+            // Lấy email người dùng nếu đã đăng nhập (lưu trong localStorage lúc đăng nhập)
+            let userEmail = 'guest';
+            const savedUser = JSON.parse(localStorage.getItem("hddev_user"));
+            if (savedUser && savedUser.email) userEmail = savedUser.email;
 
             const orderData = {
-                customer: name, phone: phone, address: address, items: cartData, total: total, date: new Date().toLocaleString('vi-VN')
+                customerName: name,
+                phone: phone,
+                address: address,
+                userEmail: userEmail,
+                items: cartData,
+                total: total,
+                discount: 0
             };
 
-            localStorage.setItem("last_order", JSON.stringify(orderData));
-            localStorage.removeItem("hddev_cart");
-            window.location.href = "dat-hang-thanh-cong.html";
+            const btn = document.getElementById('btn-checkout');
+            btn.innerText = 'Đang xử lý...';
+            btn.disabled = true;
+
+            try {
+                // Gửi API lên VPS
+                const response = await fetch(`${API_BASE_URL}/api/orders`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(orderData)
+                });
+
+                const result = await response.json();
+
+                if (response.ok && result.success) {
+                    // Lưu tạm vào LocalStorage để trang thành công hiển thị
+                    localStorage.setItem("last_order", JSON.stringify({ ...orderData, date: new Date().toLocaleString('vi-VN') }));
+                    localStorage.removeItem("hddev_cart"); // Xóa giỏ hàng
+                    window.location.href = "dat-hang-thanh-cong.html"; // Chuyển trang
+                } else {
+                    alert("Lỗi đặt hàng: " + result.message);
+                    btn.innerText = 'Mua Hàng';
+                    btn.disabled = false;
+                }
+            } catch (error) {
+                console.error("Lỗi:", error);
+                alert("Không thể kết nối đến máy chủ VPS. Vui lòng thử lại!");
+                btn.innerText = 'Mua Hàng';
+                btn.disabled = false;
+            }
         }
 
         document.addEventListener("DOMContentLoaded", loadCart);
