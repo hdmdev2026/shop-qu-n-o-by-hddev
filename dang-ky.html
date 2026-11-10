@@ -7,111 +7,63 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap');
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Quicksand', sans-serif; }
-        
-        body {
-            background-color: #030510;
-            background-image: radial-gradient(circle at 50% 50%, #111a3a 0%, #030510 100%);
-            color: #fff; min-height: 100vh; display: flex; justify-content: center; align-items: center; overflow-x: hidden; cursor: crosshair; padding: 20px;
-        }
-
+        body { background-color: #030510; background-image: radial-gradient(circle at 50% 50%, #111a3a 0%, #030510 100%); color: #fff; min-height: 100vh; display: flex; justify-content: center; align-items: center; overflow-x: hidden; cursor: crosshair; padding: 20px; }
         .nebula { position: fixed; border-radius: 50%; z-index: -2; filter: blur(60px); opacity: 0.6; animation: float 20s infinite ease-in-out alternate; }
         .nebula-1 { width: 400px; height: 400px; background: #7e22ce; top: -100px; left: -100px; }
         .nebula-2 { width: 350px; height: 350px; background: #00e5ff; bottom: -100px; right: -100px; animation-duration: 25s; }
         .nebula-3 { width: 250px; height: 250px; background: #ec4899; top: 40%; left: 20%; opacity: 0.4; animation-duration: 15s; }
         .nebula-4 { width: 200px; height: 200px; background: #0055ff; bottom: 20%; right: 30%; opacity: 0.4; animation-duration: 18s; }
         @keyframes float { 0% { transform: translateY(0px) scale(1); } 100% { transform: translateY(-40px) scale(1.1); } }
-
         #star-network-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: -1; }
-
         .main-container { display: flex; flex-direction: row; gap: 30px; max-width: 1200px; width: 100%; z-index: 10; }
-        
         .glass-box { background: rgba(10, 15, 30, 0.75); backdrop-filter: blur(16px); border: 1px solid rgba(0, 229, 255, 0.3); border-radius: 20px; padding: 40px; box-shadow: 0 0 30px rgba(0, 229, 255, 0.15); }
-
         .intro-box { flex: 1.2; display: flex; flex-direction: column; justify-content: center; }
         .intro-box h1 { color: #00e5ff; font-size: 32px; margin-bottom: 20px; text-shadow: 0 0 15px rgba(0, 229, 255, 0.6); text-transform: uppercase; }
         .intro-box p { color: #e2e8f0; font-size: 16px; line-height: 1.8; margin-bottom: 25px; text-align: justify; }
-        
         .ad-box { background: rgba(236, 72, 153, 0.1); border: 1px solid #ec4899; border-radius: 12px; padding: 20px; margin-top: 10px; }
         .ad-box h3 { color: #ec4899; font-size: 18px; margin-bottom: 10px; text-transform: uppercase; text-shadow: 0 0 10px rgba(236, 72, 153, 0.5); }
         .ad-box p { font-size: 14px; color: #cbd5e1; line-height: 1.6; margin: 0; }
-
         .form-box { flex: 1; max-width: 450px; }
         .form-box h2 { text-align: center; color: #00e5ff; margin-bottom: 30px; font-size: 28px; text-transform: uppercase; letter-spacing: 2px; text-shadow: 0 0 10px rgba(0, 229, 255, 0.5); }
-
         .input-group { margin-bottom: 15px; }
         .input-group label { display: block; margin-bottom: 5px; color: #cbd5e1; font-size: 14px; font-weight: 600; }
-        
-        /* CSS CHO Ô MẬT KHẨU CÓ ICON */
         .password-wrapper { position: relative; }
-        .input-group input {
-            width: 100%; padding: 12px; background: rgba(0, 0, 0, 0.4); border: 1px solid #334155;
-            border-radius: 8px; color: #fff; font-size: 15px; transition: 0.3s;
-        }
+        .input-group input { width: 100%; padding: 12px; background: rgba(0, 0, 0, 0.4); border: 1px solid #334155; border-radius: 8px; color: #fff; font-size: 15px; transition: 0.3s; }
         .input-group input:focus { outline: none; border-color: #00e5ff; box-shadow: 0 0 15px rgba(0, 229, 255, 0.4); }
-        .toggle-password {
-            position: absolute; right: 15px; top: 50%; transform: translateY(-50%);
-            cursor: pointer; color: #94a3b8; transition: 0.3s;
-        }
+        .toggle-password { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #94a3b8; transition: 0.3s; }
         .toggle-password:hover { color: #00e5ff; }
         .toggle-password svg { width: 20px; height: 20px; fill: currentColor; }
-
-        .btn-submit {
-            width: 100%; padding: 14px; background: linear-gradient(90deg, #0055ff, #00e5ff);
-            border: none; border-radius: 8px; color: #fff; font-weight: bold; font-size: 16px;
-            cursor: pointer; margin-top: 10px; transition: 0.3s; text-transform: uppercase; box-shadow: 0 4px 15px rgba(0, 229, 255, 0.4);
-        }
+        .btn-submit { width: 100%; padding: 14px; background: linear-gradient(90deg, #0055ff, #00e5ff); border: none; border-radius: 8px; color: #fff; font-weight: bold; font-size: 16px; cursor: pointer; margin-top: 10px; transition: 0.3s; text-transform: uppercase; box-shadow: 0 4px 15px rgba(0, 229, 255, 0.4); }
         .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0, 229, 255, 0.7); }
         .btn-submit:disabled { background: #4b5563; cursor: not-allowed; box-shadow: none; transform: none; }
-
         .form-footer { text-align: center; margin-top: 20px; font-size: 14px; color: #94a3b8; }
         .form-footer a { color: #00e5ff; text-decoration: none; font-weight: bold; transition: 0.3s; }
         .form-footer a:hover { text-shadow: 0 0 10px #00e5ff; }
-
-        @media (max-width: 900px) {
-            .main-container { flex-direction: column; align-items: center; }
-            .intro-box, .form-box { width: 100%; max-width: 100%; }
-            .form-box { order: -1; }
-        }
+        @media (max-width: 900px) { .main-container { flex-direction: column; align-items: center; } .intro-box, .form-box { width: 100%; max-width: 100%; } .form-box { order: -1; } }
     </style>
 </head>
 <body>
-    <div class="nebula nebula-1"></div>
-    <div class="nebula nebula-2"></div>
-    <div class="nebula nebula-3"></div>
-    <div class="nebula nebula-4"></div>
+    <div class="nebula nebula-1"></div><div class="nebula nebula-2"></div><div class="nebula nebula-3"></div><div class="nebula nebula-4"></div>
     <canvas id="star-network-canvas"></canvas>
 
     <div class="main-container">
         <div class="glass-box intro-box">
             <h1>Chào mừng bạn đã đến với 5CowFashion</h1>
             <p>Ở đây các bạn sẽ được tận hưởng và tham khảo những mẫu thời trang thiết kế tinh xảo, độc đáo đến từ các nhà thiết kế thời trang nổi tiếng. Chúng tôi hy vọng các bạn sẽ yêu thích dịch vụ của chúng tôi! <strong>Hân Hạnh!</strong></p>
-            <div class="ad-box">
-                <h3>Dịch vụ quảng cáo ngoài lề</h3>
-                <p>Admin web nhận build web, bot tele giá rẻ nhất thị trường, nhận make all tool theo yêu cầu (không vppl), nhận unlock tài khoản mạng facebook siêu tốc, tăng tương tác nền tảng mạng xã hội, nâng cấp locket gold, capcut pro, chat gpt plus,...</p>
-            </div>
+            <div class="ad-box"><h3>Dịch vụ quảng cáo ngoài lề</h3><p>Admin web nhận build web, bot tele giá rẻ nhất thị trường, nhận make all tool theo yêu cầu (không vppl), nhận unlock tài khoản mạng facebook siêu tốc...</p></div>
         </div>
 
         <div class="glass-box form-box">
             <h2>Tạo Tài Khoản</h2>
             <form id="registerForm">
-                <div class="input-group">
-                    <label>Họ và Tên</label>
-                    <input type="text" id="reg-name" placeholder="Nhập họ và tên" required>
-                </div>
-                <div class="input-group">
-                    <label>Số điện thoại</label>
-                    <input type="tel" id="reg-phone" placeholder="Nhập số điện thoại" required>
-                </div>
-                <div class="input-group">
-                    <label>Email</label>
-                    <input type="email" id="reg-email" placeholder="Nhập email" required>
-                </div>
+                <div class="input-group"><label>Họ và Tên</label><input type="text" id="reg-name" placeholder="Nhập họ và tên" required></div>
+                <div class="input-group"><label>Số điện thoại</label><input type="tel" id="reg-phone" placeholder="Nhập số điện thoại" required></div>
+                <div class="input-group"><label>Email</label><input type="email" id="reg-email" placeholder="Nhập email" required></div>
                 <div class="input-group">
                     <label>Mật khẩu</label>
                     <div class="password-wrapper">
                         <input type="password" id="reg-password" placeholder="Tạo mật khẩu (ít nhất 6 ký tự)" required>
                         <span class="toggle-password" onclick="togglePassword('reg-password', this)">
-                            <!-- Icon con mắt mở -->
                             <svg viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
                         </span>
                     </div>
@@ -125,21 +77,15 @@
                         </span>
                     </div>
                 </div>
-                <div class="input-group">
-                    <label>Địa chỉ (Sau sáp nhập)</label>
-                    <input type="text" id="reg-address" placeholder="Nhập địa chỉ của bạn" required>
-                </div>
+                <div class="input-group"><label>Địa chỉ (Sau sáp nhập)</label><input type="text" id="reg-address" placeholder="Nhập địa chỉ của bạn" required></div>
                 <button type="submit" class="btn-submit" id="btn-register">Đăng Ký</button>
             </form>
-            <div class="form-footer">
-                Đã có tài khoản? <a href="dang-nhap.html">Đăng nhập ngay</a> <br><br>
-                <a href="index.html" style="color: #94a3b8;">← Về trang chủ</a>
-            </div>
+            <div class="form-footer">Đã có tài khoản? <a href="dang-nhap.html">Đăng nhập ngay</a> <br><br><a href="index.html" style="color: #94a3b8;">← Về trang chủ</a></div>
         </div>
     </div>
 
     <script>
-        // --- HIỆU ỨNG CHÒM SAO ---
+        // HIỆU ỨNG SAO
         const canvas = document.getElementById('star-network-canvas');
         const ctx = canvas.getContext('2d');
         let width, height, stars = [], mouse = { x: null, y: null };
@@ -153,26 +99,23 @@
         function animateStars() { ctx.clearRect(0, 0, width, height); stars.forEach(s => { s.update(); s.draw(); }); connectStars(); requestAnimationFrame(animateStars); }
         resizeCanvas(); animateStars();
 
-        // --- HÀM ẨN/HIỆN MẬT KHẨU ---
+        // ẨN/HIỆN MẬT KHẨU
         function togglePassword(inputId, icon) {
             const input = document.getElementById(inputId);
             if (input.type === 'password') {
                 input.type = 'text';
-                // Đổi thành icon con mắt bị gạch chéo
                 icon.innerHTML = '<svg viewBox="0 0 24 24"><path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.83l2.92 2.92c1.51-1.26 2.7-2.89 3.43-4.75-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z"/></svg>';
             } else {
                 input.type = 'password';
-                // Đổi lại thành icon con mắt mở
                 icon.innerHTML = '<svg viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>';
             }
         }
 
-        // --- XỬ LÝ GỬI DỮ LIỆU LÊN VPS ---
+        // XỬ LÝ ĐĂNG KÝ
         const API_BASE_URL = 'http://180.93.194.227:3000';
 
         document.getElementById("registerForm").addEventListener("submit", async function(e) {
             e.preventDefault();
-            
             const btn = document.getElementById('btn-register');
             const name = document.getElementById("reg-name").value.trim();
             const phone = document.getElementById("reg-phone").value.trim();
