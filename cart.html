@@ -70,15 +70,15 @@
             <h2>Thông tin giao hàng</h2>
             <div class="form-group">
                 <label>Họ và tên</label>
-                <input type="text" id="customer-name" class="form-control" placeholder="Nhập họ tên...">
+                <input type="text" id="customer-name" class="form-control" placeholder="Nhập họ tên..." oninput="saveCustomerInfo()">
             </div>
             <div class="form-group">
                 <label>Số điện thoại *</label>
-                <input type="tel" id="customer-phone" class="form-control" placeholder="Nhập số điện thoại..." oninput="checkForm()">
+                <input type="tel" id="customer-phone" class="form-control" placeholder="Nhập số điện thoại..." oninput="saveCustomerInfo()">
             </div>
             <div class="form-group">
                 <label>Địa chỉ nhận hàng *</label>
-                <textarea id="customer-address" class="form-control" rows="3" placeholder="Nhập địa chỉ chi tiết..." oninput="checkForm()"></textarea>
+                <textarea id="customer-address" class="form-control" rows="3" placeholder="Nhập địa chỉ chi tiết..." oninput="saveCustomerInfo()"></textarea>
             </div>
 
             <div class="total-price">
@@ -103,6 +103,29 @@
 
         const API_BASE_URL = 'http://180.93.194.227:3000';
         let cartData = [];
+
+        // TỰ ĐỘNG ĐIỀN THÔNG TIN ĐÃ LƯU
+        function loadCustomerInfo() {
+            const savedInfo = JSON.parse(localStorage.getItem("hddev_customer_info"));
+            if (savedInfo) {
+                document.getElementById('customer-name').value = savedInfo.name || '';
+                document.getElementById('customer-phone').value = savedInfo.phone || '';
+                document.getElementById('customer-address').value = savedInfo.address || '';
+            }
+        }
+
+        // TỰ ĐỘNG LƯU THÔNG TIN KHI GÕ
+        function saveCustomerInfo() {
+            const name = document.getElementById('customer-name').value.trim();
+            const phone = document.getElementById('customer-phone').value.trim();
+            const address = document.getElementById('customer-address').value.trim();
+            
+            // Chỉ lưu nếu có ít nhất 1 trường có dữ liệu
+            if (name || phone || address) {
+                localStorage.setItem("hddev_customer_info", JSON.stringify({ name, phone, address }));
+            }
+            checkForm(); // Cập nhật trạng thái nút mua hàng
+        }
 
         function loadCart() {
             cartData = JSON.parse(localStorage.getItem("hddev_cart")) || [];
@@ -159,14 +182,12 @@
             }
         }
 
-        // HÀM GỬI ĐƠN HÀNG LÊN VPS
         async function placeOrder() {
             const name = document.getElementById('customer-name').value.trim() || 'Khách';
             const phone = document.getElementById('customer-phone').value.trim();
             const address = document.getElementById('customer-address').value.trim();
             const total = cartData.reduce((sum, item) => sum + (item.price * item.quantity), 0);
             
-            // Lấy email người dùng nếu đã đăng nhập (lưu trong localStorage lúc đăng nhập)
             let userEmail = 'guest';
             const savedUser = JSON.parse(localStorage.getItem("hddev_user"));
             if (savedUser && savedUser.email) userEmail = savedUser.email;
@@ -186,7 +207,9 @@
             btn.disabled = true;
 
             try {
-                // Gửi API lên VPS
+                // Lưu lại lần cuối trước khi đặt
+                localStorage.setItem("hddev_customer_info", JSON.stringify({ name, phone, address }));
+
                 const response = await fetch(`${API_BASE_URL}/api/orders`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -196,10 +219,9 @@
                 const result = await response.json();
 
                 if (response.ok && result.success) {
-                    // Lưu tạm vào LocalStorage để trang thành công hiển thị
                     localStorage.setItem("last_order", JSON.stringify({ ...orderData, date: new Date().toLocaleString('vi-VN') }));
                     localStorage.removeItem("hddev_cart"); // Xóa giỏ hàng
-                    window.location.href = "dat-hang-thanh-cong.html"; // Chuyển trang
+                    window.location.href = "dat-hang-thanh-cong.html";
                 } else {
                     alert("Lỗi đặt hàng: " + result.message);
                     btn.innerText = 'Mua Hàng';
@@ -213,7 +235,10 @@
             }
         }
 
-        document.addEventListener("DOMContentLoaded", loadCart);
+        document.addEventListener("DOMContentLoaded", function() {
+            loadCustomerInfo(); // Load thông tin cũ
+            loadCart();
+        });
     </script>
 </body>
 </html>
