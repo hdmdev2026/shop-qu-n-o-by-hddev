@@ -62,12 +62,12 @@
     <canvas id="star-network-canvas"></canvas>
 
     <div id="topbar">
-        <a href="index.html"><img id="topbar-img" src="images/sticky_bar_bf_12600x400.jpg" alt="Banner Top"></a>
+        <a href="index.html"><img id="topbar-img" src="images/sticky_bar_bf_12600x400.jpg" alt="Banner Top" fetchpriority="high"></a>
     </div>
 
     <header id="header-main">
         <div class="wrap-header">
-            <div class="logo"><a href="index.html"><img src="images/logo-hddev.png" width="120" alt="Logo"></a></div>
+            <div class="logo"><a href="index.html"><img src="images/logo-hddev.png" width="120" alt="Logo" fetchpriority="high"></a></div>
             <nav id="menu-main">
                 <ul>
                     <li><a href="shop.html">TẤT CẢ</a></li>
@@ -81,7 +81,8 @@
     </header>
 
     <main style="flex: 1; position: relative; z-index: 2;">
-        <h1 class="page-title" id="page-title">TẤT CẢ SẢN PHẨM</h1>
+        <!-- SỬA TIÊU ĐỀ THEO YÊU CẦU -->
+        <h1 class="page-title" id="page-title">Shop HDDEV Chúc Bạn Mua Sắm Vui Vẻ !!</h1>
         <div class="product-grid" id="product-grid">
             <div class="loading-text">⏳ Đang tải sản phẩm...</div>
         </div>
@@ -111,15 +112,9 @@
         const categoryParam = urlParams.get('category');
         const subCategoryParam = urlParams.get('sub_category');
 
-        // Cập nhật tiêu đề
+        // Cập nhật active menu
         if (categoryParam) {
             document.querySelectorAll('.cat-link').forEach(link => { if (link.dataset.cat === categoryParam) link.classList.add('active'); });
-            let title = categoryParam === 'be-gai' ? 'BÉ GÁI' : (categoryParam === 'be-trai' ? 'BÉ TRAI' : 'DANH MỤC');
-            if (subCategoryParam) {
-                const subNames = { 'quan': 'QUẦN', 'ao': 'ÁO', 'giay': 'GIÀY', 'dep': 'DÉP' };
-                title += ' - ' + subNames[subCategoryParam];
-            }
-            document.getElementById('page-title').innerText = title;
         }
 
         async function fetchProducts() {
@@ -157,7 +152,7 @@
 
         function addToCart(name, price) {
             if (localStorage.getItem("isLoggedIn") !== "true") {
-                alert("Vui lòng đăng nhập để thêm sản phẩm!"); window.location.href = "dang-nhap.html"; return;
+                alert("Vui lòng đăng nhập!"); window.location.href = "dang-nhap.html"; return;
             }
             let cart = JSON.parse(localStorage.getItem("hddev_cart")) || [];
             cart.push({ name: name, price: price });
